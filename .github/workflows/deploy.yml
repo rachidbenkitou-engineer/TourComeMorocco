@@ -1,0 +1,71 @@
+# On every push to main: lint + type-check, then copy the code to the VPS and rebuild the containers.
+# Secrets (Settings → Secrets and variables → Actions):
+#   SSH_HOST         server IP
+#   SSH_USER         SSH user (root)
+#   SSH_PRIVATE_KEY  private key whose public key is in ~/.ssh/authorized_keys on the server
+#   SSH_KNOWN_HOSTS  output of: ssh-keyscan <server IP>
+# Variable DEPLOY_ENABLED=true turns on the deploy job (set once DNS points to the server).
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+env:
+  APP_DIR: /opt/marrakech-abdelah
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx next typegen
+      - run: npx tsc --noEmit
+      - run: npm run lint
+
+  deploy:
+    needs: check
+    if: vars.DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: SSH key
+        run: |
+          install -m 700 -d ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+
+      - name: Copy code to the server
+        run: |
+          rsync -az --delete \
+            --exclude .git --exclude node_modules --exclude .next --exclude certbot \
+            -e "ssh -i ~/.ssh/deploy_key" \
+            ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ env.APP_DIR }}/
+
+      - name: Build and restart
+        run: |
+          ssh -i ~/.ssh/deploy_key ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
+            set -e
+            cd ${{ env.APP_DIR }}
+            sh scripts/init-ssl.sh   # first deploy only: gets the HTTPS certificate
+            docker compose build web
+            docker compose up -d --remove-orphans
+            docker image prune -f
+          "
+
+      - name: Smoke test
+        run: |
+          sleep 10
+          curl -fsS -o /dev/null -w "%{http_code}\n" https://marrakech-abdelah.com/
