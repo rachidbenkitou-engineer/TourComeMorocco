@@ -76,7 +76,7 @@ export function Navbar() {
     { label: t.nav.excursions, href: "/excursions" },
     { label: t.nav.fleet,      href: "/fleet"      },
     { label: t.nav.gallery,    href: "/gallery"    },
-    { label: t.nav.contact,    href: "/#contact"   },
+    { label: t.nav.contact,    href: "https://wa.me/212709274114", external: true },
   ];
 
   useEffect(() => {
@@ -123,12 +123,9 @@ export function Navbar() {
         <nav className="hidden lg:flex items-center gap-[clamp(10px,1.4vw,22px)] flex-1 justify-center">
           {navLinks.map(l => {
             const active = isActive(l.href);
-            return (
-              <Link
-                key={l.href}
-                href={l.href}
-                className="group flex flex-col items-center gap-[5px] py-[6px]"
-              >
+            const cls = "group flex flex-col items-center gap-[5px] py-[6px]";
+            const inner = (
+              <>
                 <span className={`text-[13.5px] font-semibold tracking-[0.02em] whitespace-nowrap transition-colors duration-200 ${
                   active ? "text-white" : "text-white/80 group-hover:text-white"
                 }`}>
@@ -139,7 +136,12 @@ export function Navbar() {
                     ? "opacity-100 scale-x-100"
                     : "opacity-0 scale-x-50 group-hover:opacity-100 group-hover:scale-x-100"
                 }`} />
-              </Link>
+              </>
+            );
+            return l.external ? (
+              <a key={l.href} href={l.href} target="_blank" rel="noopener noreferrer" className={cls}>{inner}</a>
+            ) : (
+              <Link key={l.href} href={l.href} className={cls}>{inner}</Link>
             );
           })}
         </nav>
@@ -184,22 +186,19 @@ export function Navbar() {
         <div className="lg:hidden absolute top-[78px] left-3 right-3 bg-[#062f35]/97 backdrop-blur-md rounded-2xl border border-white/10 shadow-2xl p-2">
           {navLinks.map(l => {
             const active = isActive(l.href);
-            return (
-              <Link
-                key={l.href}
-                href={l.href}
-                onClick={() => setOpen(false)}
-                className={`flex items-center h-11 px-4 text-[13px] font-semibold rounded-xl transition-colors ${
-                  active
-                    ? "text-[#f5b63f] bg-white/5"
-                    : "text-white/75 hover:text-white hover:bg-white/5"
-                }`}
-              >
-                {active && (
-                  <span className="w-1 h-1 rounded-full bg-[#f5b63f] mr-2 flex-shrink-0" />
-                )}
+            const mobileCls = `flex items-center h-11 px-4 text-[13px] font-semibold rounded-xl transition-colors ${
+              active ? "text-[#f5b63f] bg-white/5" : "text-white/75 hover:text-white hover:bg-white/5"
+            }`;
+            const inner = (
+              <>
+                {active && <span className="w-1 h-1 rounded-full bg-[#f5b63f] mr-2 flex-shrink-0" />}
                 {l.label}
-              </Link>
+              </>
+            );
+            return l.external ? (
+              <a key={l.href} href={l.href} target="_blank" rel="noopener noreferrer" className={mobileCls} onClick={() => setOpen(false)}>{inner}</a>
+            ) : (
+              <Link key={l.href} href={l.href} onClick={() => setOpen(false)} className={mobileCls}>{inner}</Link>
             );
           })}
 

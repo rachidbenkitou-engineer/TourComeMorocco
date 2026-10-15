@@ -32,7 +32,7 @@ function WhatsAppIcon({ size = 15 }: { size?: number }) {
 
 function FooterSection({ title, links }: {
   title: string;
-  links: { href: string; label: string }[];
+  links: { href: string; label: string; external?: boolean }[];
 }) {
   return (
     <div>
@@ -42,12 +42,23 @@ function FooterSection({ title, links }: {
       <ul className="space-y-2.5">
         {links.map(l => (
           <li key={l.href + l.label}>
-            <Link
-              href={l.href}
-              className="text-[13px] text-white/60 hover:text-white transition-colors leading-snug"
-            >
-              {l.label}
-            </Link>
+            {l.external ? (
+              <a
+                href={l.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[13px] text-white/60 hover:text-white transition-colors leading-snug"
+              >
+                {l.label}
+              </a>
+            ) : (
+              <Link
+                href={l.href}
+                className="text-[13px] text-white/60 hover:text-white transition-colors leading-snug"
+              >
+                {l.label}
+              </Link>
+            )}
           </li>
         ))}
       </ul>
@@ -82,8 +93,8 @@ export function Footer() {
   const helpLinks = [
     { href: "/fleet",    label: t.footer.helpLinks.fleet   },
     { href: "/gallery",  label: t.footer.helpLinks.gallery },
-    { href: "/#contact", label: t.footer.helpLinks.contact },
-    { href: "/#contact", label: t.footer.helpLinks.bookNow },
+    { href: "https://wa.me/212709274114", label: t.footer.helpLinks.contact, external: true },
+    { href: "https://wa.me/212709274114", label: t.footer.helpLinks.bookNow, external: true },
   ];
 
   return (
