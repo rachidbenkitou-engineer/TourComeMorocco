@@ -10,8 +10,8 @@ const nextConfig: NextConfig = {
   },
   // Dev only: let phones/other computers on the local network (http://<your-ip>:3000) load the dev scripts.
   allowedDevOrigins: ["192.168.*.*", "172.*.*.*", "10.*.*.*"],
-  cacheComponents: true,
-  partialPrefetching: true,
+  cacheComponents: false,
+  partialPrefetching: false,
   turbopack: {
     rules: {
       "*.css": {

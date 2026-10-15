@@ -1,49 +1,36 @@
+"use client";
 import Image from "next/image";
+import { useI18n } from "@/i18n/I18nProvider";
 
-const reviews = [
-  {
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=180&q=80",
-    name: "Sophie L.",
-    text: "« Une agence au top ! Mon voyage au Maroc a été parfait, une organisation impeccable et une équipe très professionnelle. Je recommande vivement ! »",
-  },
-  {
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=180&q=80",
-    name: "Karim B.",
-    text: "« Tour Me Morocco a transformé notre rêve en réalité. Un service exceptionnel et des souvenirs pour la vie. »",
-  },
-  {
-    avatar: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=180&q=80",
-    name: "Nadia T.",
-    text: "« Une expérience magique ! Je remercie toute l'équipe pour leur professionnalisme et leur bienveillance. »",
-  },
+const AVATARS = [
+  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=180&q=80",
+  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=180&q=80",
+  "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=180&q=80",
 ];
 
 export function Testimonials() {
+  const { t } = useI18n();
+  const tm = t.testimonials;
+
   return (
-    <section
-      id="avis"
-      className="max-w-[1280px] mx-auto px-[4.2%] py-2 pb-6 bg-[#fffaf4]"
-      aria-labelledby="avis-heading"
-    >
-      {/* Eyebrow */}
+    <section id="avis" className="max-w-[1280px] mx-auto px-[4.2%] py-2 pb-6 bg-[#fffaf4]" aria-labelledby="avis-heading">
       <div className="flex items-center justify-center gap-2.5 text-[#a77a2c] text-[11px] font-bold tracking-[0.4px] mb-2">
         <span className="h-px w-20 bg-[#c99b3c]" />
-        TÉMOIGNAGES
+        {tm.eyebrow}
         <span className="h-px w-20 bg-[#c99b3c]" />
       </div>
 
       <h2 id="avis-heading" className="font-serif text-[24px] font-semibold text-center tracking-[-0.8px] mb-3.5 text-ink">
-        Ils ont vécu une expérience inoubliable
+        {tm.title}
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
-        {reviews.map(r => (
-          <article
-            key={r.name}
+        {tm.reviews.map((r, i) => (
+          <article key={r.name}
             className="flex gap-2.5 items-center bg-white border border-[#eee7df] rounded-[11px] shadow-[0_3px_6px_rgba(0,0,0,.05)] p-[15px_17px] min-h-[94px]"
           >
             <Image
-              src={r.avatar}
+              src={AVATARS[i]}
               alt={r.name}
               width={63}
               height={63}

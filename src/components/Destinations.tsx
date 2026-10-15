@@ -1,6 +1,9 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { MapPin } from "lucide-react";
+import { useI18n } from "@/i18n/I18nProvider";
+import { Reveal } from "@/components/Reveal";
 
 const destinations = [
   {
@@ -30,69 +33,70 @@ const destinations = [
 ];
 
 export function Destinations() {
+  const { t } = useI18n();
+  const tr = t.destinations;
+
   return (
-    <section
-      id="destinations"
-      className="max-w-[1280px] mx-auto px-[4.2%] pt-3 pb-4"
-      aria-labelledby="dest-heading"
-    >
-      {/* Eyebrow */}
-      <div className="flex items-center justify-center gap-2.5 text-[#a77a2c] text-[11px] font-bold tracking-[0.4px] mb-1">
-        <span className="h-px w-20 bg-[#c99b3c]" />
-        NOS DESTINATIONS
-        <span className="h-px w-20 bg-[#c99b3c]" />
-      </div>
+    <section id="destinations" className="bg-[#fff8f0] -mt-4 sm:-mt-16 pt-0 pb-16 sm:pb-20" aria-labelledby="dest-heading">
+      <div className="max-w-[1280px] mx-auto px-[clamp(16px,4.5vw,56px)]">
 
-      {/* Heading row */}
-      <div className="flex items-center justify-between px-[2.7%] my-2 gap-3">
-        <div>
-          <h2 id="dest-heading" className="font-serif text-[25px]/[1.15] font-semibold tracking-[-0.8px] text-ink m-0">
-            Des plus belles <em className="not-italic text-[#a87627]">destinations</em>
-          </h2>
-          <p className="text-[11px] mt-1.5 text-[#333]">
-            Explorez des lieux extraordinaires au cœur du Maroc
-          </p>
+        {/* Header */}
+        <Reveal className="mb-10">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2.5 mb-1">
+                <span className="h-px w-7 bg-[#f5b63f] opacity-70 flex-shrink-0" aria-hidden />
+                <p className="font-script text-[#f5b63f]"
+                  style={{ fontSize: "clamp(20px,2.2vw,28px)", transform: "rotate(-1.5deg)" }}>
+                  {tr.script}
+                </p>
+              </div>
+              <h2 id="dest-heading" className="font-serif font-semibold text-[#062f35] leading-tight"
+                style={{ fontSize: "clamp(24px,3.2vw,40px)" }}>
+                {tr.title}
+              </h2>
+              <p className="text-[#5a7578] mt-2 max-w-[440px]" style={{ fontSize: "clamp(13px,1.1vw,15px)" }}>
+                {tr.subtitle}
+              </p>
+            </div>
+            <Link href="#contact"
+              className="flex items-center gap-2 text-[12.5px] font-semibold text-[#062f35] border border-[#062f35] hover:bg-[#062f35] hover:text-white px-5 py-2.5 rounded-full transition-all duration-200 whitespace-nowrap self-start sm:self-auto">
+              {tr.viewAll}
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </Link>
+          </div>
+        </Reveal>
+
+        {/* Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-5">
+          {destinations.map((d, i) => (
+            <Reveal key={d.name} delay={i * 0.07}>
+              <Link href={d.href}
+                className="group relative h-[176px] lg:h-[240px] rounded-2xl overflow-hidden block bg-[#ddd] shadow-card hover:shadow-lift transition-all duration-300 hover:-translate-y-1.5"
+              >
+                <Image src={d.img} alt={d.name} fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-[1.06]"
+                />
+                <div className="absolute inset-[40%_0_0_0] bg-gradient-to-t from-[#031e22]/85 to-transparent" />
+                <span className="absolute z-10 bottom-3 left-3 right-3 flex items-end justify-between text-white">
+                  <span>
+                    <b className="flex items-center gap-1 text-[14px] font-bold">
+                      <MapPin size={12} className="text-[#f5b63f]" />
+                      {d.name}
+                    </b>
+                    <small className="block text-[11px] text-white/70 mt-0.5 ml-4">{d.country}</small>
+                  </span>
+                  <span className="bg-[#f5b63f] text-[#1c2e2e] w-[28px] h-[28px] grid place-items-center rounded-full text-[16px] font-bold flex-shrink-0 group-hover:scale-110 transition-transform">
+                    →
+                  </span>
+                </span>
+              </Link>
+            </Reveal>
+          ))}
         </div>
-        <Link
-          href="#sejours"
-          className="flex-shrink-0 border border-[#c69b43] rounded-[24px] px-3.5 py-2 text-[10px] flex items-center gap-2 whitespace-nowrap text-ink hover:bg-[#f5b63f]/10 transition-colors"
-        >
-          Voir toutes les destinations
-          <span className="text-[16px] text-[#a5792c]">→</span>
-        </Link>
-      </div>
 
-      {/* Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        {destinations.map(d => (
-          <Link
-            key={d.name}
-            href={d.href}
-            className="group relative h-[176px] lg:h-[220px] rounded-[10px] overflow-hidden block bg-[#ddd] shadow-[0_2px_4px_rgba(0,0,0,.12)]"
-          >
-            <Image
-              src={d.img}
-              alt={d.name}
-              fill
-              className="object-cover transition-transform duration-400 group-hover:scale-[1.06]"
-            />
-            {/* gradient */}
-            <div className="absolute inset-[40%_0_0_0] bg-gradient-to-t from-black/80 to-transparent" />
-            {/* info bar */}
-            <span className="absolute z-10 bottom-2.5 left-3 right-3 flex items-end justify-between text-white">
-              <span>
-                <b className="flex items-center gap-1 text-[14px] font-bold">
-                  <MapPin size={12} className="text-gold" />
-                  {d.name}
-                </b>
-                <small className="block text-[11px] text-white/75 mt-0.5 ml-4">{d.country}</small>
-              </span>
-              <span className="bg-gold text-[#183437] w-[29px] h-[29px] grid place-items-center rounded-full text-[17px] font-bold flex-shrink-0 group-hover:scale-110 transition-transform">
-                →
-              </span>
-            </span>
-          </Link>
-        ))}
       </div>
     </section>
   );

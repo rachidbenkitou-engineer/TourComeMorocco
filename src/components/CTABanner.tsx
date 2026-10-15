@@ -1,6 +1,11 @@
+"use client";
 import Link from "next/link";
+import { useI18n } from "@/i18n/I18nProvider";
 
 export function CTABanner() {
+  const { t } = useI18n();
+  const ct = t.cta;
+
   return (
     <section
       id="sejours"
@@ -11,15 +16,14 @@ export function CTABanner() {
           "url('https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=1800&q=85') center 50%/cover",
       }}
     >
-      {/* plane decoration */}
       <span className="absolute left-[16%] top-3 text-[29px] text-gold -rotate-[25deg]">✈</span>
 
       <div className="text-center">
         <h2 className="font-serif text-[25px] font-semibold text-white m-0">
-          Prêt pour votre prochaine aventure ?
+          {ct.title}
         </h2>
         <p className="text-[12px] text-center text-white/80 mt-1.5 m-0">
-          Partez à la découverte du Maroc avec Tour Me Morocco
+          {ct.subtitle}
         </p>
       </div>
 
@@ -27,7 +31,7 @@ export function CTABanner() {
         href="#contact"
         className="flex-shrink-0 inline-flex items-center gap-4 bg-gold text-[#182c2c] text-[11px] font-bold px-5 py-3 rounded-[30px] hover:-translate-y-[2px] hover:shadow-[0_7px_20px_rgba(0,0,0,.2)] transition-all duration-200 whitespace-nowrap"
       >
-        Réserver maintenant <span className="text-[18px] leading-[10px]">→</span>
+        {ct.button} <span className="text-[18px] leading-[10px]">→</span>
       </Link>
     </section>
   );

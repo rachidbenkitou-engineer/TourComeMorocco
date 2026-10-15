@@ -40,5 +40,4 @@ export const galleryImages: GalleryImage[] = [
   { src: "/gallery/g24.jpg", alt: "Balade à dos de chameau – Merzouga",         category: "places" },
   { src: "/gallery/g25.jpg", alt: "Restaurant au bord de l'Ourika",            category: "places" },
   { src: "/gallery/g26.jpg", alt: "Savoy Le Grand Hôtel – Marrakech",          category: "road"   },
-  { src: "/gallery/g27.jpg", alt: "Mosaïques romaines de Volubilis",            category: "places" },
 ];

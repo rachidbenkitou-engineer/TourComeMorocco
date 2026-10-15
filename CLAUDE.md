@@ -5,43 +5,50 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-npm run dev      # Start dev server (Turbopack)
-npm run build    # Production build
-npm run start    # Start production server
-npm run lint     # Run ESLint
-npx tsc --noEmit # Type-check without emitting
-npx next typegen # Generate Next.js route types (run before type-check)
+npm run dev       # Start dev server (Next.js, port 3000)
+npm run build     # Production build
+npm run lint      # ESLint check
 ```
+
+No test suite is configured.
+
+## Stack
+
+- **Next.js 16** (App Router) with **React 19** and **TypeScript**
+- **Tailwind CSS v4** — utility-first styling; no separate config file
+- **motion** (`motion/react`) for animations
+- **lucide-react** for icons
+- **shadcn/ui** primitives in `src/components/ui/` (button, input, select, textarea, label)
+- Path alias: `@/` → `src/`
 
 ## Architecture
 
-**Stack:** Next.js 16.4 (App Router), React 19, TypeScript, Tailwind CSS v4, `motion` for animation.
+### Pages (App Router)
+All pages live under `src/app/`. Each page imports `<Navbar>` and `<Footer>` explicitly — there is no shared layout wrapping them. The root `layout.tsx` wraps everything in two global providers: `I18nProvider` and `BookingProvider`.
 
-**Important — Next.js 16 breaking changes:** This is Next.js 16, which differs from 14/15. Before writing any route or async component code, read the relevant guide in `node_modules/next/dist/docs/` (see `AGENTS.md` for the full warning). Dynamic params (`params`, `searchParams`) are now `Promise<…>` and must be awaited or unwrapped with `use()`.
+### i18n System
+All UI strings are in `src/i18n/translations.ts` as a single `TRANSLATIONS` object keyed by `"fr" | "en" | "ar"`. The `I18nProvider` (`src/i18n/I18nProvider.tsx`) exposes `useI18n()` which returns `{ t, locale, setLocale }`. Locale is persisted to `localStorage` under `tcm_locale`. Arabic sets `document.dir = "rtl"` automatically.
 
-**Known build issue:** `src/app/tours/[slug]/page.tsx` is marked `"use client"` and calls `use(params)` to unwrap the async params. Because the file is a Client Component, Next.js cannot statically pre-render it without `generateStaticParams`. Adding `generateStaticParams` (which returns all tour slugs from `src/data/tours.ts`) is the correct fix for static export or prerendering failures on that route.
+**Data in `src/data/`** uses two different patterns:
+- `tours.ts` and `transfers.ts`: fields are `I18n<T>` objects `{ fr, en, ar }` — must call `field[locale]` to read.
+- `excursions.ts`: all fields are plain strings in French only (not yet localized).
 
-**Data layer:** All content is static TypeScript — no database, no API calls at runtime.
-- `src/data/tours.ts` — `Tour[]` array + `getTour(slug)` helper
-- `src/data/transfers.ts` — `Transfer[]` array + category constants
+### Booking Flow
+`BookingModal.tsx` exports both `BookingProvider` and `useBooking()`. Calling `useBooking().open(service, price?)` opens a global modal that builds a WhatsApp message and redirects to `wa.me/212709274114`.
+
+### Brand Colors & Fonts
+- Primary dark: `#062f35`
+- Gold accent: `#a87627`
+- Fonts: DM Sans (body), Playfair Display (headings), Caveat (script/decorative), Geist (fallback)
+- CSS variables: `--font-dm-sans`, `--font-playfair`, `--font-caveat`, `--font-sans`
+
+### Content Structure
+- `src/data/tours.ts` — multi-day private tours with full i18n, itinerary, FAQs, gallery
+- `src/data/excursions.ts` — day excursions, French-only strings
+- `src/data/transfers.ts` — point-to-point transfers from Marrakech, i18n `to` field
 - `src/data/gallery.ts` — gallery image list
 
-**Pages:**
-- `/` — homepage composed of many section components
-- `/tours` — server component listing all tours
-- `/tours/[slug]` — client component tour detail (uses `use(params)`)
-- `/transfers` — transfers page
-- `/gallery` — gallery page
-
-**Components** live in `src/components/`. UI primitives (button, input, select, etc.) are in `src/components/ui/` and follow shadcn conventions.
-
-**Styling conventions:**
-- Tailwind v4 with custom CSS variables in `globals.css`
-- Brand colors: dark teal `#062f35`, gold `#f5b63f`/`#e8921e`, light background `#fff8f0`
-- Font variables: `--font-playfair` (serif headings), `--font-dm-sans` (body), `--font-caveat` (script/decorative)
-- `font-serif` → Playfair Display, `font-script` → Caveat (set in globals.css)
-- Responsive spacing uses `clamp()` inline styles rather than Tailwind breakpoints for fluid scaling
-
-**Deployment:** Docker + nginx on a VPS, not Vercel. `next.config.ts` sets `output: "standalone"`. CI/CD via `.github/workflows/deploy.yml` — pushes to `main` trigger lint + type-check, then rsync to server and `docker compose build`. The `DEPLOY_ENABLED` repository variable must be `true` to activate the deploy job.
-
-To add a new tour, append an entry to the `tours` array in `src/data/tours.ts`. The slug becomes the URL path. If the `[slug]` page needs static prerendering, export `generateStaticParams` from that file.
+### Key Patterns
+- All interactive components are `"use client"` — the app is effectively fully client-side rendered; only the root `layout.tsx` and `page.tsx` are server components.
+- Inline SVGs are used throughout instead of icon components for custom shapes.
+- The fleet vehicle list is duplicated in both `src/app/fleet/page.tsx` and `src/components/BookingModal.tsx` — keep them in sync when updating vehicles.

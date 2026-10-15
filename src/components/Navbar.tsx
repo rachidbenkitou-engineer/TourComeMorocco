@@ -1,17 +1,11 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CalendarCheck, Menu, X } from "lucide-react";
-
-const navLinks = [
-  { label: "Transfers",  href: "/transfers"  },
-  { label: "Tours",      href: "/tours"      },
-  { label: "Excursions", href: "/excursions" },
-  { label: "Fleet",      href: "/fleet"      },
-  { label: "Gallery",    href: "/gallery"    },
-  { label: "Contact",    href: "/#contact"   },
-];
+import { CalendarCheck, Menu, X, Globe, ChevronDown, Check } from "lucide-react";
+import { useBooking } from "@/components/BookingModal";
+import { useI18n } from "@/i18n/I18nProvider";
+import { LOCALES, LOCALE_LABELS, LOCALE_NAMES, type Locale } from "@/i18n/translations";
 
 function WhatsAppIcon({ size = 15 }: { size?: number }) {
   return (
@@ -21,10 +15,69 @@ function WhatsAppIcon({ size = 15 }: { size?: number }) {
   );
 }
 
+function LangSwitcher() {
+  const { locale, setLocale, t } = useI18n();
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function onDown(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", onDown);
+    return () => document.removeEventListener("mousedown", onDown);
+  }, [open]);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen(v => !v)}
+        aria-label={t.nav.language}
+        className="flex items-center gap-1.5 h-[34px] px-3 rounded-[20px] border border-white/20 text-white/80 hover:text-white hover:border-white/40 transition-colors text-[11px] font-semibold cursor-pointer"
+      >
+        <Globe size={13} />
+        {LOCALE_LABELS[locale]}
+        <ChevronDown size={10} className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
+      </button>
+
+      {open && (
+        <div className="absolute right-0 top-full mt-2 bg-[#062f35] border border-white/15 rounded-xl py-1 shadow-[0_12px_32px_rgba(0,0,0,.4)] min-w-[130px] z-50">
+          {LOCALES.map((l: Locale) => (
+            <button
+              key={l}
+              type="button"
+              onClick={() => { setLocale(l); setOpen(false); }}
+              className={`w-full flex items-center justify-between px-4 py-2.5 text-[12px] font-semibold transition-colors cursor-pointer ${
+                locale === l ? "text-[#f5b63f]" : "text-white/65 hover:text-white"
+              }`}
+            >
+              <span>{LOCALE_NAMES[l]}</span>
+              {locale === l && <Check size={12} className="text-[#f5b63f] flex-shrink-0" />}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen]         = useState(false);
   const pathname                = usePathname();
+  const { open: openBooking }   = useBooking();
+  const { t, locale, setLocale } = useI18n();
+
+  const navLinks = [
+    { label: t.nav.transfers,  href: "/transfers"  },
+    { label: t.nav.tours,      href: "/tours"      },
+    { label: t.nav.excursions, href: "/excursions" },
+    { label: t.nav.fleet,      href: "/fleet"      },
+    { label: t.nav.gallery,    href: "/gallery"    },
+    { label: t.nav.contact,    href: "/#contact"   },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -47,8 +100,8 @@ export function Navbar() {
       <div className="max-w-[1280px] mx-auto px-[clamp(16px,4.5vw,56px)] h-[78px] flex items-center justify-between gap-5">
 
         {/* ── Logo ── */}
-        <Link href="/#top" className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-          <svg width="26" height="29" viewBox="0 0 38 42" fill="none" className="sm:w-[34px] sm:h-[38px]">
+        <Link href="/#top" className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
+          <svg width="20" height="22" viewBox="0 0 38 42" fill="none" className="sm:w-[34px] sm:h-[38px] flex-shrink-0">
             <path d="M2 41L2 19C2 9.06 9.61 1 19 1C28.39 1 36 9.06 36 19L36 41"
               stroke="#f5b63f" strokeWidth="2.5" strokeLinecap="round"/>
             <path d="M8 41L8 21C8 13.8 13 8 19 8C25 8 30 13.8 30 21L30 41"
@@ -57,8 +110,8 @@ export function Navbar() {
               fill="#f5b63f"/>
           </svg>
           <span className="leading-none">
-            <strong className="block font-serif text-[16px] sm:text-[20px] text-[#fff0cb] tracking-[-0.3px]">
-              Tour Me Morocco
+            <strong className="block font-serif text-[13px] sm:text-[20px] text-[#fff0cb] tracking-[-0.3px]">
+              Tour Come Marocco
             </strong>
             <small className="hidden sm:block text-[8.5px] tracking-[0.2em] text-white/45 mt-1 font-sans">
               Explorez · Voyagez · Découvrez
@@ -93,22 +146,27 @@ export function Navbar() {
 
         {/* ── Actions ── */}
         <div className="flex items-center gap-2 flex-shrink-0">
-          <Link
-            href="/#contact"
-            className="flex items-center gap-1.5 bg-[#f5b63f] hover:bg-[#e9a52e] text-[#162c2c] text-[11px] font-bold px-3.5 py-[8px] rounded-[20px] transition-colors whitespace-nowrap"
+          <div className="hidden lg:block">
+            <LangSwitcher />
+          </div>
+
+          <button
+            type="button"
+            onClick={() => openBooking("Réservation générale")}
+            className="flex items-center gap-1.5 bg-[#f5b63f] hover:bg-[#e9a52e] text-[#162c2c] text-[11px] font-bold px-3.5 py-[8px] rounded-[20px] transition-colors whitespace-nowrap cursor-pointer"
           >
             <CalendarCheck size={14} />
-            <span>Book Now</span>
-          </Link>
+            <span>{t.nav.bookNow}</span>
+          </button>
 
           <a
-            href="https://wa.me/212612345678"
+            href="https://wa.me/212709274114"
             target="_blank"
             rel="noopener noreferrer"
             className="hidden sm:flex items-center gap-1.5 bg-[#25D366] hover:bg-[#1ebe5d] text-white text-[11px] font-bold px-3.5 py-[8px] rounded-[20px] transition-colors whitespace-nowrap"
           >
             <WhatsAppIcon size={14} />
-            <span className="hidden sm:inline">WhatsApp</span>
+            <span className="hidden sm:inline">{t.nav.whatsapp}</span>
           </a>
 
           <button
@@ -144,14 +202,38 @@ export function Navbar() {
               </Link>
             );
           })}
-          <div className="border-t border-white/10 mt-2 pt-2 px-2 pb-1 flex gap-2">
+
+          {/* Language picker */}
+          <div className="border-t border-white/10 mt-2 pt-3 px-2 pb-1">
+            <p className="text-[9px] font-bold tracking-[0.15em] uppercase text-white/35 px-2 mb-2">
+              {t.nav.language}
+            </p>
+            <div className="grid grid-cols-3 gap-1.5 mb-2">
+              {LOCALES.map((l: Locale) => (
+                <button
+                  key={l}
+                  type="button"
+                  onClick={() => { setLocale(l); setOpen(false); }}
+                  className={`py-2 rounded-xl text-[12px] font-bold transition-colors border cursor-pointer ${
+                    locale === l
+                      ? "bg-[#f5b63f] text-[#162c2c] border-[#f5b63f]"
+                      : "text-white/65 border-white/20 hover:border-white/40 hover:text-white"
+                  }`}
+                >
+                  {LOCALE_LABELS[l]}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="border-t border-white/10 pt-2 px-2 pb-1 flex gap-2">
             <Link href="/#contact" onClick={() => setOpen(false)}
               className="flex-1 flex items-center justify-center gap-2 bg-[#f5b63f] text-[#162c2c] text-[12px] font-bold py-2.5 rounded-xl">
-              <CalendarCheck size={14} /> Book Now
+              <CalendarCheck size={14} /> {t.nav.bookNow}
             </Link>
-            <a href="https://wa.me/212612345678" target="_blank" rel="noopener noreferrer"
+            <a href="https://wa.me/212709274114" target="_blank" rel="noopener noreferrer"
               className="flex-1 flex items-center justify-center gap-2 bg-[#25D366] text-white text-[12px] font-bold py-2.5 rounded-xl">
-              <WhatsAppIcon size={14} /> WhatsApp
+              <WhatsAppIcon size={14} /> {t.nav.whatsapp}
             </a>
           </div>
         </div>

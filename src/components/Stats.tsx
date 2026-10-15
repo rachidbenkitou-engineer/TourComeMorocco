@@ -1,11 +1,15 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { useI18n } from "@/i18n/I18nProvider";
+import { transfers } from "@/data/transfers";
+import { tours } from "@/data/tours";
+import { excursions } from "@/data/excursions";
 
-const STATS = [
-  { value: 214, suffix: "+", label: "Transfer Routes"  },
-  { value: 19,  suffix: "+", label: "Private Tours"    },
-  { value: 22,  suffix: "+", label: "Excursions"       },
-  { value: 42,  suffix: "+", label: "Destinations"     },
+const STAT_VALUES = [
+  { value: transfers.length,   suffix: "+" },
+  { value: tours.length,       suffix: "+" },
+  { value: excursions.length,  suffix: "+" },
+  { value: transfers.length,   suffix: "+" },
 ];
 
 function useCountUp(target: number, duration = 1800, active = false) {
@@ -31,7 +35,9 @@ function useCountUp(target: number, duration = 1800, active = false) {
   return count;
 }
 
-function StatItem({ value, suffix, label, active }: { value: number; suffix: string; label: string; active: boolean }) {
+function StatItem({ value, suffix, label, active }: {
+  value: number; suffix: string; label: string; active: boolean;
+}) {
   const count = useCountUp(value, 1800, active);
   return (
     <div className="flex flex-col items-center text-center px-4 py-2">
@@ -51,6 +57,14 @@ function StatItem({ value, suffix, label, active }: { value: number; suffix: str
 export function Stats() {
   const ref     = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(false);
+  const { t } = useI18n();
+
+  const labels = [
+    t.stats.transferRoutes,
+    t.stats.privateTours,
+    t.stats.excursions,
+    t.stats.destinations,
+  ];
 
   useEffect(() => {
     const el = ref.current;
@@ -64,11 +78,11 @@ export function Stats() {
   }, []);
 
   return (
-    <section ref={ref} className="bg-[#062f35]">
+    <section ref={ref} className="bg-[#062f35] bg-zellige">
       <div className="max-w-[1280px] mx-auto px-[clamp(16px,4.5vw,56px)] py-14">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-y-10 gap-x-4 divide-x-0 md:divide-x md:divide-white/10">
-          {STATS.map(s => (
-            <StatItem key={s.label} value={s.value} suffix={s.suffix} label={s.label} active={active} />
+          {STAT_VALUES.map((s, i) => (
+            <StatItem key={i} value={s.value} suffix={s.suffix} label={labels[i]} active={active} />
           ))}
         </div>
       </div>

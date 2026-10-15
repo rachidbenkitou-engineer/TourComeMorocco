@@ -4,11 +4,13 @@ import { SearchBar }          from "@/components/SearchBar";
 import { Stats }              from "@/components/Stats";
 import { PopularTransfers }   from "@/components/PopularTransfers";
 import { Tours }              from "@/components/Tours";
+import { Excursions }         from "@/components/Excursions";
 import { Destinations }       from "@/components/Destinations";
 import { About }              from "@/components/About";
 import { Testimonials }       from "@/components/Testimonials";
 import { CTABanner }          from "@/components/CTABanner";
 import { Footer }             from "@/components/Footer";
+import { WhatsAppFloat }      from "@/components/WhatsAppFloat";
 
 export default function Home() {
   return (
@@ -18,7 +20,7 @@ export default function Home() {
         <Hero />
 
         {/* SearchBar — juste sous les points du hero */}
-        <div className="relative z-10 px-[4%] pt-4 pb-0 -mt-32">
+        <div className="relative z-50 px-[4%] pt-0 pb-0 mt-0 bg-[#062f35]">
           <div className="max-w-[960px] mx-auto">
             <SearchBar />
           </div>
@@ -27,12 +29,14 @@ export default function Home() {
         <Stats />
         <PopularTransfers />
         <Tours />
+        <Excursions />
         <Destinations />
         <About />
         <Testimonials />
         <CTABanner />
       </main>
       <Footer />
+      <WhatsAppFloat />
     </>
   );
 }
