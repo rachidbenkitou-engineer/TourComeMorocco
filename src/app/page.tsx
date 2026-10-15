@@ -1,4 +1,3 @@
-import { Navbar }             from "@/components/Navbar";
 import { Hero }               from "@/components/Hero";
 import { SearchBar }          from "@/components/SearchBar";
 import { Stats }              from "@/components/Stats";
@@ -9,14 +8,10 @@ import { Destinations }       from "@/components/Destinations";
 import { About }              from "@/components/About";
 import { Testimonials }       from "@/components/Testimonials";
 import { CTABanner }          from "@/components/CTABanner";
-import { Footer }             from "@/components/Footer";
-import { WhatsAppFloat }      from "@/components/WhatsAppFloat";
 
 export default function Home() {
   return (
-    <>
-      <Navbar />
-      <main>
+    <main>
         <Hero />
 
         {/* SearchBar — juste sous les points du hero */}
@@ -35,8 +30,5 @@ export default function Home() {
         <Testimonials />
         <CTABanner />
       </main>
-      <Footer />
-      <WhatsAppFloat />
-    </>
   );
 }

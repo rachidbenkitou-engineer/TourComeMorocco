@@ -15,7 +15,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const saved = localStorage.getItem("tcm_locale") as Locale | null;
-    if (saved && (["fr", "en", "ar"] as Locale[]).includes(saved)) {
+    if (saved && (["fr", "en", "ar", "it"] as Locale[]).includes(saved)) {
       applyLocale(saved);
     }
   }, []);

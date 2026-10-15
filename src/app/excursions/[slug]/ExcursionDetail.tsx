@@ -3,8 +3,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
+
 import { getExcursion, excursions } from "@/data/excursions";
 import { useBooking } from "@/components/BookingModal";
 import { useI18n } from "@/i18n/I18nProvider";
@@ -137,9 +136,7 @@ export default function ExcursionDetail({ slug }: { slug: string }) {
   ];
 
   return (
-    <>
-      <Navbar />
-      <main className="min-h-screen bg-[#fff8f0]">
+    <main className="min-h-screen bg-[#fff8f0]">
 
         {/* ── Hero ── */}
         <section className="relative overflow-hidden" style={{ height: "72vh", minHeight: "500px" }}>
@@ -439,7 +436,5 @@ export default function ExcursionDetail({ slug }: { slug: string }) {
         </div>
 
       </main>
-      <Footer />
-    </>
   );
 }

@@ -3,23 +3,15 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/i18n/I18nProvider";
-import { findTransferByDest } from "@/data/transfers";
+import { transfers, findTransferByDest } from "@/data/transfers";
 
 type Mode = "circuit" | "transfert" | "excursion";
 
-const ALL_CITIES = [
-  "Casablanca","Marrakech","Fès","Rabat","Tanger","Agadir",
-  "Essaouira","Meknès","Chefchaouen","Ouarzazate","Merzouga",
-  "Tétouan","Asilah","Ifrane","Azrou","Midelt","El Jadida",
-  "Safi","Beni Mellal","Oualidia","Taroudant","Taghazout",
-  "Kénitra","Aït Ben Haddou","Dades","Todra Gorge","Erfoud",
-  "Zagora","Errachidia","Mohammedia","Imlil","Agafay",
-  "Ourika Valley","Ouzoud Waterfalls",
-];
 
 const CIRCUIT_LENGTHS_FR = ["1 à 3 jours", "4 à 7 jours", "8 jours et +"];
 const CIRCUIT_LENGTHS_EN = ["1 to 3 days", "4 to 7 days", "8 days +"];
 const CIRCUIT_LENGTHS_AR = ["1 إلى 3 أيام", "4 إلى 7 أيام", "8 أيام وأكثر"];
+const CIRCUIT_LENGTHS_IT = ["1 a 3 giorni", "4 a 7 giorni", "8 giorni e +"];
 const CIRCUIT_SLUGS      = ["court", "moyen", "long"] as const;
 const CIRCUIT_FROM_PRICES: Record<typeof CIRCUIT_SLUGS[number], string> = {
   court: "€120",
@@ -29,6 +21,7 @@ const CIRCUIT_FROM_PRICES: Record<typeof CIRCUIT_SLUGS[number], string> = {
 const EXCURSION_DURATIONS_FR = ["Journée complète", "Demi-journée"];
 const EXCURSION_DURATIONS_EN = ["Full day", "Half day"];
 const EXCURSION_DURATIONS_AR = ["يوم كامل", "نصف يوم"];
+const EXCURSION_DURATIONS_IT = ["Giornata intera", "Mezza giornata"];
 const EXCURSION_TYPE_SLUGS   = ["journee", "demijournee"] as const;
 
 /* ─── Calendar helpers ───────────────────────────────── */
@@ -36,11 +29,13 @@ const CAL_MONTHS: Record<string, string[]> = {
   fr: ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"],
   en: ["January","February","March","April","May","June","July","August","September","October","November","December"],
   ar: ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"],
+  it: ["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"],
 };
 const CAL_DAYS: Record<string, string[]> = {
   fr: ["Lu","Ma","Me","Je","Ve","Sa","Di"],
   en: ["Mo","Tu","We","Th","Fr","Sa","Su"],
   ar: ["إث","ثل","أر","خم","جم","سب","أح"],
+  it: ["Lu","Ma","Me","Gi","Ve","Sa","Do"],
 };
 function calGrid(year: number, month: number): (number | null)[] {
   const offset = (new Date(year, month, 1).getDay() + 6) % 7;
@@ -149,31 +144,41 @@ function FieldText({ placeholder, value }: { placeholder: string; value: string 
 
 /* ─── Field — dropdown list ──────────────────────── */
 function Field({
-  IconComponent, placeholder, value, onValue, options,
+  IconComponent, placeholder, value, onValue, options, searchable,
 }: {
   IconComponent: () => React.ReactElement;
   placeholder: string;
   value: string;
   onValue: (v: string) => void;
   options: string[];
+  searchable?: boolean;
 }) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const [open,  setOpen]  = useState(false);
+  const [query, setQuery] = useState("");
+  const ref       = useRef<HTMLDivElement>(null);
+  const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!open) return;
+    if (searchable) setTimeout(() => searchRef.current?.focus(), 60);
     const h = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
     };
     document.addEventListener("mousedown", h);
     return () => document.removeEventListener("mousedown", h);
-  }, [open]);
+  }, [open, searchable]);
+
+  const filtered = searchable && query.trim()
+    ? options.filter(o => o.toLowerCase().includes(query.toLowerCase()))
+    : options;
+
+  function toggle() { if (!open) setQuery(""); setOpen(v => !v); }
 
   return (
     <div ref={ref} className="relative">
       <button
         type="button"
-        onClick={() => setOpen(v => !v)}
+        onClick={toggle}
         className={cn(
           "flex items-center gap-2.5 h-[50px] px-3 rounded-xl bg-white border w-full cursor-pointer transition-all duration-150",
           open
@@ -188,27 +193,55 @@ function Field({
 
       {open && (
         <div
-          className="absolute top-[calc(100%+5px)] left-0 right-0 bg-white border border-[#e8e3da] rounded-xl shadow-[0_10px_32px_rgba(6,47,53,.16)] z-[9999] max-h-[220px] overflow-y-auto py-1.5
-            [&::-webkit-scrollbar]:w-[4px] [&::-webkit-scrollbar-track]:bg-transparent
-            [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#e4cfa0]
-            [&::-webkit-scrollbar-thumb:hover]:bg-[#f5b63f]"
-          style={{ scrollbarWidth: "thin", scrollbarColor: "#e4cfa0 transparent" }}
+          className="absolute top-[calc(100%+5px)] left-0 right-0 bg-white border border-[#e8e3da] rounded-xl shadow-[0_10px_32px_rgba(6,47,53,.16)] z-[9999] overflow-hidden"
         >
-          {options.map(opt => (
-            <button
-              key={opt}
-              type="button"
-              onClick={() => { onValue(opt); setOpen(false); }}
-              className={cn(
-                "w-full text-left px-4 py-[9px] text-[12.5px] leading-snug transition-colors",
-                value === opt
-                  ? "text-[#b87a06] font-semibold bg-[#fffbf2]"
-                  : "text-[#1a3a3c] hover:bg-[#f6f2eb]",
-              )}
-            >
-              {opt}
-            </button>
-          ))}
+          {searchable && (
+            <div className="px-2.5 pt-2.5 pb-1.5 border-b border-[#f0ebe3]">
+              <div className="flex items-center gap-2 h-[32px] px-2.5 rounded-lg bg-[#f6f2eb] border border-[#e8e3da] focus-within:border-[#f5b63f] focus-within:bg-white transition-colors">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 text-[#9ab0b2]">
+                  <circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/>
+                </svg>
+                <input
+                  ref={searchRef}
+                  type="text"
+                  value={query}
+                  onChange={e => setQuery(e.target.value)}
+                  placeholder="Rechercher…"
+                  className="flex-1 bg-transparent border-none outline-none text-[11.5px] font-medium text-[#0d2f32] placeholder:text-[#adbfc0] min-w-0"
+                />
+                {query && (
+                  <button type="button" onClick={() => setQuery("")} className="flex-shrink-0 text-[#adbfc0] hover:text-[#5a7578] transition-colors">
+                    <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+          <div
+            className="max-h-[200px] overflow-y-auto py-1.5
+              [&::-webkit-scrollbar]:w-[4px] [&::-webkit-scrollbar-track]:bg-transparent
+              [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#e4cfa0]
+              [&::-webkit-scrollbar-thumb:hover]:bg-[#f5b63f]"
+            style={{ scrollbarWidth: "thin", scrollbarColor: "#e4cfa0 transparent" }}
+          >
+            {filtered.length === 0 ? (
+              <p className="px-4 py-3 text-[12px] text-[#9ab0b2] text-center">Aucun résultat</p>
+            ) : filtered.map(opt => (
+              <button
+                key={opt}
+                type="button"
+                onClick={() => { onValue(opt); setOpen(false); setQuery(""); }}
+                className={cn(
+                  "w-full text-left px-4 py-[9px] text-[12.5px] leading-snug transition-colors",
+                  value === opt
+                    ? "text-[#b87a06] font-semibold bg-[#fffbf2]"
+                    : "text-[#1a3a3c] hover:bg-[#f6f2eb]",
+                )}
+              >
+                {opt}
+              </button>
+            ))}
+          </div>
         </div>
       )}
     </div>
@@ -334,12 +367,12 @@ function FieldDate({
 export function SearchBar() {
   const { t, locale } = useI18n();
   const sb = t.searchBar;
-  const circuitLengths    = locale === "en" ? CIRCUIT_LENGTHS_EN    : locale === "ar" ? CIRCUIT_LENGTHS_AR    : CIRCUIT_LENGTHS_FR;
-  const excursionDurations = locale === "en" ? EXCURSION_DURATIONS_EN : locale === "ar" ? EXCURSION_DURATIONS_AR : EXCURSION_DURATIONS_FR;
+  const circuitLengths    = locale === "en" ? CIRCUIT_LENGTHS_EN    : locale === "ar" ? CIRCUIT_LENGTHS_AR    : locale === "it" ? CIRCUIT_LENGTHS_IT    : CIRCUIT_LENGTHS_FR;
+  const excursionDurations = locale === "en" ? EXCURSION_DURATIONS_EN : locale === "ar" ? EXCURSION_DURATIONS_AR : locale === "it" ? EXCURSION_DURATIONS_IT : EXCURSION_DURATIONS_FR;
 
   const TABS = [
-    { id: "circuit"   as Mode, Icon: IconCircuit,   label: sb.tabs.circuit.label,   sub: sb.tabs.circuit.sub   },
     { id: "transfert" as Mode, Icon: IconTransfert, label: sb.tabs.transfert.label, sub: sb.tabs.transfert.sub },
+    { id: "circuit"   as Mode, Icon: IconCircuit,   label: sb.tabs.circuit.label,   sub: sb.tabs.circuit.sub   },
     { id: "excursion" as Mode, Icon: IconExcursion, label: sb.tabs.excursion.label, sub: sb.tabs.excursion.sub },
   ];
   const BUTTON_LABEL: Record<Mode, string> = {
@@ -348,12 +381,16 @@ export function SearchBar() {
     excursion: sb.buttons.excursion,
   };
 
-  const datePlaceholder = locale === "en" ? "Choose a date" : locale === "ar" ? "اختر التاريخ" : "Choisir une date";
+  const datePlaceholder = locale === "en" ? "Choose a date" : locale === "ar" ? "اختر التاريخ" : locale === "it" ? "Scegli una data" : "Choisir une date";
 
   const router = useRouter();
 
-  const [mode,    setMode]   = useState<Mode>("circuit");
-  const [depart,  setDepart] = useState("");
+  const loc = locale as "fr" | "en" | "ar";
+  const transferCities = transfers.map(t => t.to[loc]).sort((a, b) => a.localeCompare(b, loc));
+
+  const [mode,    setMode]   = useState<Mode>("transfert");
+  const mktName = locale === "ar" ? "مراكش" : "Marrakech";
+  const [depart,  setDepart] = useState(mktName);
   const [arrivee, setArrivee] = useState("");
   const [date,    setDate]   = useState("");
 
@@ -364,7 +401,7 @@ export function SearchBar() {
 
   const matchedTransfer = mode === "transfert" && arrivee ? findTransferByDest(arrivee) : null;
 
-  function reset() { setDepart(""); setArrivee(""); setDate(""); }
+  function reset(newMode: Mode = mode) { setDepart(newMode === "transfert" ? mktName : ""); setArrivee(""); setDate(""); }
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
@@ -373,7 +410,7 @@ export function SearchBar() {
       const slug = idx >= 0 ? CIRCUIT_SLUGS[idx] : null;
       router.push(slug ? `/tours?duree=${slug}` : "/tours");
     } else if (mode === "transfert") {
-      if (matchedTransfer && depart.toLowerCase() === "marrakech") {
+      if (matchedTransfer && depart === mktName) {
         router.push(`/transfers/${matchedTransfer.slug}`);
       } else {
         router.push("/transfers");
@@ -397,7 +434,7 @@ export function SearchBar() {
             <button
               key={id}
               type="button"
-              onClick={() => { setMode(id); reset(); }}
+              onClick={() => { setMode(id); reset(id); }}
               className={cn(
                 "relative flex items-center justify-center gap-1.5 sm:gap-2.5 min-h-[54px] px-2 sm:px-3 py-2.5 rounded-xl border",
                 "text-left cursor-pointer transition-all duration-200",
@@ -462,14 +499,15 @@ export function SearchBar() {
               placeholder={sb.placeholders.departure}
               value={depart}
               onValue={setDepart}
-              options={["Marrakech"]}
+              options={[locale === "ar" ? "مراكش" : "Marrakech"]}
             />
             <Field
               IconComponent={IconDest}
               placeholder={sb.placeholders.destination}
               value={arrivee}
               onValue={setArrivee}
-              options={ALL_CITIES.filter(c => c !== depart)}
+              options={transferCities}
+              searchable
             />
             <FieldDate
               placeholder={datePlaceholder}

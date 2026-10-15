@@ -12,9 +12,10 @@ function IconClock() {
     </svg>
   );
 }
-function IconArrow() {
+function IconArrow({ rtl }: { rtl?: boolean }) {
   return (
-    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+      style={rtl ? { transform: "scaleX(-1)" } : undefined}>
       <path d="M5 12h14M12 5l7 7-7 7"/>
     </svg>
   );
@@ -52,7 +53,7 @@ export function Tours() {
             </div>
             <Link href="/tours"
               className="flex items-center gap-2 text-[12.5px] font-semibold text-[#062f35] border border-[#062f35] hover:bg-[#062f35] hover:text-white px-5 py-2.5 rounded-full transition-all duration-200 whitespace-nowrap self-start sm:self-auto">
-              {tr.seeAll} <IconArrow />
+              {tr.seeAll} <IconArrow rtl={locale === "ar"} />
             </Link>
           </div>
         </Reveal>
@@ -86,7 +87,7 @@ export function Tours() {
                       {tr.cardLabel}
                     </span>
                     <span className="inline-flex items-center gap-1.5 bg-[#062f35] group-hover:bg-[#0a3d45] text-white text-[10.5px] font-semibold px-3.5 py-2 rounded-full transition-colors">
-                      {tr.cardView} <IconArrow />
+                      {tr.cardView} <IconArrow rtl={locale === "ar"} />
                     </span>
                   </div>
                 </div>
@@ -99,7 +100,7 @@ export function Tours() {
         <Reveal delay={0.15} className="mt-10 flex justify-center">
           <Link href="/tours"
             className="flex items-center gap-2 text-[12px] font-bold text-[#062f35] border-2 border-[#062f35] px-8 py-3 rounded-full hover:bg-[#062f35] hover:text-white transition-all duration-200">
-            {tr.seeAll} <IconArrow />
+            {tr.seeAll} <IconArrow rtl={locale === "ar"} />
           </Link>
         </Reveal>
 

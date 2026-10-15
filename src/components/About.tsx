@@ -7,7 +7,7 @@ import { useI18n } from "@/i18n/I18nProvider";
 const POINT_ICONS = [Award, Home, HeadphonesIcon, CreditCard];
 
 export function About() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const ab = t.about;
   const captionLines = ab.caption.split("\n");
 
@@ -68,7 +68,7 @@ export function About() {
           href="#contact"
           className="inline-flex items-center gap-4 bg-gold text-[#182c2c] text-[11px] font-bold px-[17px] py-[10px] rounded-[30px] hover:-translate-y-[2px] hover:shadow-[0_7px_20px_rgba(0,0,0,.15)] transition-all duration-200"
         >
-          {ab.cta} <span className="text-[18px] leading-[10px]">→</span>
+          {ab.cta} <span className="text-[18px] leading-[10px]">{locale === "ar" ? "←" : "→"}</span>
         </Link>
       </div>
 

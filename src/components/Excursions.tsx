@@ -5,6 +5,71 @@ import { featuredExcursions } from "@/data/excursions";
 import { useI18n } from "@/i18n/I18nProvider";
 import { Reveal } from "@/components/Reveal";
 
+type L = "fr" | "en" | "ar" | "it";
+const EXCURSION_I18N: Record<string, { title: Record<L, string>; short: Record<L, string> }> = {
+  "vallee-ourika-atlas": {
+    title: {
+      fr: "Vallée de l'Ourika et Atlas depuis Marrakech",
+      en: "Ourika Valley and Atlas from Marrakech",
+      ar: "وادي أوريكا والأطلس من مراكش",
+      it: "Valle dell'Ourika e Atlante da Marrakech",
+    },
+    short: {
+      fr: "Villages berbères, coopérative d'argan et cascades de Setti Fatma",
+      en: "Berber villages, argan cooperative and Setti Fatma waterfalls",
+      ar: "قرى أمازيغية، تعاونية أركان وشلالات سيتي فاطمة",
+      it: "Villaggi berberi, cooperativa di argan e cascate di Setti Fatma",
+    },
+  },
+  "cascades-ouzoud": {
+    title: {
+      fr: "Cascades d'Ouzoud depuis Marrakech",
+      en: "Ouzoud Waterfalls from Marrakech",
+      ar: "شلالات أوزود من مراكش",
+      it: "Cascate di Ouzoud da Marrakech",
+    },
+    short: {
+      fr: "Les plus hautes cascades du Maroc, oliveraies et singes sauvages",
+      en: "Morocco's highest waterfalls, olive groves and wild monkeys",
+      ar: "أعلى شلالات المغرب، غابات الزيتون والقرود البربرية",
+      it: "Le cascate più alte del Marocco, uliveti e scimmie selvatiche",
+    },
+  },
+  "desert-agafay-coucher-soleil": {
+    title: {
+      fr: "Coucher de soleil et dromadaire dans le désert d'Agafay",
+      en: "Sunset and camel ride in Agafay Desert",
+      ar: "غروب الشمس وركوب الإبل في صحراء أكافاي",
+      it: "Tramonto e cammello nel deserto di Agafay",
+    },
+    short: {
+      fr: "Désert de pierre, balade à dromadaire au coucher du soleil et dîner sous les étoiles",
+      en: "Stone desert, camel ride at sunset and dinner under the stars",
+      ar: "صحراء حجرية، ركوب الإبل عند الغروب والعشاء تحت النجوم",
+      it: "Deserto di pietra, giro in cammello al tramonto e cena sotto le stelle",
+    },
+  },
+  "imlil-toubkal-atlas": {
+    title: {
+      fr: "Imlil et parc national du Toubkal depuis Marrakech",
+      en: "Imlil and Toubkal National Park from Marrakech",
+      ar: "إملي وحديقة توبقال الوطنية من مراكش",
+      it: "Imlil e parco nazionale del Toubkal da Marrakech",
+    },
+    short: {
+      fr: "Randonnée dans le Haut Atlas jusqu'aux villages berbères sous le plus haut sommet d'Afrique du Nord",
+      en: "Hiking in the High Atlas to Berber villages under North Africa's highest peak",
+      ar: "مشي في جبال الأطلس إلى القرى الأمازيغية تحت أعلى قمة في شمال أفريقيا",
+      it: "Escursione nell'Alto Atlante fino ai villaggi berberi sotto la vetta più alta del Nord Africa",
+    },
+  },
+};
+
+const DURATION_I18N: Record<string, Record<L, string>> = {
+  "Journée complète": { fr: "Journée complète", en: "Full Day",  ar: "يوم كامل",  it: "Giornata intera" },
+  "Demi-journée":     { fr: "Demi-journée",     en: "Half Day",  ar: "نصف يوم",   it: "Mezza giornata"  },
+};
+
 function IconClock() {
   return (
     <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -12,17 +77,19 @@ function IconClock() {
     </svg>
   );
 }
-function IconArrow() {
+function IconArrow({ rtl }: { rtl?: boolean }) {
   return (
-    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+      style={rtl ? { transform: "scaleX(-1)" } : undefined}>
       <path d="M5 12h14M12 5l7 7-7 7"/>
     </svg>
   );
 }
 
 export function Excursions() {
-  const { t } = useI18n();
-  const tr = t.excursions;
+  const { t, locale } = useI18n();
+  const tr  = t.excursions;
+  const loc = locale as L;
 
   return (
     <section className="bg-[#fff8f0] -mt-4 sm:-mt-16 pt-0 pb-14 sm:pb-20">
@@ -49,7 +116,7 @@ export function Excursions() {
             </div>
             <Link href="/excursions"
               className="flex items-center gap-2 text-[12.5px] font-semibold text-[#062f35] border border-[#062f35] hover:bg-[#062f35] hover:text-white px-5 py-2.5 rounded-full transition-all duration-200 whitespace-nowrap self-start sm:self-auto">
-              {tr.seeAll} <IconArrow />
+              {tr.seeAll} <IconArrow rtl={loc === "ar"} />
             </Link>
           </div>
         </Reveal>
@@ -68,22 +135,22 @@ export function Excursions() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#031e22]/75 via-[#031e22]/15 to-transparent" />
                   <span className="absolute bottom-3 left-3 flex items-center gap-1.5 bg-[#062f35]/80 backdrop-blur-sm text-[#f5b63f] text-[10px] font-bold px-2.5 py-1 rounded-full">
-                    <IconClock /> {excursion.duration}
+                    <IconClock /> {DURATION_I18N[excursion.duration]?.[loc] ?? excursion.duration}
                   </span>
                 </div>
                 <div className="flex flex-col flex-1 p-4">
                   <h3 className="font-serif text-[14.5px] font-semibold text-[#062f35] leading-snug mb-1.5">
-                    {excursion.title}
+                    {EXCURSION_I18N[excursion.slug]?.title[loc] ?? excursion.title}
                   </h3>
                   <p className="text-[12px] text-[#5a7578] leading-relaxed flex-1 mb-3">
-                    {excursion.short}
+                    {EXCURSION_I18N[excursion.slug]?.short[loc] ?? excursion.short}
                   </p>
                   <div className="flex items-center justify-between pt-3 border-t border-[#f0ebe3] mt-auto">
                     <span className="text-[9.5px] font-bold text-[#a87627] uppercase tracking-[0.08em]">
                       {tr.cardLabel}
                     </span>
                     <span className="inline-flex items-center gap-1 bg-[#062f35] group-hover:bg-[#0a3d45] text-white text-[10px] font-semibold px-3 py-1.5 rounded-full transition-colors">
-                      {tr.cardView} <IconArrow />
+                      {tr.cardView} <IconArrow rtl={loc === "ar"} />
                     </span>
                   </div>
                 </div>

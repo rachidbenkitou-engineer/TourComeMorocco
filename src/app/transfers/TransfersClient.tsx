@@ -1,14 +1,11 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
-import { useBooking } from "@/components/BookingModal";
+
 import { useI18n } from "@/i18n/I18nProvider";
 import { cn } from "@/lib/utils";
-import { transfers, CATEGORIES, type Transfer, type TransferCategory } from "@/data/transfers";
+import { transfers, type Transfer, type TransferCategory } from "@/data/transfers";
 
 function IconClock() {
   return (
@@ -54,6 +51,11 @@ function IconRoad() {
   );
 }
 
+function localizeUnits(str: string, locale: string) {
+  if (locale !== "ar") return str;
+  return str.replace(/\bh\b/g, "ساعة").replace(/\bkm\b/g, "كم").replace(/\bmin\b/g, "د");
+}
+
 function CategoryIcon({ cat }: { cat: TransferCategory | "all" }) {
   if (cat === "airport") return (
     <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -78,13 +80,165 @@ function CategoryIcon({ cat }: { cat: TransferCategory | "all" }) {
   return null;
 }
 
+/* ── DestinationSearch ─────────────────────────────────────── */
+function DestinationSearch({
+  query, onQuery, count, locale,
+}: {
+  query: string;
+  onQuery: (v: string) => void;
+  count: number;
+  locale: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref      = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const loc = locale as "fr" | "en" | "ar";
+
+  const placeholder =
+    locale === "en" ? "Search a destination…" :
+    locale === "ar" ? "ابحث عن وجهة…" :
+    "Rechercher une destination…";
+
+  const resultsLabel =
+    locale === "en" ? count === 1 ? "transfer" : "transfers" :
+    locale === "ar" ? "وجهة" :
+    count === 1 ? "transfert" : "transferts";
+
+  /* Suggestions: all when empty+focused, filtered when typing */
+  const q = query.trim().toLowerCase();
+  const suggestions = transfers.filter(tr =>
+    !q ||
+    tr.to.fr.toLowerCase().includes(q) ||
+    tr.to.en.toLowerCase().includes(q) ||
+    tr.to.ar.includes(query.trim())
+  );
+
+  useEffect(() => {
+    if (!open) return;
+    const h = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", h);
+    return () => document.removeEventListener("mousedown", h);
+  }, [open]);
+
+  function pick(tr: Transfer) {
+    onQuery(tr.to[loc]);
+    setOpen(false);
+    inputRef.current?.blur();
+  }
+
+  function clear() {
+    onQuery("");
+    inputRef.current?.focus();
+  }
+
+  return (
+    <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-8">
+      <div ref={ref} className="relative w-full max-w-[480px]">
+
+        {/* ── Input wrapper ── */}
+        <div className={cn(
+          "flex items-center gap-2.5 h-12 pl-4 pr-3 rounded-2xl bg-white border-2 transition-all duration-200 shadow-[0_2px_16px_rgba(6,47,53,.07)]",
+          open
+            ? "border-[#f5b63f] shadow-[0_0_0_3px_rgba(245,182,63,.13),0_4px_20px_rgba(6,47,53,.12)]"
+            : "border-[#e4e9e5] hover:border-[#c9d6d6]",
+        )}>
+          {/* Search icon */}
+          <span className={cn(
+            "w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 transition-colors",
+            open || query ? "bg-[#fff0cb] text-[#b87a06]" : "bg-[#f0f5f5] text-[#6a8e90]",
+          )}>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/>
+            </svg>
+          </span>
+
+          {/* Input */}
+          <input
+            ref={inputRef}
+            type="text"
+            value={query}
+            onChange={e => { onQuery(e.target.value); setOpen(true); }}
+            onFocus={() => setOpen(true)}
+            placeholder={placeholder}
+            className="flex-1 bg-transparent text-[13.5px] font-medium text-[#062f35] placeholder:text-[#adbfc0] outline-none leading-none"
+          />
+
+          {/* Clear button */}
+          {query && (
+            <button type="button" onClick={clear}
+              className="w-6 h-6 rounded-full flex items-center justify-center bg-[#edf1f1] hover:bg-[#e0e8e8] text-[#6a8e90] transition-colors flex-shrink-0 cursor-pointer">
+              <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 6 6 18M6 6l12 12"/>
+              </svg>
+            </button>
+          )}
+        </div>
+
+        {/* ── Suggestions dropdown ── */}
+        {open && suggestions.length > 0 && (
+          <div className="absolute top-[calc(100%+6px)] left-0 right-0 bg-white rounded-2xl border border-[#e8e3da] shadow-[0_14px_44px_rgba(6,47,53,.20)] z-50 py-1.5 max-h-[320px] overflow-y-auto [&::-webkit-scrollbar]:w-[4px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#e4cfa0]"
+            style={{ scrollbarWidth: "thin", scrollbarColor: "#e4cfa0 transparent" }}>
+
+            {/* Section header when empty */}
+            {!q && (
+              <p className="px-4 pt-1 pb-2 text-[10px] font-bold tracking-[0.14em] text-[#adbfc0] uppercase">
+                {locale === "en" ? "All destinations" : locale === "ar" ? "جميع الوجهات" : "Toutes les destinations"}
+              </p>
+            )}
+
+            {suggestions.map(tr => {
+              const name    = tr.to[loc];
+              const isMatch = q && name.toLowerCase().includes(q);
+              return (
+                <button key={tr.slug} type="button" onClick={() => pick(tr)}
+                  className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-[#f7f4ee] transition-colors cursor-pointer group">
+
+                  {/* Category icon */}
+                  <span className="w-7 h-7 rounded-full bg-[#f0f5f5] flex items-center justify-center flex-shrink-0 text-[#5a7578] group-hover:bg-[#fff0cb] group-hover:text-[#b87a06] transition-colors">
+                    <CategoryIcon cat={tr.category} />
+                  </span>
+
+                  {/* Name with highlight */}
+                  <span className="flex-1 text-left text-[13px] font-medium text-[#1a3a3c] leading-none">
+                    {isMatch ? (
+                      (() => {
+                        const idx   = name.toLowerCase().indexOf(q);
+                        const pre   = name.slice(0, idx);
+                        const match = name.slice(idx, idx + q.length);
+                        const post  = name.slice(idx + q.length);
+                        return <>{pre}<span className="text-[#b87a06] font-bold">{match}</span>{post}</>;
+                      })()
+                    ) : name}
+                  </span>
+
+                  {/* Price */}
+                  <span className="text-[12px] font-bold text-[#062f35] flex-shrink-0">
+                    {tr.price}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* Result counter */}
+      <p className="text-[12.5px] text-[#8a9ea0] font-medium whitespace-nowrap">
+        <span className="font-bold text-[#062f35]">{count}</span>{" "}{resultsLabel}
+      </p>
+    </div>
+  );
+}
+
 function TransferCard({ transfer }: { transfer: Transfer }) {
-  const { open } = useBooking();
   const { t, locale } = useI18n();
   const pg = t.pages.transfers;
-  const dest   = transfer.to[locale as keyof typeof transfer.to] ?? transfer.to.fr;
-  const origin = locale === "ar" ? "مراكش" : "Marrakech";
-  const onBook = () => open(`${origin} → ${dest}`, transfer.price);
+  const dest   = (transfer.to as Record<string, string | undefined>)[locale] ?? transfer.to.fr;
+  const mktName = locale === "ar" ? "مراكش" : "Marrakech";
+  const discoverLabel = locale === "ar" ? "اكتشف" : locale === "en" ? "Discover" : "Découvrir";
 
   return (
     <div className="bg-white rounded-2xl border border-[#e4eaeb] p-5 flex flex-col hover:border-[#f5b63f] hover:shadow-[0_8px_28px_rgba(6,47,53,.10)] transition-all duration-200 group">
@@ -94,7 +248,7 @@ function TransferCard({ transfer }: { transfer: Transfer }) {
         </span>
         <div>
           <p className="text-[9px] font-bold tracking-[0.12em] text-[#8a9ea0] uppercase leading-none mb-0.5">{pg.cardFrom}</p>
-          <p className="text-[13.5px] font-bold text-[#062f35]">{origin}</p>
+          <p className="text-[13.5px] font-bold text-[#062f35]">{mktName}</p>
         </div>
       </div>
       <div className="flex items-center gap-2.5 pl-4 my-1">
@@ -105,10 +259,10 @@ function TransferCard({ transfer }: { transfer: Transfer }) {
         </div>
         <div className="flex items-center gap-3">
           <span className="flex items-center gap-1 text-[10px] text-[#8a9ea0] font-semibold">
-            <IconClock /> {transfer.duration}
+            <IconClock /> {localizeUnits(transfer.duration, locale)}
           </span>
           <span className="flex items-center gap-1 text-[10px] text-[#8a9ea0] font-semibold">
-            <IconRoad /> {transfer.distance}
+            <IconRoad /> {localizeUnits(transfer.distance, locale)}
           </span>
         </div>
       </div>
@@ -128,44 +282,36 @@ function TransferCard({ transfer }: { transfer: Transfer }) {
             {transfer.price}
           </p>
         </div>
-        <button
-          type="button"
-          onClick={onBook}
-          className="flex items-center gap-1.5 text-[11px] font-bold px-4 py-2.5 rounded-full bg-[#062f35] text-white hover:bg-[#0a4a51] transition-colors whitespace-nowrap cursor-pointer"
+        <Link
+          href={`/transfers/${transfer.slug}`}
+          className="flex items-center gap-1.5 text-[11px] font-bold px-4 py-2.5 rounded-full bg-[#062f35] text-white hover:bg-[#0a4a51] transition-colors whitespace-nowrap"
         >
-          {pg.bookBtn} <IconArrow />
-        </button>
+          {discoverLabel} <IconArrow />
+        </Link>
       </div>
     </div>
   );
 }
 
 export default function TransfersClient() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const pg = t.pages.transfers;
 
-  const searchParams = useSearchParams();
-  const paramCat     = searchParams.get("categorie") as TransferCategory | "all" | null;
-  const validCats    = CATEGORIES.map(c => c.id);
+  const [query, setQuery] = useState("");
 
-  const [activeCategory, setActiveCategory] = useState<TransferCategory | "all">(
-    paramCat && validCats.includes(paramCat) ? paramCat : "all"
-  );
+  const loc = locale as "fr" | "en" | "ar";
+  const q   = query.trim().toLowerCase();
 
-  useEffect(() => {
-    const c = searchParams.get("categorie") as TransferCategory | "all" | null;
-    setActiveCategory(c && validCats.includes(c) ? c : "all");
-  }, [searchParams]);
-
-  const filtered =
-    activeCategory === "all"
-      ? transfers
-      : transfers.filter(tr => tr.category === activeCategory);
+  const filtered = q
+    ? transfers.filter(tr =>
+        tr.to.fr.toLowerCase().includes(q) ||
+        tr.to.en.toLowerCase().includes(q) ||
+        tr.to.ar.includes(query.trim())
+      )
+    : transfers;
 
   return (
-    <>
-      <Navbar />
-      <main className="min-h-screen" style={{ background: "#fff8f0" }}>
+    <main className="min-h-screen" style={{ background: "#fff8f0" }}>
 
         {/* ── Hero header ── */}
         <div className="bg-[#062f35]" style={{ paddingTop: "78px" }}>
@@ -194,39 +340,13 @@ export default function TransfersClient() {
 
         <div className="max-w-[1280px] mx-auto px-[clamp(16px,4.5vw,56px)] py-10">
 
-          {/* ── Filter chips ── */}
-          <div className="flex flex-wrap gap-2 mb-8">
-            {CATEGORIES.map(({ id }) => {
-              const active = activeCategory === id;
-              const label  = pg.categories[id as keyof typeof pg.categories];
-              const count  = id === "all"
-                ? transfers.length
-                : transfers.filter(tr => tr.category === id).length;
-              return (
-                <button key={id} type="button" onClick={() => setActiveCategory(id)}
-                  className={cn(
-                    "inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-[12px] font-semibold transition-all duration-200 cursor-pointer whitespace-nowrap",
-                    active
-                      ? "bg-[#f5b63f] text-[#1c2e2e] shadow-[0_3px_14px_rgba(245,182,63,.4)]"
-                      : "bg-white border border-[#e4e9e5] text-[#5a7578] hover:border-[#f5b63f] hover:text-[#062f35]",
-                  )}
-                >
-                  {id !== "all" && (
-                    <span className={active ? "text-[#1c2e2e]/60" : "text-[#8a9ea0]"}>
-                      <CategoryIcon cat={id} />
-                    </span>
-                  )}
-                  {label}
-                  <span className={cn(
-                    "text-[10px] font-bold rounded-full px-1.5 py-0.5 min-w-[18px] text-center leading-none",
-                    active ? "bg-[#1c2e2e]/15" : "bg-[#f0ebe3] text-[#8a9a9b]",
-                  )}>
-                    {count}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
+          {/* ── Destination search ── */}
+          <DestinationSearch
+            query={query}
+            onQuery={setQuery}
+            count={filtered.length}
+            locale={locale}
+          />
 
           {/* ── Grid ── */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -270,7 +390,5 @@ export default function TransfersClient() {
         </div>
 
       </main>
-      <Footer />
-    </>
   );
 }

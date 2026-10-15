@@ -5,36 +5,38 @@ import { MapPin } from "lucide-react";
 import { useI18n } from "@/i18n/I18nProvider";
 import { Reveal } from "@/components/Reveal";
 
+type L = "fr" | "en" | "ar" | "it";
 const destinations = [
   {
-    name: "Marrakech",
-    country: "Maroc",
+    name:    { fr: "Marrakech",       en: "Marrakech",      ar: "مراكش",           it: "Marrakech"       },
+    country: { fr: "Maroc",           en: "Morocco",        ar: "المغرب",          it: "Marocco"         },
     img: "https://images.unsplash.com/photo-1597212618440-806262de4f6b?auto=format&fit=crop&w=900&q=85",
     href: "#contact",
   },
   {
-    name: "Fès",
-    country: "Maroc",
+    name:    { fr: "Fès",             en: "Fez",            ar: "فاس",             it: "Fès"             },
+    country: { fr: "Maroc",           en: "Morocco",        ar: "المغرب",          it: "Marocco"         },
     img: "https://images.unsplash.com/photo-1527838832700-5059252407fa?auto=format&fit=crop&w=900&q=85",
     href: "#contact",
   },
   {
-    name: "Désert du Sahara",
-    country: "Maroc",
+    name:    { fr: "Désert du Sahara", en: "Sahara Desert", ar: "صحراء الصحراء",   it: "Deserto del Sahara" },
+    country: { fr: "Maroc",           en: "Morocco",        ar: "المغرب",          it: "Marocco"         },
     img: "https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&w=900&q=85",
     href: "#contact",
   },
   {
-    name: "Chefchaouen",
-    country: "Maroc",
+    name:    { fr: "Chefchaouen",     en: "Chefchaouen",    ar: "شفشاون",          it: "Chefchaouen"     },
+    country: { fr: "Maroc",           en: "Morocco",        ar: "المغرب",          it: "Marocco"         },
     img: "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=900&q=85",
     href: "#contact",
   },
 ];
 
 export function Destinations() {
-  const { t } = useI18n();
-  const tr = t.destinations;
+  const { t, locale } = useI18n();
+  const tr  = t.destinations;
+  const loc = locale as L;
 
   return (
     <section id="destinations" className="bg-[#fff8f0] -mt-4 sm:-mt-16 pt-0 pb-16 sm:pb-20" aria-labelledby="dest-heading">
@@ -72,11 +74,11 @@ export function Destinations() {
         {/* Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-5">
           {destinations.map((d, i) => (
-            <Reveal key={d.name} delay={i * 0.07}>
+            <Reveal key={d.name.fr} delay={i * 0.07}>
               <Link href={d.href}
                 className="group relative h-[176px] lg:h-[240px] rounded-2xl overflow-hidden block bg-[#ddd] shadow-card hover:shadow-lift transition-all duration-300 hover:-translate-y-1.5"
               >
-                <Image src={d.img} alt={d.name} fill
+                <Image src={d.img} alt={d.name[loc]} fill
                   className="object-cover transition-transform duration-500 group-hover:scale-[1.06]"
                 />
                 <div className="absolute inset-[40%_0_0_0] bg-gradient-to-t from-[#031e22]/85 to-transparent" />
@@ -84,12 +86,12 @@ export function Destinations() {
                   <span>
                     <b className="flex items-center gap-1 text-[14px] font-bold">
                       <MapPin size={12} className="text-[#f5b63f]" />
-                      {d.name}
+                      {d.name[loc]}
                     </b>
-                    <small className="block text-[11px] text-white/70 mt-0.5 ml-4">{d.country}</small>
+                    <small className="block text-[11px] text-white/70 mt-0.5 ml-4">{d.country[loc]}</small>
                   </span>
                   <span className="bg-[#f5b63f] text-[#1c2e2e] w-[28px] h-[28px] grid place-items-center rounded-full text-[16px] font-bold flex-shrink-0 group-hover:scale-110 transition-transform">
-                    →
+                    {locale === "ar" ? "←" : "→"}
                   </span>
                 </span>
               </Link>

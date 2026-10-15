@@ -12,7 +12,7 @@ const SLIDE_IMAGES = [
 ];
 
 export function Hero() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const slides = t.hero.slides;
   const [current,  setCurrent]  = useState(0);
   const [prev,     setPrev]     = useState<number | null>(null);
@@ -121,7 +121,7 @@ export function Hero() {
             >
               {t.hero.cta1}
               <span className="w-7 h-7 rounded-full bg-[#1c2e2e]/15 flex items-center justify-center group-hover:bg-[#1c2e2e]/25 transition-colors text-[15px] leading-none">
-                →
+                {locale === "ar" ? "←" : "→"}
               </span>
             </Link>
 

@@ -1,12 +1,14 @@
 "use client";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { motion } from "motion/react";
-import { MapPin, Clock, Route, CheckCircle2, XCircle, ArrowRight, Phone } from "lucide-react";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
-import { getTransferBySlug, transfers, CATEGORIES } from "@/data/transfers";
-import { useBooking } from "@/components/BookingModal";
+import { MapPin, Clock, Route, Wallet, Check, ChevronDown } from "lucide-react";
+
+import { TransferBookingForm } from "@/components/TransferBookingForm";
+import { getTransferBySlug, transfers } from "@/data/transfers";
+import { getTransferContent } from "@/lib/transferContent";
 import { useI18n } from "@/i18n/I18nProvider";
 
 const CATEGORY_ICONS: Record<string, string> = {
@@ -16,289 +18,289 @@ const CATEGORY_ICONS: Record<string, string> = {
   desert:  "🏜",
 };
 
+function localizeUnits(str: string, locale: string) {
+  if (locale !== "ar") return str;
+  return str
+    .replace(/\bkm\b/g, "كم")
+    .replace(/\bmin\b/g, "د")
+    .replace(/\bh\b/g, "ساعة");
+}
+
+const CATEGORY_LABELS: Record<string, Record<string, string>> = {
+  airport: { fr: "Aéroport",        en: "Airport",          ar: "مطار",              it: "Aeroporto"          },
+  city:    { fr: "Ville",           en: "City",             ar: "مدينة",             it: "Città"              },
+  coast:   { fr: "Côte & Sud",      en: "Coast & South",    ar: "الساحل والجنوب",    it: "Costa & Sud"        },
+  desert:  { fr: "Désert & Nature", en: "Desert & Nature",  ar: "الصحراء والطبيعة",  it: "Deserto & Natura"   },
+};
+
+function FaqItem({ question, answer }: { question: string; answer: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="border border-[#e8e3da] rounded-xl overflow-hidden">
+      <button
+        type="button"
+        onClick={() => setOpen(v => !v)}
+        className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left text-[13.5px] font-semibold text-[#062f35] hover:bg-[#f9f6f0] transition-colors cursor-pointer"
+      >
+        <span>{question}</span>
+        <ChevronDown size={16} className={`flex-shrink-0 text-[#a87627] transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
+      </button>
+      {open && (
+        <div className="px-5 pb-4 text-[13px] text-[#5a7a7c] leading-relaxed border-t border-[#e8e3da] pt-4">
+          {answer}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function TransferDetail({ slug }: { slug: string }) {
-  const { open: openBooking } = useBooking();
   const { t, locale } = useI18n();
 
   const _transfer = getTransferBySlug(slug);
   if (!_transfer) notFound();
   const transfer = _transfer!;
 
-  const dt   = t.pages.transfers.detail;
-  const pg   = t.pages.transfers;
-  const dest = transfer.to[locale];
-
-  const categoryLabel = pg.categories[transfer.category] ?? transfer.category;
+  const c = getTransferContent(transfer, locale);
+  const dest = transfer.to[locale as "fr" | "en" | "ar"] ?? transfer.to.fr;
+  const mktName = locale === "ar" ? "مراكش" : "Marrakech";
+  const arrow   = locale === "ar" ? "←" : "→";
+  const categoryLabel = CATEGORY_LABELS[transfer.category]?.[locale] ?? transfer.category;
 
   const related = transfers
-    .filter(t => t.slug !== slug && t.category === transfer.category)
+    .filter(tr => tr.slug !== slug && tr.category === transfer.category)
     .slice(0, 3);
 
-  const facts = [
-    { icon: <MapPin size={16} />,   label: dt.labelFrom,     value: "Marrakech" },
-    { icon: <ArrowRight size={16}/>, label: dt.labelTo,      value: dest },
-    { icon: <Clock size={16} />,    label: dt.labelDuration, value: transfer.duration },
-    { icon: <Route size={16} />,    label: dt.labelDistance, value: transfer.distance },
+  const priceRows = [
+    { label: c.labels.sedan,      price: transfer.prices.sedan      },
+    { label: c.labels.van,        price: transfer.prices.van        },
+    { label: c.labels.luxuryVan,  price: transfer.prices.luxuryVan  },
   ];
-
-  function handleBook() {
-    openBooking(`${dt.privateTransfer} : Marrakech → ${dest}`, transfer.price);
-  }
 
   return (
     <>
-      <Navbar />
-
-      {/* ── Hero ───────────────────────────────────────────── */}
-      <section className="relative min-h-[52vh] flex items-end bg-[#062f35] overflow-hidden">
-        {/* zellige pattern overlay */}
-        <div className="absolute inset-0 bg-zellige opacity-30" />
-        {/* gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#021e22] via-[#062f35]/60 to-transparent" />
+      {/* ── Hero ──────────────────────────────────────────── */}
+      <section className="relative min-h-[60vh] flex items-end overflow-hidden bg-[#062f35]">
+        <div className="absolute inset-0 kenburns">
+          <Image
+            src={`/images/${transfer.image}`}
+            alt={`${mktName} ${arrow} ${dest}`}
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+          />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-[#021e22] via-[#062f35]/50 to-transparent" />
 
         <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 pb-12 pt-28">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-[11px] text-white/50 mb-5 font-medium tracking-wide uppercase">
-            <Link href="/" className="hover:text-white/80 transition-colors">Accueil</Link>
+            <Link href="/" className="hover:text-white/80 transition-colors">
+              {locale === "ar" ? "الرئيسية" : locale === "en" ? "Home" : locale === "it" ? "Home" : "Accueil"}
+            </Link>
             <span>/</span>
             <Link href="/transfers" className="hover:text-white/80 transition-colors">{t.nav.transfers}</Link>
             <span>/</span>
             <span className="text-[#f5b63f]">{dest}</span>
           </nav>
 
-          {/* Eyebrow */}
+          {/* Eyebrow pills */}
           <div className="flex flex-wrap items-center gap-2 mb-4">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#f5b63f]/15 border border-[#f5b63f]/30 text-[#f5b63f] text-[11px] font-semibold tracking-wider uppercase">
-              <span>{CATEGORY_ICONS[transfer.category]}</span>
-              {categoryLabel}
+              {CATEGORY_ICONS[transfer.category]} {categoryLabel}
             </span>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-white/70 text-[11px] font-semibold tracking-wider uppercase">
-              {dt.labelPrice}
+              {locale === "ar" ? "سعر ثابت" : locale === "en" ? "Fixed Price" : locale === "it" ? "Prezzo fisso" : "Prix Fixe"}
             </span>
           </div>
 
-          {/* Title */}
           <h1 className="font-playfair text-3xl sm:text-4xl lg:text-5xl text-white leading-tight mb-4">
-            Marrakech{" "}
-            <span className="text-[#f5b63f]">→</span>{" "}
-            {dest}
+            {c.h1}
           </h1>
 
-          {/* Price pill */}
           <div className="flex flex-wrap items-center gap-4">
-            <span className="text-3xl font-bold text-[#f5b63f]">{transfer.price}</span>
-            <span className="text-white/50 text-sm">{transfer.duration} · {transfer.distance}</span>
+            <span className="text-3xl font-bold text-[#f5b63f]">{c.labels.from} €{transfer.prices.sedan}</span>
+            <span className="text-white/50 text-sm">{localizeUnits(transfer.duration, locale)} · {localizeUnits(transfer.distance, locale)}</span>
           </div>
         </div>
       </section>
 
+      {/* ── Quick facts bar ────────────────────────────────── */}
+      <section className="border-y border-[#e8e3da] bg-[#f9f6f0]">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-2 sm:grid-cols-3 gap-6 py-7">
+          {[
+            { icon: <Route size={18} />, label: c.labels.distance, value: localizeUnits(transfer.distance, locale) },
+            { icon: <Clock size={18} />, label: c.labels.duration, value: localizeUnits(transfer.duration, locale) },
+            { icon: <Wallet size={18} />, label: c.labels.from,    value: `€${transfer.prices.sedan}` },
+          ].map((f, i) => (
+            <div key={i} className="flex items-center gap-3">
+              <span className="grid w-11 h-11 place-items-center rounded-xl border border-[#f5b63f]/25 bg-[#f5b63f]/8 text-[#a87627] flex-shrink-0">
+                {f.icon}
+              </span>
+              <span>
+                <span className="block text-[10px] uppercase tracking-widest text-[#8aabae] font-medium">{f.label}</span>
+                <span className="font-playfair text-lg text-[#062f35]">{f.value}</span>
+              </span>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* ── Body ───────────────────────────────────────────── */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 lg:grid lg:grid-cols-[1.6fr_1fr] lg:gap-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 lg:grid lg:grid-cols-[1.55fr_1fr] lg:gap-12">
 
         {/* ── Left column ──────────────────────────────────── */}
         <div className="space-y-12">
 
           {/* Back link */}
-          <Link href="/transfers"
-            className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-[#3a6568] hover:text-[#062f35] transition-colors group">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:-translate-x-0.5 transition-transform">
+          <Link
+            href="/transfers"
+            className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-[#3a6568] hover:text-[#062f35] transition-colors group"
+          >
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+              className="group-hover:-translate-x-0.5 transition-transform">
               <path d="M19 12H5M12 5l-7 7 7 7"/>
             </svg>
-            {dt.backToTransfers}
+            {locale === "ar" ? "العودة إلى النقلات" : locale === "en" ? "Back to transfers" : locale === "it" ? "Torna ai trasferimenti" : "Retour aux transferts"}
           </Link>
 
-          {/* Facts grid */}
-          <div id="overview">
-            <h2 className="font-playfair text-2xl text-[#062f35] mb-6">
-              {locale === "ar" ? "معلومات الرحلة" : locale === "en" ? "Route Overview" : "Détails du trajet"}
-            </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              {facts.map((f, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.07 }}
-                  className="bg-[#f9f6f0] rounded-2xl p-4 flex flex-col gap-2"
-                >
-                  <span className="w-8 h-8 rounded-xl bg-[#062f35] text-[#f5b63f] flex items-center justify-center">
-                    {f.icon}
-                  </span>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#8aabae]">{f.label}</span>
-                  <span className="font-semibold text-[#062f35] text-[13px] leading-tight">{f.value}</span>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          {/* Included / Not included */}
-          <div id="includes" className="grid sm:grid-cols-2 gap-6">
-            <div>
-              <h3 className="font-playfair text-lg text-[#062f35] mb-4 flex items-center gap-2">
-                <CheckCircle2 size={18} className="text-emerald-500" />
-                {locale === "ar" ? "ما يشمله السعر" : locale === "en" ? "What's included" : "Ce qui est inclus"}
-              </h3>
-              <ul className="space-y-2.5">
-                {dt.included.map((item, i) => (
-                  <li key={i} className="flex items-start gap-2.5 text-[13.5px] text-[#3a5c5e]">
-                    <span className="w-4 h-4 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0 mt-[1px]">
-                      <svg viewBox="0 0 12 12" width="9" height="9" fill="none" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M2 6l3 3 5-5"/>
-                      </svg>
-                    </span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="font-playfair text-lg text-[#062f35] mb-4 flex items-center gap-2">
-                <XCircle size={18} className="text-red-400" />
-                {locale === "ar" ? "غير مشمول" : locale === "en" ? "Not included" : "Non inclus"}
-              </h3>
-              <ul className="space-y-2.5">
-                {dt.notIncluded.map((item, i) => (
-                  <li key={i} className="flex items-start gap-2.5 text-[13.5px] text-[#3a5c5e]">
-                    <span className="w-4 h-4 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 mt-[1px]">
-                      <svg viewBox="0 0 12 12" width="9" height="9" fill="none" stroke="#f87171" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M3 3l6 6M9 3l-6 6"/>
-                      </svg>
-                    </span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {/* How it works */}
+          {/* Intro */}
           <div>
-            <h2 className="font-playfair text-2xl text-[#062f35] mb-6">
-              {locale === "ar" ? "كيف يعمل" : locale === "en" ? "How it works" : "Comment ça marche"}
-            </h2>
-            <ol className="relative space-y-6 before:absolute before:left-[19px] before:top-2 before:bottom-2 before:w-px before:bg-gradient-to-b before:from-[#f5b63f] before:to-[#f5b63f]/10">
-              {(locale === "en"
-                ? ["Book via WhatsApp in 2 minutes", "Receive your booking confirmation", "Driver meets you at your address", "Comfortable private ride to your destination"]
-                : locale === "ar"
-                ? ["احجز عبر واتساب في دقيقتين", "تلقى تأكيد الحجز", "السائق يستقبلك في عنوانك", "رحلة خاصة ومريحة إلى وجهتك"]
-                : ["Réservez via WhatsApp en 2 minutes", "Recevez votre confirmation de réservation", "Le chauffeur vous accueille à votre adresse", "Trajet privé et confortable jusqu'à votre destination"]
-              ).map((step, i) => (
-                <li key={i} className="relative pl-14 flex items-start gap-3">
-                  <span className="absolute left-0 w-10 h-10 rounded-full bg-[#f5b63f] text-[#062f35] font-bold text-sm flex items-center justify-center border-4 border-white shadow-sm flex-shrink-0">
-                    {i + 1}
+            {c.intro.map((para, i) => (
+              <motion.p
+                key={i}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.08 }}
+                className="mb-4 text-[14px] leading-relaxed text-[#3a5c5e]"
+              >
+                {para}
+              </motion.p>
+            ))}
+          </div>
+
+          {/* Included */}
+          <div>
+            <h2 className="font-playfair text-2xl text-[#062f35] mb-5">{c.includedTitle}</h2>
+            <ul className="grid sm:grid-cols-2 gap-3">
+              {c.included.map((item, i) => (
+                <li key={i} className="flex items-start gap-3 text-[13.5px] text-[#3a5c5e]">
+                  <span className="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0 mt-[1px]">
+                    <Check size={11} className="text-emerald-600" />
                   </span>
-                  <span className="text-[13.5px] text-[#3a5c5e] leading-relaxed pt-2">{step}</span>
+                  {item}
                 </li>
               ))}
-            </ol>
+            </ul>
           </div>
-        </div>
 
-        {/* ── Right sidebar ─────────────────────────────────── */}
-        <aside className="mt-12 lg:mt-0">
-          <div className="lg:sticky lg:top-[80px] rounded-2xl overflow-hidden shadow-lift border border-[#e8e3da]">
-            {/* Sidebar header */}
-            <div className="bg-[#062f35] bg-zellige px-6 py-5">
-              <p className="text-[#f5b63f] text-[10px] font-bold uppercase tracking-[0.15em] mb-1">
-                {dt.privateTransfer}
-              </p>
-              <div className="text-white font-playfair text-xl leading-snug">
-                Marrakech → {dest}
-              </div>
-              <div className="text-[#f5b63f] text-3xl font-bold mt-3">{transfer.price}</div>
-              <p className="text-white/50 text-[11px] mt-1">{transfer.duration} · {transfer.distance}</p>
+          {/* Price table */}
+          <div>
+            <h2 className="font-playfair text-2xl text-[#062f35] mb-5">{c.priceTitle}</h2>
+            <div className="overflow-hidden rounded-2xl border border-[#e8e3da]">
+              {priceRows.map((row, i) => (
+                <div
+                  key={row.label}
+                  className={`flex items-center justify-between gap-4 px-5 py-4 ${i % 2 ? "bg-[#f9f6f0]" : "bg-white"}`}
+                >
+                  <span className="text-[13px] text-[#062f35]">{row.label}</span>
+                  <span className="font-playfair text-lg text-[#f5b63f] shrink-0">
+                    €{row.price}
+                    <span className="ms-1 text-[11px] text-[#8aabae] font-normal"> {c.labels.perVehicle}</span>
+                  </span>
+                </div>
+              ))}
             </div>
+            <p className="mt-3 text-[11px] text-[#8aabae]">{c.priceNote}</p>
+          </div>
 
-            {/* Sidebar body */}
-            <div className="bg-white px-6 py-6 space-y-5">
-              <p className="text-[13px] text-[#5a7a7c] leading-relaxed">{dt.quoteDesc}</p>
+          {/* FAQ */}
+          <div>
+            <h2 className="font-playfair text-2xl text-[#062f35] mb-5">{c.faqTitle}</h2>
+            <div className="space-y-3">
+              {c.faqs.map((faq, i) => (
+                <FaqItem key={i} question={faq.question} answer={faq.answer} />
+              ))}
+            </div>
+          </div>
 
-              <button
-                onClick={handleBook}
-                className="w-full inline-flex items-center justify-center gap-2 h-12 rounded-xl
-                  bg-gradient-to-b from-[#ffc84d] to-[#f5a623]
-                  hover:from-[#ffd166] hover:to-[#f5b235]
-                  text-[#17342f] font-bold text-[13px] cursor-pointer
-                  transition-all duration-200 shadow-[0_4px_18px_rgba(218,151,24,.38)]
-                  hover:shadow-[0_6px_24px_rgba(218,151,24,.48)] hover:-translate-y-[1px] active:scale-[.97]"
-              >
-                <Phone size={15} />
-                {dt.bookTransfer}
-              </button>
-
-              {/* Guarantees */}
-              <div className="border-t border-[#f0ebe3] pt-5 space-y-3">
-                {pg.guarantees.map((g, i) => (
-                  <div key={i} className="flex items-center gap-3 text-[12.5px] text-[#3a5c5e]">
-                    <span className="w-6 h-6 rounded-full bg-[#f5f9f9] flex items-center justify-center flex-shrink-0">
-                      <svg viewBox="0 0 12 12" width="9" height="9" fill="none" stroke="#3a9ca0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M2 6l3 3 5-5"/>
-                      </svg>
-                    </span>
-                    {g}
-                  </div>
+          {/* Related transfers */}
+          {related.length > 0 && (
+            <div>
+              <h2 className="font-playfair text-2xl text-[#062f35] mb-5">{c.labels.moreFrom}</h2>
+              <div className="grid sm:grid-cols-3 gap-4">
+                {related.map(rel => (
+                  <Link
+                    key={rel.slug}
+                    href={`/transfers/${rel.slug}`}
+                    className="group block rounded-2xl border border-[#e8e3da] bg-white p-5 hover:shadow-[0_4px_20px_rgba(6,47,53,.12)] transition-all duration-200 hover:-translate-y-1"
+                  >
+                    <div className="flex items-start justify-between gap-2 mb-3">
+                      <div>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-[#8aabae] mb-1">
+                          {t.transfers.cardOrigin}
+                        </p>
+                        <p className="font-semibold text-[#062f35] text-[13.5px] leading-tight">
+                          {(rel.to as Record<string, string | undefined>)[locale] ?? rel.to.fr}
+                        </p>
+                      </div>
+                      <span className="text-[18px]">{CATEGORY_ICONS[rel.category]}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-[#f5b63f] font-bold">{rel.price}</span>
+                      <span className="text-[11px] text-[#8aabae]">{localizeUnits(rel.duration, locale)}</span>
+                    </div>
+                  </Link>
                 ))}
               </div>
             </div>
+          )}
+        </div>
+
+        {/* ── Right aside ────────────────────────────────────── */}
+        <aside className="mt-12 lg:mt-0">
+          <div className="lg:sticky lg:top-[80px]">
+            <TransferBookingForm transfer={transfer} />
           </div>
         </aside>
       </div>
 
-      {/* ── Related transfers ──────────────────────────────── */}
-      {related.length > 0 && (
-        <section className="max-w-6xl mx-auto px-4 sm:px-6 pb-16">
-          <h2 className="font-playfair text-2xl text-[#062f35] mb-6">{dt.related}</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {related.map(rel => (
-              <Link
-                key={rel.slug}
-                href={`/transfers/${rel.slug}`}
-                className="group block rounded-2xl border border-[#e8e3da] bg-white p-5 hover:shadow-card transition-all duration-200 hover:-translate-y-1"
-              >
-                <div className="flex items-start justify-between gap-3 mb-3">
-                  <div>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-[#8aabae] mb-1">
-                      {t.transfers.cardOrigin}
-                    </p>
-                    <p className="font-semibold text-[#062f35] text-[14px] leading-tight">
-                      {rel.to[locale]}
-                    </p>
-                  </div>
-                  <span className="text-[20px]">{CATEGORY_ICONS[rel.category]}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[#f5b63f] font-bold text-lg">{rel.price}</span>
-                  <span className="text-[11px] text-[#8aabae]">{rel.duration}</span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
-
       {/* ── CTA band ──────────────────────────────────────── */}
       <section className="bg-[#062f35] bg-zellige py-16 px-4">
-        <div className="max-w-2xl mx-auto text-center space-y-5">
+        <div className="max-w-2xl mx-auto text-center space-y-4">
           <p className="font-caveat text-[#f5b63f] text-2xl">{t.transfers.script}</p>
-          <h2 className="font-playfair text-3xl text-white">{dt.ctaTitle}</h2>
-          <p className="text-white/65 text-[14px] leading-relaxed">{dt.ctaDesc}</p>
-          <button
-            onClick={handleBook}
+          <h2 className="font-playfair text-3xl text-white">
+            {locale === "ar" ? "هل أنت مستعد للمغادرة؟" : locale === "en" ? "Ready to go?" : locale === "it" ? "Pronti a partire?" : "Prêt à partir ?"}
+          </h2>
+          <p className="text-white/65 text-[14px] leading-relaxed">
+            {locale === "ar"
+              ? "سعر ثابت وشامل، بدون عداد ولا مفاجآت."
+              : locale === "en"
+              ? "Fixed all-inclusive price, no meter, no surprises."
+              : locale === "it"
+              ? "Prezzo fisso tutto incluso, senza tassametro né sorprese."
+              : "Prix fixe tout inclus, sans compteur ni surprise."}
+          </p>
+          <a
+            href={`https://wa.me/212709274114?text=${encodeURIComponent(`${mktName} ${arrow} ${dest}`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full
               bg-gradient-to-r from-[#f5b63f] to-[#e8a020]
               text-[#062f35] font-bold text-[13px]
               hover:from-[#ffc84d] hover:to-[#f5b235]
               transition-all duration-200 shadow-[0_4px_20px_rgba(245,182,63,.4)]
-              hover:-translate-y-0.5 cursor-pointer"
+              hover:-translate-y-0.5"
           >
-            <Phone size={15} />
-            {dt.bookTransfer}
-          </button>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+              <path d="M12.004 0C5.373 0 0 5.373 0 12.004c0 2.117.555 4.103 1.523 5.832L.057 23.944l6.303-1.654A11.944 11.944 0 0 0 12.004 24C18.627 24 24 18.627 24 12.004 24 5.373 18.627 0 12.004 0zm0 21.902a9.896 9.896 0 0 1-5.042-1.376l-.36-.214-3.737.98.998-3.648-.235-.374a9.862 9.862 0 0 1-1.514-5.27c0-5.455 4.438-9.893 9.89-9.893 5.453 0 9.891 4.438 9.891 9.893 0 5.453-4.438 9.902-9.891 9.902z"/>
+            </svg>
+            {c.labels.bookNow}
+          </a>
         </div>
       </section>
-
-      <Footer />
     </>
   );
 }

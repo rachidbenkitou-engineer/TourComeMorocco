@@ -100,8 +100,8 @@ export function Navbar() {
       <div className="max-w-[1280px] mx-auto px-[clamp(16px,4.5vw,56px)] h-[78px] flex items-center justify-between gap-5">
 
         {/* ── Logo ── */}
-        <Link href="/#top" className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
-          <svg width="20" height="22" viewBox="0 0 38 42" fill="none" className="sm:w-[34px] sm:h-[38px] flex-shrink-0">
+        <Link href="/#top" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
+          <svg width="26" height="29" viewBox="0 0 38 42" fill="none" className="sm:w-[34px] sm:h-[38px] flex-shrink-0">
             <path d="M2 41L2 19C2 9.06 9.61 1 19 1C28.39 1 36 9.06 36 19L36 41"
               stroke="#f5b63f" strokeWidth="2.5" strokeLinecap="round"/>
             <path d="M8 41L8 21C8 13.8 13 8 19 8C25 8 30 13.8 30 21L30 41"
@@ -110,11 +110,11 @@ export function Navbar() {
               fill="#f5b63f"/>
           </svg>
           <span className="leading-none">
-            <strong className="block font-serif text-[13px] sm:text-[20px] text-[#fff0cb] tracking-[-0.3px]">
-              Tour Come Marocco
+            <strong className="block font-serif text-[16px] sm:text-[20px] text-[#fff0cb] tracking-[-0.3px]">
+              Transfer Maroc
             </strong>
             <small className="hidden sm:block text-[8.5px] tracking-[0.2em] text-white/45 mt-1 font-sans">
-              Explorez · Voyagez · Découvrez
+              {{ fr: "Explorez · Voyagez · Découvrez", en: "Explore · Travel · Discover", ar: "استكشف · سافر · اكتشف", it: "Esplora · Viaggia · Scopri" }[locale] ?? "Explorez · Voyagez · Découvrez"}
             </small>
           </span>
         </Link>
@@ -154,7 +154,7 @@ export function Navbar() {
 
           <button
             type="button"
-            onClick={() => openBooking("Réservation générale")}
+            onClick={() => openBooking(t.nav.bookNow)}
             className="flex items-center gap-1.5 bg-[#f5b63f] hover:bg-[#e9a52e] text-[#162c2c] text-[11px] font-bold px-3.5 py-[8px] rounded-[20px] transition-colors whitespace-nowrap cursor-pointer"
           >
             <CalendarCheck size={14} />

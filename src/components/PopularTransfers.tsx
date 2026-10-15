@@ -2,18 +2,24 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useI18n } from "@/i18n/I18nProvider";
+import { transfers } from "@/data/transfers";
 
-const routes = [
-  { to: "Marrakech Menara Airport", price: "€15",  duration: "15 min",  img: "/gallery/g23.jpg" },
-  { to: "Essaouira",                price: "€105", duration: "2 h 30",  img: "/gallery/g13.jpg" },
-  { to: "Agadir",                   price: "€165", duration: "3 h",     img: "/gallery/g10.jpg" },
-  { to: "Aït Ben Haddou",           price: "€125", duration: "1 h 30",  img: "/gallery/g08.jpg" },
-  { to: "Ouarzazate",               price: "€135", duration: "1 h 45",  img: "/gallery/g06.jpg" },
-  { to: "Fès",                      price: "€365", duration: "7 h 30",  img: "/gallery/g18.jpg" },
-  { to: "Rabat",                    price: "€190", duration: "5 h 30",  img: "/gallery/g22.jpg" },
-  { to: "Merzouga",                 price: "€500", duration: "7 h 15",  img: "/gallery/g24.jpg" },
-  { to: "Casablanca",               price: "€140", duration: "3 h 15",  img: "/gallery/g02.jpg" },
+const FEATURED_SLUGS = [
+  { slug: "aeroport-menara",  img: "/gallery/g23.jpg" },
+  { slug: "essaouira",        img: "/gallery/g13.jpg" },
+  { slug: "agadir",           img: "/gallery/g10.jpg" },
+  { slug: "ait-ben-haddou",   img: "/gallery/g08.jpg" },
+  { slug: "ouarzazate",       img: "/gallery/g06.jpg" },
+  { slug: "fes",              img: "/gallery/g18.jpg" },
+  { slug: "rabat",            img: "/gallery/g22.jpg" },
+  { slug: "merzouga",         img: "/gallery/g24.jpg" },
+  { slug: "casablanca",       img: "/gallery/g02.jpg" },
 ];
+
+function localizeUnits(str: string, locale: string) {
+  if (locale !== "ar") return str;
+  return str.replace(/\bh\b/g, "ساعة").replace(/\bkm\b/g, "كم").replace(/\bmin\b/g, "د");
+}
 
 function IconClock() {
   return (
@@ -39,8 +45,21 @@ function IconArrowRight() {
 }
 
 export function PopularTransfers() {
-  const { t } = useI18n();
-  const tr = t.transfers;
+  const { t, locale } = useI18n();
+  const tr  = t.transfers;
+  const loc = locale as "fr" | "en" | "ar" | "it";
+
+  const routes = FEATURED_SLUGS.map(({ slug, img }) => {
+    const transfer = transfers.find(t => t.slug === slug);
+    if (!transfer) return null;
+    return {
+      name:     (transfer.to as Record<string, string | undefined>)[loc] ?? transfer.to.fr,
+      price:    transfer.price,
+      duration: transfer.duration,
+      img,
+      slug,
+    };
+  }).filter(Boolean) as { name: string; price: string; duration: string; img: string; slug: string }[];
 
   return (
     <section className="pt-2 pb-20 bg-[#fff8f0]">
@@ -64,10 +83,10 @@ export function PopularTransfers() {
         {/* Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           {routes.map(route => (
-            <Link key={route.to} href="/transfers"
+            <Link key={route.slug} href="/transfers"
               className="group relative h-[160px] sm:h-[190px] md:h-[210px] overflow-hidden rounded-2xl cursor-pointer shadow-[0_4px_20px_rgba(6,47,53,.12)] hover:shadow-[0_12px_36px_rgba(6,47,53,.22)] transition-all duration-300 hover:-translate-y-1"
             >
-              <Image src={route.img} alt={route.to} fill
+              <Image src={route.img} alt={route.name} fill
                 className="object-cover transition-transform duration-700 group-hover:scale-110"
                 sizes="(max-width:640px) 50vw, 33vw" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#031e22]/90 via-[#031e22]/25 to-transparent" />
@@ -79,11 +98,11 @@ export function PopularTransfers() {
                   {tr.cardOrigin}
                 </p>
                 <p className="text-white font-bold leading-tight mb-2.5" style={{ fontSize: "clamp(13px,1.3vw,16px)" }}>
-                  {route.to}
+                  {route.name}
                 </p>
                 <div className="flex items-center justify-between">
                   <span className="flex items-center gap-1 text-white/75 text-[10px] font-medium">
-                    <IconClock /> {route.duration}
+                    <IconClock /> {localizeUnits(route.duration, locale)}
                   </span>
                   <span className="flex items-center gap-1 text-[9px] font-bold text-[#6ee7a8] bg-white/10 backdrop-blur-sm px-2 py-0.5 rounded-full border border-white/10">
                     <IconShield /> {tr.cardFixed}

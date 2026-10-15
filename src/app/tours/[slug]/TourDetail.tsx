@@ -3,8 +3,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
+
 import { getTour } from "@/data/tours";
 import { useBooking } from "@/components/BookingModal";
 import { useI18n } from "@/i18n/I18nProvider";
@@ -56,9 +55,7 @@ export default function TourDetail({ slug }: { slug: string }) {
   const bookTour = () => openBooking(`${dt.privateTour} : ${title} (${tour.days[loc]})`);
 
   return (
-    <>
-      <Navbar />
-      <main className="min-h-screen bg-[#fff8f0]">
+    <main className="min-h-screen bg-[#fff8f0]">
 
         {/* ── Hero ── */}
         <div className="relative h-[55vh] min-h-[380px] overflow-hidden" style={{ paddingTop: "78px" }}>
@@ -202,7 +199,5 @@ export default function TourDetail({ slug }: { slug: string }) {
         </div>
 
       </main>
-      <Footer />
-    </>
   );
 }

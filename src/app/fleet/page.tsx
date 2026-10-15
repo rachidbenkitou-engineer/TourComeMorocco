@@ -1,8 +1,7 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
+
 import { useBooking } from "@/components/BookingModal";
 import { useI18n } from "@/i18n/I18nProvider";
 
@@ -262,7 +261,6 @@ export default function FleetPage() {
 
   return (
     <>
-      <Navbar />
       <Lightbox state={lightbox} onClose={closeLightbox} onNav={navLightbox} onSetIdx={setLightboxIdx} expandLabel={pg.expandBtn} />
       <main className="min-h-screen bg-[#fff8f0]">
 
@@ -329,7 +327,6 @@ export default function FleetPage() {
         </div>
 
       </main>
-      <Footer />
     </>
   );
 }

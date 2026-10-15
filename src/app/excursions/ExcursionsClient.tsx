@@ -4,8 +4,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
+
 import { excursions } from "@/data/excursions";
 import { useBooking } from "@/components/BookingModal";
 import { useI18n } from "@/i18n/I18nProvider";
@@ -67,9 +66,7 @@ export default function ExcursionsClient() {
     : excursions.filter(e => getDurationCategory(e.duration) === filter);
 
   return (
-    <>
-      <Navbar />
-      <main className="min-h-screen bg-[#fff8f0]">
+    <main className="min-h-screen bg-[#fff8f0]">
 
         {/* ── Hero header ── */}
         <div className="bg-[#062f35]" style={{ paddingTop: "78px" }}>
@@ -218,7 +215,5 @@ export default function ExcursionsClient() {
         </div>
 
       </main>
-      <Footer />
-    </>
   );
 }

@@ -1,7 +1,7 @@
-export type Locale = "fr" | "en" | "ar";
-export const LOCALES: Locale[] = ["fr", "en", "ar"];
-export const LOCALE_NAMES: Record<Locale, string> = { fr: "Français", en: "English", ar: "العربية" };
-export const LOCALE_LABELS: Record<Locale, string> = { fr: "FR", en: "EN", ar: "AR" };
+export type Locale = "fr" | "en" | "ar" | "it";
+export const LOCALES: Locale[] = ["fr", "en", "it", "ar"];
+export const LOCALE_NAMES: Record<Locale, string> = { fr: "Français", en: "English", ar: "العربية", it: "Italiano" };
+export const LOCALE_LABELS: Record<Locale, string> = { fr: "FR", en: "EN", ar: "AR", it: "IT" };
 
 type Slide = { script: string; titleLine1: string; titleLine2: string; desc: string };
 type Point = { label: string; desc: string };
@@ -163,9 +163,9 @@ const FR: T = {
     viewAll: "Voir tout",
   },
   about: {
-    eyebrow: "POURQUOI CHOISIR TOUR COME MOROCCO ?",
+    eyebrow: "POURQUOI CHOISIR TRANSFER MAROC ?",
     title: "Une agence de voyage passionnée par l'exploration",
-    desc: "Chez Tour Come Morocco, nous transformons vos rêves en réalité. Que vous recherchiez une aventure dans le Sahara, une immersion dans la médina de Fès ou une escapade à Chefchaouen, nous vous offrons des voyages sur mesure avec un service d'exception.",
+    desc: "Chez Transfer Maroc, nous transformons vos rêves en réalité. Que vous recherchiez une aventure dans le Sahara, une immersion dans la médina de Fès ou une escapade à Chefchaouen, nous vous offrons des voyages sur mesure avec un service d'exception.",
     cta: "En savoir plus",
     caption: "Le Maroc\nvous attend...",
     points: [
@@ -180,11 +180,11 @@ const FR: T = {
     title: "Ils ont vécu une expérience inoubliable",
     reviews: [
       { name: "Sophie L.", text: "« Une agence au top ! Mon voyage au Maroc a été parfait, une organisation impeccable et une équipe très professionnelle. Je recommande vivement ! »" },
-      { name: "Karim B.",  text: "« Tour Come Morocco a transformé notre rêve en réalité. Un service exceptionnel et des souvenirs pour la vie. »" },
+      { name: "Karim B.",  text: "« Transfer Maroc a transformé notre rêve en réalité. Un service exceptionnel et des souvenirs pour la vie. »" },
       { name: "Nadia T.",  text: "« Une expérience magique ! Je remercie toute l'équipe pour leur professionnalisme et leur bienveillance. »" },
     ],
   },
-  cta: { title: "Prêt pour votre prochaine aventure ?", subtitle: "Partez à la découverte du Maroc avec Tour Come Morocco", button: "Réserver maintenant" },
+  cta: { title: "Prêt pour votre prochaine aventure ?", subtitle: "Partez à la découverte du Maroc avec Transfer Maroc", button: "Réserver maintenant" },
   booking: {
     label: "Réservation", fixedPrice: "Prix fixe :", submit: "Réserver", waNote: "Votre demande sera transmise via WhatsApp.",
     moreOptions: "Dépose, vol, extras & notes", hideOptions: "Masquer les options",
@@ -203,7 +203,7 @@ const FR: T = {
     tagline: "Votre partenaire de confiance pour explorer le Maroc avec style et confort.",
     popularTransfers: "Transferts Populaires", excursionsTitle: "Nos Excursions", toursTitle: "Tours Privés",
     helpTitle: "Informations", viewAll: "Voir tout →", instagram: "Instagram", whatsapp: "WhatsApp",
-    available: "Disponible 24h/24 · 7j/7", rights: "Tour Come Morocco. Tous droits réservés.",
+    available: "Disponible 24h/24 · 7j/7", rights: "Transfer Maroc. Tous droits réservés.",
     helpLinks: { fleet: "Notre Flotte", gallery: "Galerie Photos", contact: "Nous Contacter", bookNow: "Réserver" },
     transferLinks: ["Marrakech → Casablanca","Marrakech → Essaouira","Marrakech → Agadir","Marrakech → Ouarzazate","Marrakech → Aéroport RAK","Marrakech → Fès"],
     excursionLinks: ["Vallée de l'Ourika","Cascades d'Ouzoud","Désert d'Agafay","Imlil & Toubkal"],
@@ -332,9 +332,9 @@ const EN: T = {
     viewAll: "View all",
   },
   about: {
-    eyebrow: "WHY CHOOSE TOUR COME MOROCCO?",
+    eyebrow: "WHY CHOOSE TRANSFER MAROC?",
     title: "A travel agency passionate about exploration",
-    desc: "At Tour Come Morocco, we turn your dreams into reality. Whether you're seeking a Sahara adventure, an immersion in the Fès medina or an escape to Chefchaouen, we offer tailor-made journeys with exceptional service.",
+    desc: "At Transfer Maroc, we turn your dreams into reality. Whether you're seeking a Sahara adventure, an immersion in the Fès medina or an escape to Chefchaouen, we offer tailor-made journeys with exceptional service.",
     cta: "Learn more",
     caption: "Morocco\nawaits you...",
     points: [
@@ -349,11 +349,11 @@ const EN: T = {
     title: "They lived an unforgettable experience",
     reviews: [
       { name: "Sophie L.", text: "« A top agency! My trip to Morocco was perfect — impeccable organisation and a very professional team. Highly recommended! »" },
-      { name: "Karim B.",  text: "« Tour Come Morocco turned our dream into reality. Exceptional service and memories for life. »" },
+      { name: "Karim B.",  text: "« Transfer Maroc turned our dream into reality. Exceptional service and memories for life. »" },
       { name: "Nadia T.",  text: "« A magical experience! I thank the whole team for their professionalism and kindness. »" },
     ],
   },
-  cta: { title: "Ready for your next adventure?", subtitle: "Discover Morocco with Tour Come Morocco", button: "Book now" },
+  cta: { title: "Ready for your next adventure?", subtitle: "Discover Morocco with Transfer Maroc", button: "Book now" },
   booking: {
     label: "Booking", fixedPrice: "Fixed price:", submit: "Book", waNote: "Your request will be sent via WhatsApp.",
     moreOptions: "Drop-off, flight, extras & notes", hideOptions: "Hide options",
@@ -372,7 +372,7 @@ const EN: T = {
     tagline: "Your trusted partner for exploring Morocco in style and comfort.",
     popularTransfers: "Popular Transfers", excursionsTitle: "Our Excursions", toursTitle: "Private Tours",
     helpTitle: "Information", viewAll: "View All →", instagram: "Instagram", whatsapp: "WhatsApp",
-    available: "Available 24/7", rights: "Tour Come Morocco. All rights reserved.",
+    available: "Available 24/7", rights: "Transfer Maroc. All rights reserved.",
     helpLinks: { fleet: "Our Fleet", gallery: "Photo Gallery", contact: "Contact Us", bookNow: "Book Now" },
     transferLinks: ["Marrakech → Casablanca","Marrakech → Essaouira","Marrakech → Agadir","Marrakech → Ouarzazate","Marrakech Airport Transfer","Marrakech → Fes"],
     excursionLinks: ["Ourika Valley","Ouzoud Waterfalls","Agafay Desert","Imlil & Toubkal"],
@@ -503,7 +503,7 @@ const AR: T = {
   about: {
     eyebrow: "لماذا تختار تور كم موروكو؟",
     title: "وكالة سفر شغوفة بالاستكشاف",
-    desc: "في Tour Come Morocco، نحول أحلامك إلى واقع. سواء كنت تبحث عن مغامرة في الصحراء، أو غمر في مدينة فاس العتيقة، أو هروب إلى شفشاون، نقدم لك رحلات مصممة خصيصاً مع خدمة استثنائية.",
+    desc: "في Transfer Maroc، نحول أحلامك إلى واقع. سواء كنت تبحث عن مغامرة في الصحراء، أو غمر في مدينة فاس العتيقة، أو هروب إلى شفشاون، نقدم لك رحلات مصممة خصيصاً مع خدمة استثنائية.",
     cta: "اعرف المزيد",
     caption: "المغرب\nينتظرك...",
     points: [
@@ -518,11 +518,11 @@ const AR: T = {
     title: "عاشوا تجربة لا تُنسى",
     reviews: [
       { name: "سوفي ل.", text: "« وكالة رائعة! كانت رحلتي إلى المغرب مثالية، تنظيم لا تشوبه شائبة وفريق محترف جداً. أوصي بها بشدة! »" },
-      { name: "كريم ب.", text: "« حوّل Tour Come Morocco حلمنا إلى واقع. خدمة استثنائية وذكريات للحياة. »" },
+      { name: "كريم ب.", text: "« حوّل Transfer Maroc حلمنا إلى واقع. خدمة استثنائية وذكريات للحياة. »" },
       { name: "نادية ت.", text: "« تجربة ساحرة! أشكر الفريق كله على احترافيتهم وطيبتهم. »" },
     ],
   },
-  cta: { title: "مستعد لمغامرتك القادمة؟", subtitle: "اكتشف المغرب مع Tour Come Morocco", button: "احجز الآن" },
+  cta: { title: "مستعد لمغامرتك القادمة؟", subtitle: "اكتشف المغرب مع Transfer Maroc", button: "احجز الآن" },
   booking: {
     label: "حجز", fixedPrice: "السعر الثابت:", submit: "احجز", waNote: "سيتم إرسال طلبك عبر واتساب.",
     moreOptions: "المغادرة، الرحلة، الإضافات والملاحظات", hideOptions: "إخفاء الخيارات",
@@ -625,4 +625,173 @@ const AR: T = {
   },
 };
 
-export const TRANSLATIONS: Record<Locale, T> = { fr: FR, en: EN, ar: AR };
+/* ─── ITALIANO ───────────────────────────────────── */
+const IT: T = {
+  dir: "ltr",
+  nav: {
+    transfers: "Trasferimenti", tours: "Tour", excursions: "Escursioni", fleet: "Flotta",
+    gallery: "Galleria", contact: "Contatti", bookNow: "Prenota ora", whatsapp: "WhatsApp", language: "Lingua",
+  },
+  hero: {
+    slides: [
+      { script: "Kasbah & Montagne", titleLine1: "Tra kasbah e", titleLine2: "orizzonti dorati",
+        desc: "Scopri i villaggi berberi e le antiche kasbah nel cuore delle montagne marocchine." },
+      { script: "Deserto del Sahara", titleLine1: "La vastità dorata", titleLine2: "del Grand Erg",
+        desc: "Vivi l'avventura suprema tra dune a perdita d'occhio e tramonti indimenticabili sull'Erg Chebbi." },
+      { script: "Medine e Riad", titleLine1: "L'anima del Marocco", titleLine2: "autentico",
+        desc: "Perdersi nei vicoli colorati delle medine, tra spezie incantevoli, riad fioriti e artigianato d'eccezione." },
+    ],
+    cta1: "Esplora i nostri viaggi", cta2: "Prenota ora",
+  },
+  searchBar: {
+    tabs: {
+      circuit:   { label: "Circuito",     sub: "Di città in città" },
+      transfert: { label: "Trasferimento", sub: "Un viaggio, semplicemente" },
+      excursion: { label: "Escursione",    sub: "Una giornata di evasione" },
+    },
+    placeholders: { allDurations: "Tutte le durate", departure: "Città di partenza", destination: "Destinazione", allCities: "Tutte le città" },
+    buttons: { circuit: "Vedi i circuiti", transfert: "Vedi i prezzi", excursion: "Vedi le escursioni" },
+  },
+  stats: { transferRoutes: "Rotte di trasferimento", privateTours: "Tour privati", excursions: "Escursioni", destinations: "Destinazioni" },
+  transfers: {
+    script: "Da Marrakech", title: "Trasferimenti Popolari", subtitle: "Prezzi fissi tutto incluso da Marrakech — nessun tassametro, nessuna sorpresa.",
+    cardFrom: "Da", cardOrigin: "Marrakech →", cardFixed: "Prezzo fisso", seeAll: "Vedi tutti i trasferimenti",
+  },
+  tours: {
+    script: "Tour Privati", title: "I Nostri Migliori Tour", subtitle: "Circuiti con autista privato giornalieri o multi-giorno — prezzi fissi, senza sorprese.",
+    cardLabel: "Tour Privato", cardView: "Vedi il tour", seeAll: "Vedi tutti i tour",
+  },
+  excursions: {
+    script: "Da Marrakech", title: "Escursioni Private", subtitle: "Cascate, deserto, montagna e costa atlantica — con il tuo autista privato, vai al tuo ritmo.",
+    cardLabel: "Escursione Privata", cardView: "Vedi", seeAll: "Vedi tutte le escursioni",
+  },
+  destinations: {
+    script: "Da Marrakech", title: "Le Nostre Destinazioni", subtitle: "Esplora luoghi straordinari nel cuore del Marocco — da Marrakech, al tuo ritmo.",
+    viewAll: "Vedi tutto",
+  },
+  about: {
+    eyebrow: "PERCHÉ SCEGLIERE TRANSFER MAROC?",
+    title: "Un'agenzia di viaggi appassionata dell'esplorazione",
+    desc: "Da Transfer Maroc trasformiamo i tuoi sogni in realtà. Che tu cerchi un'avventura nel Sahara, un'immersione nella medina di Fès o una fuga a Chefchaouen, offriamo viaggi su misura con un servizio eccezionale.",
+    cta: "Scopri di più",
+    caption: "Il Marocco\nti aspetta...",
+    points: [
+      { label: "Competenza ed esperienza", desc: "Oltre 10 anni nel settore viaggi" },
+      { label: "Offerte su misura",         desc: "Viaggi adattati ai tuoi desideri" },
+      { label: "Supporto dedicato",         desc: "Un team sempre a tua disposizione" },
+      { label: "Pagamento sicuro",          desc: "Viaggia in tutta tranquillità" },
+    ],
+  },
+  testimonials: {
+    eyebrow: "TESTIMONIANZE",
+    title: "Hanno vissuto un'esperienza indimenticabile",
+    reviews: [
+      { name: "Sophie L.", text: "« Un'agenzia eccellente! Il mio viaggio in Marocco è stato perfetto, organizzazione impeccabile e un team molto professionale. Consiglio vivamente! »" },
+      { name: "Karim B.",  text: "« Transfer Maroc ha trasformato il nostro sogno in realtà. Servizio eccezionale e ricordi per tutta la vita. »" },
+      { name: "Nadia T.",  text: "« Un'esperienza magica! Ringrazio tutto il team per la loro professionalità e gentilezza. »" },
+    ],
+  },
+  cta: { title: "Pronto per la tua prossima avventura?", subtitle: "Scopri il Marocco con Transfer Maroc", button: "Prenota ora" },
+  booking: {
+    label: "Prenotazione", fixedPrice: "Prezzo fisso:", submit: "Prenota", waNote: "La tua richiesta sarà inviata via WhatsApp.",
+    moreOptions: "Destinazione, volo, extra e note", hideOptions: "Nascondi le opzioni",
+    fields: {
+      name: "Nome completo *", date: "Data *", time: "Ora *", passengers: "Passeggeri", vehicle: "Veicolo",
+      pickup: "Luogo di ritiro", dropoff: "Luogo di consegna", flight: "N° volo", extras: "Extra", notes: "Note",
+    },
+    placeholders: {
+      name: "Il tuo nome e cognome", pickup: "Hotel, riad, indirizzo...", dropoff: "Destinazione, hotel, indirizzo...",
+      flight: "Es: AT 622", notes: "Richieste speciali, bagagli ingombranti...", vehicleChoice: "A scelta",
+    },
+    extras: { sim: "SIM locale", simHint: "Internet Marocco", child: "Seggiolino bambino", childHint: "3 – 12 anni", baby: "Seggiolino neonato", babyHint: "0 – 3 anni" },
+    errors: { name: "Inserisci il tuo nome completo.", date: "Scegli una data.", time: "Indica l'orario desiderato." },
+  },
+  footer: {
+    tagline: "Il tuo partner di fiducia per esplorare il Marocco con stile e comfort.",
+    popularTransfers: "Trasferimenti Popolari", excursionsTitle: "Le Nostre Escursioni", toursTitle: "Tour Privati",
+    helpTitle: "Informazioni", viewAll: "Vedi tutto →", instagram: "Instagram", whatsapp: "WhatsApp",
+    available: "Disponibile 24h/24 · 7g/7", rights: "Transfer Maroc. Tutti i diritti riservati.",
+    helpLinks: { fleet: "La Nostra Flotta", gallery: "Galleria Foto", contact: "Contattaci", bookNow: "Prenota" },
+    transferLinks: ["Marrakech → Casablanca","Marrakech → Essaouira","Marrakech → Agadir","Marrakech → Ouarzazate","Marrakech → Aeroporto RAK","Marrakech → Fès"],
+    excursionLinks: ["Valle dell'Ourika","Cascate di Ouzoud","Deserto di Agafay","Imlil & Toubkal"],
+    tourLinks: ["Marrakech → Essaouira","Escursione a Chefchaouen","Fès e Chefchaouen","Circuito Sahara 9 giorni"],
+  },
+  pages: {
+    transfers: {
+      heroTitle: "Trasferimenti Privati",
+      heroSubtitle: "Autista privato dedicato, prezzo fisso tutto incluso. Nessuna sorpresa all'arrivo.",
+      guarantees: ["Prezzo fisso tutto incluso", "Autista privato", "Stesso prezzo al ritorno", "Disponibile 24h/24"],
+      cardFrom: "Partenza", cardArrival: "Arrivo", cardPrice: "Prezzo andata", bookBtn: "Prenota",
+      ctaScript: "La tua destinazione non è in elenco?",
+      ctaSubtitle: "Contattaci per organizzare il tuo trasferimento su misura da Marrakech.",
+      ctaBtn: "Contattaci",
+      categories: { all: "Tutti", airport: "Aeroporti", city: "Città", coast: "Costa & Sud", desert: "Deserto & Natura" },
+      detail: {
+        privateTransfer: "Trasferimento Privato",
+        bookTransfer: "Prenota questo trasferimento",
+        backToTransfers: "← Torna ai trasferimenti",
+        labelDuration: "Durata", labelDistance: "Distanza", labelFrom: "Partenza", labelTo: "Arrivo", labelPrice: "Prezzo fisso",
+        included: ["Autista privato dedicato", "Aria condizionata & Wi-Fi", "Ritiro all'indirizzo", "Prezzo tutto incluso"],
+        notIncluded: ["Mancia autista (facoltativa)"],
+        related: "Altri trasferimenti da Marrakech",
+        ctaTitle: "Pronto a partire?",
+        ctaDesc: "Prezzo fisso tutto incluso, senza tassametro né sorprese.",
+        quoteDesc: "Conferma la prenotazione via WhatsApp — risposta entro un'ora.",
+      },
+    },
+    tours: {
+      heroTitle: "Tour Privati da Marrakech",
+      heroSubtitle: "Tour privati con autista attraverso il Marocco — escursioni giornaliere, multi-giorno e molto altro.",
+      filter: { all: "Tutti", court: "1 – 3 giorni", moyen: "4 – 7 giorni", long: "8 giorni e +" },
+      ctaScript: "Su misura",
+      ctaSubtitle: "Non trovi quello che cerchi? Ogni tour può essere personalizzato — contattaci per un itinerario su misura.",
+      ctaBtn: "Prenota un tour",
+      detail: {
+        privateTour: "Tour Privato", getQuote: "Richiedi un preventivo",
+        quoteDesc: "Ogni tour è quotato in base alle tue date e alla dimensione del gruppo. Invia una richiesta e ti risponderemo con un preventivo fisso entro un'ora.",
+        bookTour: "Prenota questo tour", backToTours: "← Torna a tutti i tour",
+        itinerary: "Programma", highlights: "Punti salienti del tour",
+        gallery: "Galleria", faq: "Domande frequenti",
+        ctaTitle: "Pronto ad esplorare?", ctaDesc: "Contattaci ora per un preventivo personalizzato per questo tour.",
+      },
+    },
+    excursions: {
+      heroTitle: "Escursioni Private",
+      heroSubtitle: "Escursioni su misura da Marrakech — cascate, deserto, montagna, costa atlantica. Autista privato dedicato, parti al tuo ritmo.",
+      guarantees: ["Autista privato", "Prezzo fisso tutto incluso", "Partenza all'ora scelta", "Disponibile 24h/24"],
+      filter: { all: "Tutte", journee: "Giornata intera", demijournee: "Mezza giornata" },
+      ctaScript: "Su misura",
+      ctaSubtitle: "Cerchi un'escursione personalizzata? Contattaci e organizzeremo la tua giornata ideale da Marrakech.",
+      ctaBtn: "Prenota un'escursione",
+      detail: {
+        privateExcursion: "Escursione Privata", getQuote: "Richiedi un preventivo",
+        quoteDesc: "Ogni escursione è quotata in base alla dimensione del gruppo. Invia una richiesta e ti risponderemo con un preventivo fisso entro un'ora.",
+        bookExcursion: "Prenota questa escursione", backToExcursions: "← Torna a tutte le escursioni",
+        itinerary: "Programma della giornata", highlights: "Punti salienti",
+        faq: "Domande frequenti",
+        ctaTitle: "Pronto per l'avventura?", ctaDesc: "Contattaci per un preventivo personalizzato per questa escursione.",
+      },
+    },
+    gallery: {
+      heroScript: "I nostri momenti condivisi",
+      heroTitle: "Galleria Fotografica",
+      heroSubtitle: "Destinazioni attraversate, clienti incontrati, strade percorse — ogni foto racconta una storia vera.",
+      statsPhotos: "Foto", statsGuests: "Clienti", statsDest: "Destinazioni",
+      ctaScript: "Il tuo viaggio, i tuoi ricordi",
+      ctaSubtitle: "Unisciti ai nostri clienti e crea i tuoi momenti indimenticabili in Marocco.",
+      ctaBtn: "Prenota ora",
+    },
+    fleet: {
+      heroScript: "I nostri veicoli",
+      heroTitle: "La Nostra Flotta Privata",
+      heroSubtitle: "Veicoli recenti, climatizzati e perfettamente mantenuti. Ogni viaggio è gestito da un autista professionista certificato.",
+      guarantees: ["Veicoli recenti", "Autisti certificati", "A/C & Wi-Fi", "Assicurazione inclusa"],
+      plateLabel: "Targa", expandBtn: "Ingrandisci", bookVehicle: "Prenota questo veicolo",
+      ctaScript: "Pronto a partire?",
+      ctaSubtitle: "Tutti i nostri veicoli sono disponibili con autista privato dedicato — contattaci per un preventivo.",
+      ctaBtn: "Richiedi un preventivo",
+    },
+  },
+};
+
+export const TRANSLATIONS: Record<Locale, T> = { fr: FR, en: EN, ar: AR, it: IT };

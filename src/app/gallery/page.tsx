@@ -1,8 +1,7 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
+
 import { useI18n } from "@/i18n/I18nProvider";
 import { cn } from "@/lib/utils";
 import { galleryImages, GALLERY_CATEGORIES, type GalleryCategory, type GalleryImage } from "@/data/gallery";
@@ -84,7 +83,6 @@ export default function GalleryPage() {
 
   return (
     <>
-      <Navbar />
       {lightboxIndex !== null && (
         <Lightbox image={filtered[lightboxIndex]} index={lightboxIndex} total={filtered.length}
           onClose={closeLightbox} onPrev={prevImage} onNext={nextImage} />
@@ -198,7 +196,6 @@ export default function GalleryPage() {
         </div>
 
       </main>
-      <Footer />
     </>
   );
 }

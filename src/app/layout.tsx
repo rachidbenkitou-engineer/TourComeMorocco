@@ -6,6 +6,9 @@ import { ScrollReset } from "@/components/ScrollReset";
 import { BookingProvider } from "@/components/BookingModal";
 import { I18nProvider } from "@/i18n/I18nProvider";
 import { PageTransition } from "@/components/PageTransition";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
+import { WhatsAppFloat } from "@/components/WhatsAppFloat";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
@@ -27,7 +30,7 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
-  title: "Tour Come Morocco — Explorez, Voyagez, Découvrez",
+  title: "Transfer Maroc — Explorez, Voyagez, Découvrez",
   description:
     "Des expériences uniques, des destinations de rêve et un accompagnement sur mesure pour découvrir le Maroc de façon inoubliable.",
 };
@@ -39,9 +42,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ScrollReset />
         <I18nProvider>
           <BookingProvider>
+            <Navbar />
             <PageTransition>
               {children}
             </PageTransition>
+            <Footer />
+            <WhatsAppFloat />
           </BookingProvider>
         </I18nProvider>
 

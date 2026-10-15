@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useI18n } from "@/i18n/I18nProvider";
 
 export function CTABanner() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const ct = t.cta;
 
   return (
@@ -31,7 +31,7 @@ export function CTABanner() {
         href="#contact"
         className="flex-shrink-0 inline-flex items-center gap-4 bg-gold text-[#182c2c] text-[11px] font-bold px-5 py-3 rounded-[30px] hover:-translate-y-[2px] hover:shadow-[0_7px_20px_rgba(0,0,0,.2)] transition-all duration-200 whitespace-nowrap"
       >
-        {ct.button} <span className="text-[18px] leading-[10px]">→</span>
+        {ct.button} <span className="text-[18px] leading-[10px]">{locale === "ar" ? "←" : "→"}</span>
       </Link>
     </section>
   );
