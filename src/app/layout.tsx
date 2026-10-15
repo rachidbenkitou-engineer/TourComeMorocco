@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { ScrollReset } from "@/components/ScrollReset";
 import { BookingProvider } from "@/components/BookingModal";
 import { I18nProvider } from "@/i18n/I18nProvider";
+import { PageTransition } from "@/components/PageTransition";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
@@ -38,7 +39,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ScrollReset />
         <I18nProvider>
           <BookingProvider>
-            {children}
+            <PageTransition>
+              {children}
+            </PageTransition>
           </BookingProvider>
         </I18nProvider>
 

@@ -399,7 +399,7 @@ export function SearchBar() {
               type="button"
               onClick={() => { setMode(id); reset(); }}
               className={cn(
-                "relative flex items-center justify-center gap-2.5 min-h-[54px] px-3 py-2.5 rounded-xl border",
+                "relative flex items-center justify-center gap-1.5 sm:gap-2.5 min-h-[54px] px-2 sm:px-3 py-2.5 rounded-xl border",
                 "text-left cursor-pointer transition-all duration-200",
                 active
                   ? "bg-white text-[#07383b] border-[#e0dbd0] shadow-[0_6px_20px_rgba(0,0,0,.22),0_1px_0_rgba(255,255,255,.8)_inset]"
@@ -407,16 +407,16 @@ export function SearchBar() {
               )}
             >
               <span className={cn(
-                "flex-shrink-0 w-[32px] h-[32px] rounded-[10px] grid place-items-center transition-all duration-200",
+                "flex-shrink-0 w-[22px] h-[22px] sm:w-[32px] sm:h-[32px] rounded-[7px] sm:rounded-[10px] grid place-items-center transition-all duration-200",
                 active ? "bg-[#fff0cb] text-[#b87a06] shadow-[0_2px_6px_rgba(184,122,6,.25)]" : "bg-white/12 text-current",
               )}>
                 <Icon />
               </span>
               <span className="flex flex-col gap-[3px] min-w-0">
-                <strong className={cn("text-[11.5px] font-bold leading-none", active ? "text-[#062f35]" : "")}>
+                <strong className={cn("text-[10px] sm:text-[11.5px] font-bold leading-none", active ? "text-[#062f35]" : "")}>
                   {label}
                 </strong>
-                <small className={cn("text-[9.5px] leading-none font-medium", active ? "text-[#7a9ea0]" : "opacity-50")}>
+                <small className={cn("hidden sm:block text-[9.5px] leading-none font-medium", active ? "text-[#7a9ea0]" : "opacity-50")}>
                   {sub}
                 </small>
               </span>
