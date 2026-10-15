@@ -475,7 +475,10 @@ function BookingModal({ service, price: _price, onClose }: { service: string; pr
   };
 
   const loc = locale as "fr" | "en" | "ar";
-  const transferCities   = transfers.map(t => t.to[loc]).sort((a, b) => a.localeCompare(b, loc));
+  const transferCities   = transfers
+    .map(t => (t.to as Record<string, string | undefined>)[locale] ?? t.to.en)
+    .filter((v): v is string => Boolean(v))
+    .sort((a, b) => a.localeCompare(b, locale));
   const tourDurations    = TOUR_DURATIONS[locale]       ?? TOUR_DURATIONS.fr;
   const excurDurations   = EXCURSION_DURATIONS[locale]  ?? EXCURSION_DURATIONS.fr;
 

@@ -386,7 +386,10 @@ export function SearchBar() {
   const router = useRouter();
 
   const loc = locale as "fr" | "en" | "ar";
-  const transferCities = transfers.map(t => t.to[loc]).sort((a, b) => a.localeCompare(b, loc));
+  const transferCities = transfers
+    .map(t => (t.to as Record<string, string | undefined>)[locale] ?? t.to.en)
+    .filter((v): v is string => Boolean(v))
+    .sort((a, b) => a.localeCompare(b, locale));
 
   const [mode,    setMode]   = useState<Mode>("transfert");
   const mktName = locale === "ar" ? "مراكش" : "Marrakech";

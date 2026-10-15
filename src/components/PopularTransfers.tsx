@@ -83,7 +83,7 @@ export function PopularTransfers() {
         {/* Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           {routes.map(route => (
-            <Link key={route.slug} href="/transfers"
+            <Link key={route.slug} href={`/transfers/${route.slug}`}
               className="group relative h-[160px] sm:h-[190px] md:h-[210px] overflow-hidden rounded-2xl cursor-pointer shadow-[0_4px_20px_rgba(6,47,53,.12)] hover:shadow-[0_12px_36px_rgba(6,47,53,.22)] transition-all duration-300 hover:-translate-y-1"
             >
               <Image src={route.img} alt={route.name} fill

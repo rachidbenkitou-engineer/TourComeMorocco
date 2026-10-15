@@ -90,7 +90,7 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-[99999] transition-all duration-500 ${
         scrolled ? "bg-[#062f35] shadow-[0_2px_20px_rgba(0,0,0,.35)]" : ""
       }`}
       style={!scrolled ? {
