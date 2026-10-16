@@ -1,33 +1,69 @@
 "use client";
+import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "motion/react";
+import { motion, useInView, type TargetAndTransition } from "motion/react";
 import { Award, Home, HeadphonesIcon, CreditCard } from "lucide-react";
 import { useI18n } from "@/i18n/I18nProvider";
 import { Reveal } from "@/components/Reveal";
 
 const POINT_ICONS = [Award, Home, HeadphonesIcon, CreditCard];
 const SPRING = { type: "spring" as const, stiffness: 260, damping: 24 };
+const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
+
+function InViewMotion({
+  children, initial, visible, delay = 0, duration = 0.75,
+  whileHover, className, style,
+}: {
+  children: React.ReactNode;
+  initial: TargetAndTransition;
+  visible: TargetAndTransition;
+  delay?: number;
+  duration?: number;
+  whileHover?: TargetAndTransition;
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-20px 0px" });
+  return (
+    <motion.div
+      ref={ref}
+      initial={initial}
+      animate={inView ? visible : initial}
+      whileHover={whileHover}
+      transition={{ duration, delay, ease: EASE }}
+      className={className}
+      style={style}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 export function About() {
   const { t, locale } = useI18n();
   const ab = t.about;
   const captionLines = ab.caption.split("\n");
 
+  const captionRef = useRef<HTMLParagraphElement>(null);
+  const captionInView = useInView(captionRef, { once: true, margin: "-20px 0px" });
+  const airplaneRef  = useRef<HTMLSpanElement>(null);
+  const airplaneInView = useInView(airplaneRef, { once: true, margin: "-20px 0px" });
+
   return (
     <section
       id="about"
       className="max-w-[1280px] mx-auto px-[4.2%] grid grid-cols-1 md:grid-cols-[1.15fr_1.1fr_.72fr] gap-7 items-center py-2 pb-7 min-h-[290px]"
     >
-      {/* ── Polaroid collage — each photo animates individually ── */}
+      {/* ── Polaroid collage ── */}
       <div className="relative h-[245px] min-w-0">
 
-        <motion.div
+        <InViewMotion
           initial={{ opacity: 0, rotate: -18, scale: 0.82, y: 24 }}
-          whileInView={{ opacity: 1, rotate: -8, scale: 1, y: 0 }}
-          whileHover={{ scale: 1.1, rotate: -4, zIndex: 20 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+          visible={{ opacity: 1, rotate: -8, scale: 1, y: 0 }}
+          whileHover={{ scale: 1.1, rotate: -4, zIndex: 20 } as TargetAndTransition}
+          delay={0}
           className="absolute w-[34%] h-[57%] left-[2%] top-[18%] bg-white p-[7px] pb-5 shadow-[0_5px_12px_rgba(73,53,31,.17)] cursor-pointer"
           style={{ zIndex: 1 }}
         >
@@ -37,14 +73,13 @@ export function About() {
               alt="Montgolfière au Maroc" fill className="object-cover"
             />
           </div>
-        </motion.div>
+        </InViewMotion>
 
-        <motion.div
+        <InViewMotion
           initial={{ opacity: 0, rotate: 18, scale: 0.82, y: 24 }}
-          whileInView={{ opacity: 1, rotate: 8, scale: 1, y: 0 }}
-          whileHover={{ scale: 1.1, rotate: 4, zIndex: 20 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.75, delay: 0.14, ease: [0.16, 1, 0.3, 1] }}
+          visible={{ opacity: 1, rotate: 8, scale: 1, y: 0 }}
+          whileHover={{ scale: 1.1, rotate: 4, zIndex: 20 } as TargetAndTransition}
+          delay={0.14}
           className="absolute w-[37%] h-[66%] left-[36%] top-[30%] bg-white p-[7px] pb-5 shadow-[0_5px_12px_rgba(73,53,31,.17)] cursor-pointer"
           style={{ zIndex: 2 }}
         >
@@ -54,14 +89,13 @@ export function About() {
               alt="Médina marocaine" fill className="object-cover"
             />
           </div>
-        </motion.div>
+        </InViewMotion>
 
-        <motion.div
+        <InViewMotion
           initial={{ opacity: 0, rotate: -22, scale: 0.82, y: 24 }}
-          whileInView={{ opacity: 1, rotate: -13, scale: 1, y: 0 }}
-          whileHover={{ scale: 1.1, rotate: -7, zIndex: 20 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.75, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
+          visible={{ opacity: 1, rotate: -13, scale: 1, y: 0 }}
+          whileHover={{ scale: 1.1, rotate: -7, zIndex: 20 } as TargetAndTransition}
+          delay={0.28}
           className="absolute w-[36%] h-[59%] left-[62%] top-[38%] bg-white p-[7px] pb-5 shadow-[0_5px_12px_rgba(73,53,31,.17)] cursor-pointer"
           style={{ zIndex: 3 }}
         >
@@ -71,30 +105,30 @@ export function About() {
               alt="Plage marocaine" fill className="object-cover"
             />
           </div>
-        </motion.div>
+        </InViewMotion>
 
         <motion.span
+          ref={airplaneRef}
           initial={{ opacity: 0, x: 12, rotate: -15 }}
-          whileInView={{ opacity: 1, x: 0, rotate: -20 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          animate={airplaneInView ? { opacity: 1, x: 0, rotate: -20 } : { opacity: 0, x: 12, rotate: -15 }}
+          transition={{ duration: 0.6, delay: 0.4, ease: EASE }}
           className="absolute top-[1%] right-[2%] text-[22px] text-navy"
         >
           〰 · · · · ✈
         </motion.span>
 
         <motion.p
+          ref={captionRef}
           initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.5 }}
+          animate={captionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+          transition={{ duration: 0.6, delay: 0.5, ease: EASE }}
           className="absolute bottom-0 left-[24%] font-script text-[27px]/[1] -rotate-[8deg] text-[#152d2d] m-0"
         >
           {captionLines[0]}<br />{captionLines[1]}
         </motion.p>
       </div>
 
-      {/* ── Copy — line by line ── */}
+      {/* ── Copy ── */}
       <div className="about-copy flex flex-col gap-1">
         <Reveal delay={0.05}>
           <p className="text-[#a77928] font-bold text-[11px] tracking-[0.4px] m-0 mb-2.5">
@@ -123,7 +157,7 @@ export function About() {
         </Reveal>
       </div>
 
-      {/* ── Points — slide from right with stagger ── */}
+      {/* ── Points ── */}
       <div className="flex flex-col gap-4">
         {ab.points.map((point, i) => {
           const Icon = POINT_ICONS[i];

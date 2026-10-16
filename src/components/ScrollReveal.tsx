@@ -1,6 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
-import { motion, type TargetAndTransition } from "motion/react";
+import { useRef } from "react";
+import { motion, useInView, type TargetAndTransition } from "motion/react";
 import { ReactNode } from "react";
 
 type From = "up" | "left" | "right" | "scale";
@@ -30,18 +30,14 @@ export function ScrollReveal({
   from?: From;
   className?: string;
 }) {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-20px 0px" });
 
   return (
     <motion.div
-      key={mounted ? "c" : "s"}
+      ref={ref}
       initial={HIDDEN[from]}
-      whileInView={VISIBLE[from]}
-      viewport={{ once: true, margin: "-80px 0px" }}
+      animate={inView ? VISIBLE[from] : HIDDEN[from]}
       transition={{ duration: 0.75, delay, ease: [0.22, 1, 0.36, 1] }}
       className={className}
     >

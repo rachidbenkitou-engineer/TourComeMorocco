@@ -1,6 +1,7 @@
 "use client";
+import { useRef } from "react";
 import Link from "next/link";
-import { motion } from "motion/react";
+import { motion, useInView } from "motion/react";
 import { useI18n } from "@/i18n/I18nProvider";
 import { Reveal } from "@/components/Reveal";
 
@@ -9,6 +10,9 @@ const SPRING = { type: "spring" as const, stiffness: 280, damping: 22 };
 export function CTABanner() {
   const { t, locale } = useI18n();
   const ct = t.cta;
+
+  const airplaneRef = useRef<HTMLSpanElement>(null);
+  const airplaneInView = useInView(airplaneRef, { once: true, margin: "-20px 0px" });
 
   return (
     <section
@@ -21,9 +25,11 @@ export function CTABanner() {
       }}
     >
       <motion.span
+        ref={airplaneRef}
         initial={{ opacity: 0, rotate: -35, scale: 0.5 }}
-        whileInView={{ opacity: 1, rotate: -25, scale: 1 }}
-        viewport={{ once: true }}
+        animate={airplaneInView
+          ? { opacity: 1, rotate: -25, scale: 1 }
+          : { opacity: 0, rotate: -35, scale: 0.5 }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         className="absolute left-[16%] top-3 text-[29px] text-gold"
       >

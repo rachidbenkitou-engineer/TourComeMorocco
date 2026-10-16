@@ -89,8 +89,7 @@ export function Tours() {
                     <div className="absolute inset-0 bg-gradient-to-t from-[#031e22]/80 via-[#031e22]/20 to-transparent" />
                     <motion.span
                       initial={{ opacity: 0, x: -12 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
+                      animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: i * 0.09 + 0.3, duration: 0.5 }}
                       className="absolute top-3 left-3 flex items-center gap-1.5 bg-[#062f35]/85 backdrop-blur-sm text-[#f5b63f] text-[10px] font-bold px-2.5 py-1 rounded-full"
                     >

@@ -22,14 +22,16 @@ export function Testimonials() {
       <Reveal from="scale">
         <div className="flex items-center justify-center gap-2.5 text-[#a77a2c] text-[11px] font-bold tracking-[0.4px] mb-2">
           <motion.span
-            initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="h-px w-20 bg-[#c99b3c] origin-right block"
           />
           {tm.eyebrow}
           <motion.span
-            initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="h-px w-20 bg-[#c99b3c] origin-left block"
           />
         </div>
@@ -68,8 +70,7 @@ export function Testimonials() {
                 <b className="text-[10px] text-ink">{r.name}</b>
                 <motion.span
                   initial={{ opacity: 0, x: -8 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
+                  animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.1 + 0.35, duration: 0.4 }}
                   className="text-[#efa51e] text-[13px] tracking-[1px] ml-1.5 inline-block"
                 >

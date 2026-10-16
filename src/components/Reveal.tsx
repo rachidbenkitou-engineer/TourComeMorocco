@@ -1,6 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
-import { motion, type TargetAndTransition } from "motion/react";
+import { useRef } from "react";
+import { motion, useInView, type TargetAndTransition } from "motion/react";
 
 type From = "up" | "left" | "right" | "scale";
 
@@ -29,18 +29,14 @@ export function Reveal({
   className?: string;
   from?: From;
 }) {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-20px 0px" });
 
   return (
     <motion.div
-      key={mounted ? "c" : "s"}
+      ref={ref}
       initial={HIDDEN[from]}
-      whileInView={VISIBLE[from]}
-      viewport={{ once: true, margin: "-60px 0px" }}
+      animate={inView ? VISIBLE[from] : HIDDEN[from]}
       transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
       className={className}
     >

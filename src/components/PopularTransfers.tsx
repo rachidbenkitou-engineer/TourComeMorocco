@@ -109,8 +109,7 @@ export function PopularTransfers() {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#031e22]/90 via-[#031e22]/25 to-transparent" />
                   <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
+                    animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: i * 0.07 + 0.25, duration: 0.4 }}
                     className="absolute top-3 right-3 bg-[#f5b63f] text-[#1c2e2e] text-[10.5px] font-bold px-2.5 py-1 rounded-full shadow-md"
                   >
