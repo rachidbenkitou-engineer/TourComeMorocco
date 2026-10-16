@@ -15,6 +15,97 @@ function WhatsAppIcon({ size = 15 }: { size?: number }) {
   );
 }
 
+function MobileLangPicker({ locale, setLocale, closeMenu, t }: {
+  locale: Locale;
+  setLocale: (l: Locale) => void;
+  closeMenu: () => void;
+  t: ReturnType<typeof useI18n>["t"];
+}) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="border-t border-white/10 mt-2 pt-3 px-3 pb-2">
+      {/* Trigger */}
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="w-full flex items-center justify-between gap-2 bg-[#062f35] border border-[#f5b63f]/40 hover:border-[#f5b63f]/70 rounded-xl px-3.5 py-2.5 transition-colors cursor-pointer"
+      >
+        <span className="flex items-center gap-2.5">
+          <Globe size={14} className="text-[#f5b63f] flex-shrink-0" />
+          <span className="text-[13px] font-semibold text-white">{LOCALE_NAMES[locale]}</span>
+        </span>
+        <ChevronDown size={13} className="text-[#f5b63f]/60 flex-shrink-0" />
+      </button>
+
+      {/* Popup overlay */}
+      {open && (
+        <div
+          className="fixed inset-0 z-[999999] flex items-end sm:items-center justify-center"
+          onClick={() => setOpen(false)}
+        >
+          {/* Backdrop */}
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+
+          {/* Modal */}
+          <div
+            className="relative w-full max-w-[320px] mx-4 mb-6 sm:mb-0 rounded-2xl overflow-hidden shadow-[0_24px_60px_rgba(0,0,0,.6)]"
+            style={{ background: "linear-gradient(160deg,#083d43 0%,#062f35 100%)" }}
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-white/10">
+              <div className="flex items-center gap-2.5">
+                <Globe size={16} className="text-[#f5b63f]" />
+                <span className="text-white font-semibold text-[14px]">{t.nav.language}</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                className="w-7 h-7 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white/60 hover:text-white transition-colors cursor-pointer"
+              >
+                <X size={14} />
+              </button>
+            </div>
+
+            {/* Options — scrollable if many languages */}
+            <div
+              className="lang-scroll py-2 max-h-[52vh] overflow-y-auto"
+              style={{ scrollbarWidth: "thin", scrollbarColor: "#f5b63f #062f35" }}
+            >
+              {LOCALES.map((l: Locale) => (
+                <button
+                  key={l}
+                  type="button"
+                  onClick={() => { setLocale(l); setOpen(false); closeMenu(); }}
+                  className={`w-full flex items-center justify-between px-5 py-3.5 text-[13.5px] font-semibold transition-colors cursor-pointer ${
+                    locale === l
+                      ? "text-[#f5b63f]"
+                      : "text-white/65 hover:text-white hover:bg-white/5"
+                  }`}
+                >
+                  <span className="flex items-center gap-3">
+                    <span className={`text-[10px] font-black w-7 h-6 flex items-center justify-center rounded-md ${
+                      locale === l ? "bg-[#f5b63f] text-[#062f35]" : "bg-white/10 text-white/50"
+                    }`}>
+                      {LOCALE_LABELS[l]}
+                    </span>
+                    {LOCALE_NAMES[l]}
+                  </span>
+                  {locale === l && <Check size={14} className="text-[#f5b63f] flex-shrink-0" />}
+                </button>
+              ))}
+            </div>
+
+            {/* Gold bottom bar */}
+            <div className="h-1 w-full" style={{ background: "linear-gradient(90deg,#f5b63f,#e8921e)" }} />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function LangSwitcher() {
   const { locale, setLocale, t } = useI18n();
   const [open, setOpen] = useState(false);
@@ -203,27 +294,12 @@ export function Navbar() {
           })}
 
           {/* Language picker */}
-          <div className="border-t border-white/10 mt-2 pt-3 px-2 pb-1">
-            <p className="text-[9px] font-bold tracking-[0.15em] uppercase text-white/35 px-2 mb-2">
-              {t.nav.language}
-            </p>
-            <div className="grid grid-cols-3 gap-1.5 mb-2">
-              {LOCALES.map((l: Locale) => (
-                <button
-                  key={l}
-                  type="button"
-                  onClick={() => { setLocale(l); setOpen(false); }}
-                  className={`py-2 rounded-xl text-[12px] font-bold transition-colors border cursor-pointer ${
-                    locale === l
-                      ? "bg-[#f5b63f] text-[#162c2c] border-[#f5b63f]"
-                      : "text-white/65 border-white/20 hover:border-white/40 hover:text-white"
-                  }`}
-                >
-                  {LOCALE_LABELS[l]}
-                </button>
-              ))}
-            </div>
-          </div>
+          <MobileLangPicker
+            locale={locale}
+            setLocale={setLocale}
+            closeMenu={() => setOpen(false)}
+            t={t}
+          />
 
           <div className="border-t border-white/10 pt-2 px-2 pb-1 flex gap-2">
             <Link href="/#contact" onClick={() => setOpen(false)}

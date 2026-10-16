@@ -4,6 +4,7 @@ import { useI18n } from "@/i18n/I18nProvider";
 import { transfers } from "@/data/transfers";
 import { tours } from "@/data/tours";
 import { excursions } from "@/data/excursions";
+import { Reveal } from "@/components/Reveal";
 
 const STAT_VALUES = [
   { value: transfers.length,   suffix: "+" },
@@ -82,7 +83,9 @@ export function Stats() {
       <div className="max-w-[1280px] mx-auto px-[clamp(16px,4.5vw,56px)] py-14">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-y-10 gap-x-4 divide-x-0 md:divide-x md:divide-white/10">
           {STAT_VALUES.map((s, i) => (
-            <StatItem key={i} value={s.value} suffix={s.suffix} label={labels[i]} active={active} />
+            <Reveal key={i} delay={i * 0.1} from="up">
+              <StatItem value={s.value} suffix={s.suffix} label={labels[i]} active={active} />
+            </Reveal>
           ))}
         </div>
       </div>

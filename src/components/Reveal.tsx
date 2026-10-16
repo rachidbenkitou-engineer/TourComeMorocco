@@ -6,20 +6,36 @@ export function Reveal({
   children,
   delay = 0,
   className,
+  from = "up",
 }: {
   children: React.ReactNode;
   delay?: number;
   className?: string;
+  from?: "up" | "left" | "right" | "scale";
 }) {
   const ref    = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px 0px" });
 
+  const hidden = {
+    up:    { opacity: 0, y: 40,  scale: 0.97 },
+    left:  { opacity: 0, x: -40, scale: 0.97 },
+    right: { opacity: 0, x: 40,  scale: 0.97 },
+    scale: { opacity: 0, scale: 0.92 },
+  }[from];
+
+  const visible = {
+    up:    { opacity: 1, y: 0,  scale: 1 },
+    left:  { opacity: 1, x: 0,  scale: 1 },
+    right: { opacity: 1, x: 0,  scale: 1 },
+    scale: { opacity: 1, scale: 1 },
+  }[from];
+
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 24 }}
-      animate={inView ? { opacity: 1, y: 0 } : undefined}
-      transition={{ duration: 0.55, delay, ease: [0.22, 0.8, 0.42, 1] }}
+      initial={hidden}
+      animate={inView ? visible : undefined}
+      transition={{ duration: 0.65, delay, ease: [0.16, 1, 0.3, 1] }}
       className={className}
     >
       {children}

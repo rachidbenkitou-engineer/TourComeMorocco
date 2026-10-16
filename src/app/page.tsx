@@ -12,23 +12,22 @@ import { CTABanner }          from "@/components/CTABanner";
 export default function Home() {
   return (
     <main>
-        <Hero />
+      <Hero />
 
-        {/* SearchBar — juste sous les points du hero */}
-        <div className="relative z-50 px-[4%] pt-0 pb-0 mt-0 bg-[#062f35]">
-          <div className="max-w-[960px] mx-auto">
-            <SearchBar />
-          </div>
+      <div className="relative z-50 px-[4%] pt-0 pb-0 mt-0 bg-[#062f35]">
+        <div className="max-w-[960px] mx-auto">
+          <SearchBar />
         </div>
+      </div>
 
-        <Stats />
-        <PopularTransfers />
-        <Tours />
-        <Excursions />
-        <Destinations />
-        <About />
-        <Testimonials />
-        <CTABanner />
-      </main>
+      <Stats />
+      <PopularTransfers />
+      <Tours />
+      <Excursions />
+      <Destinations />
+      <About />
+      <Testimonials />
+      <CTABanner />
+    </main>
   );
 }

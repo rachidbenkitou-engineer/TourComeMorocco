@@ -2,6 +2,26 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+/* ── Book-button pulse + float ── */
+@keyframes pulse-gold {
+  0%, 100% { box-shadow: 0 4px 18px rgba(245,182,63,.45); }
+  50%       { box-shadow: 0 4px 28px rgba(245,182,63,.75); }
+}
+@keyframes ring-ping {
+  0%        { transform: scale(1);   opacity: .55; }
+  70%, 100% { transform: scale(1.5); opacity: 0;   }
+}
+@keyframes float-btn {
+  0%, 100% { transform: translateY(0px);   }
+  50%       { transform: translateY(-5px);  }
+}
+
+/* ── Lang-picker scrollbar (site colors) ── */
+.lang-scroll::-webkit-scrollbar        { width: 4px; }
+.lang-scroll::-webkit-scrollbar-track  { background: #062f35; border-radius: 4px; }
+.lang-scroll::-webkit-scrollbar-thumb  { background: #f5b63f; border-radius: 4px; }
+.lang-scroll::-webkit-scrollbar-thumb:hover { background: #e8921e; }
+
 /* ── Ken Burns ── */
 @keyframes kenburns {
   from { transform: scale(1.02) translate(0%,   0%);    }
@@ -45,12 +65,19 @@
 
   /* ── Fonts ── */
   --font-sans:   var(--font-dm-sans),  system-ui, sans-serif;
-  --font-serif:  var(--font-playfair), Georgia,   serif;
+  --font-serif:  var(--font-outfit),   system-ui, sans-serif;
   --font-script: var(--font-caveat),   cursive;
 }
 
 html { scroll-behavior: smooth; scroll-padding-top: 80px; }
 body { background-color: var(--color-cream); color: var(--color-ink); }
+
+/* ── Outfit — rendu optimal sur les titres ── */
+.font-serif {
+  font-family: var(--font-outfit), system-ui, sans-serif;
+  letter-spacing: -0.02em;
+  -webkit-font-smoothing: antialiased;
+}
 
 /* ── Animations hero texte ── */
 @keyframes fade-up {

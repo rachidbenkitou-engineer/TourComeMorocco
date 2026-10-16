@@ -90,8 +90,8 @@ export function Hero() {
 
           {/* Titre H1 */}
           <h1
-            className="font-serif font-semibold tracking-[-1.5px] mb-4 [text-shadow:0_3px_18px_rgba(23,50,57,.55)]"
-            style={{ fontSize: "clamp(38px,5.8vw,72px)", lineHeight: 1.04 }}
+            className="font-serif font-semibold mb-4 [text-shadow:0_3px_18px_rgba(23,50,57,.55)]"
+            style={{ fontSize: "clamp(38px,5.8vw,76px)", lineHeight: 1.08 }}
           >
             {slide.titleLine1}<br />{slide.titleLine2}
           </h1>
