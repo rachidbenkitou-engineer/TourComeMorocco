@@ -529,7 +529,7 @@ export function TransferBookingForm({ transfer }: { transfer: Transfer }) {
       : "";
 
     const lines = [
-      `*Demande de transfert — Transfer Maroc*`,
+      `*Demande de transfert — Morocco Trip Mate*`,
       ``,
       `🚗 ${mktName} ${arrow} ${dest}`,
       `📅 ${l("date", locale)} : ${fmtDate(date, locale)}${time ? ` à ${time}` : ""}`,
@@ -550,7 +550,7 @@ export function TransferBookingForm({ transfer }: { transfer: Transfer }) {
 
       {/* Header */}
       <div className="bg-[#062f35] bg-zellige px-5 py-4">
-        <p className="text-[#f5b63f] text-[10px] font-bold uppercase tracking-[0.15em] mb-1">Transfer Maroc</p>
+        <p className="text-[#f5b63f] text-[10px] font-bold uppercase tracking-[0.15em] mb-1">Morocco Trip Mate</p>
         <p className="text-white font-playfair text-lg leading-snug">{mktName} {arrow} {dest}</p>
       </div>
 

@@ -44,8 +44,8 @@ export function getTransferContent(transfer: Transfer, locale: string): Transfer
         : `Transfert privé de Marrakech à ${dest}`,
       intro: [
         isAirport
-          ? `Votre vol décollant de Marrakech vous emmène vers ${dest} ? Ou à l'inverse, vous atterrissez et devez rejoindre votre hôtel ? Avec Transfer Maroc, un chauffeur privé vous attend et vous conduit directement sur place — environ ${km} km, près de ${dur}, dans un véhicule récent et climatisé, sans arrêt partagé ni attente.`
-          : `Voyagez de Marrakech à ${dest} en toute sérénité avec un chauffeur privé Transfer Maroc. La distance d'environ ${km} km se parcourt en près de ${dur} dans un véhicule récent et climatisé — sans arrêt partagé, sans compteur, sans surprise.`,
+          ? `Votre vol décollant de Marrakech vous emmène vers ${dest} ? Ou à l'inverse, vous atterrissez et devez rejoindre votre hôtel ? Avec Morocco Trip Mate, un chauffeur privé vous attend et vous conduit directement sur place — environ ${km} km, près de ${dur}, dans un véhicule récent et climatisé, sans arrêt partagé ni attente.`
+          : `Voyagez de Marrakech à ${dest} en toute sérénité avec un chauffeur privé Morocco Trip Mate. La distance d'environ ${km} km se parcourt en près de ${dur} dans un véhicule récent et climatisé — sans arrêt partagé, sans compteur, sans surprise.`,
         `Votre chauffeur vous accueille à l'adresse de votre choix et vous conduit directement à destination. Le tarif est fixe et convenu à l'avance — à partir de ${sedanPrice} € — confirmé par WhatsApp en moins d'une heure.`,
         `Idéal pour les familles, les couples et les voyageurs d'affaires souhaitant un trajet Marrakech–${dest} confortable, ponctuel et discret. Disponible 24h/24, 7j/7.`,
       ],
@@ -102,8 +102,8 @@ export function getTransferContent(transfer: Transfer, locale: string): Transfer
       h1: `نقل خاص من مراكش إلى ${dest}`,
       intro: [
         isAirport
-          ? `هل تسافر من مراكش إلى ${dest} أو تصل وتحتاج للوصول إلى فندقك؟ مع Transfer Maroc، سائقك الخاص في انتظارك ويقلّك مباشرة إلى وجهتك — نحو ${km} كم، حوالي ${dur}، داخل سيارة حديثة ومكيّفة، دون توقفات مشتركة أو انتظار.`
-          : `انتقل من مراكش إلى ${dest} براحة تامة مع سائق خاص من Transfer Maroc. تُقطع المسافة البالغة نحو ${km} كم في حوالي ${dur} داخل سيارة حديثة ومكيّفة، دون توقفات مشتركة أو انتظار.`,
+          ? `هل تسافر من مراكش إلى ${dest} أو تصل وتحتاج للوصول إلى فندقك؟ مع Morocco Trip Mate، سائقك الخاص في انتظارك ويقلّك مباشرة إلى وجهتك — نحو ${km} كم، حوالي ${dur}، داخل سيارة حديثة ومكيّفة، دون توقفات مشتركة أو انتظار.`
+          : `انتقل من مراكش إلى ${dest} براحة تامة مع سائق خاص من Morocco Trip Mate. تُقطع المسافة البالغة نحو ${km} كم في حوالي ${dur} داخل سيارة حديثة ومكيّفة، دون توقفات مشتركة أو انتظار.`,
         `يستقبلك سائقك في العنوان الذي تختاره ويقلّك مباشرة إلى وجهتك. السعر ثابت ومتفق عليه مسبقاً — يبدأ من ${sedanPrice} يورو — يُؤكَّد عبر واتساب في أقل من ساعة.`,
         `مثالي للعائلات والأزواج ومسافري الأعمال الباحثين عن رحلة مراكش–${dest} مريحة ودقيقة المواعيد. متاح 24 ساعة، 7 أيام.`,
       ],
@@ -162,8 +162,8 @@ export function getTransferContent(transfer: Transfer, locale: string): Transfer
         : `Trasferimento privato da Marrakech a ${dest}`,
       intro: [
         isAirport
-          ? `Stai partendo da Marrakech verso ${dest}, o stai atterrando e hai bisogno di raggiungere il tuo hotel? Con Transfer Maroc, un autista privato ti aspetta e ti porta direttamente a destinazione — circa ${km} km, circa ${dur}, in un veicolo moderno e climatizzato, senza fermate condivise né attese.`
-          : `Viaggia da Marrakech a ${dest} in tutta comodità con un autista privato Transfer Maroc. I circa ${km} km si percorrono in circa ${dur} a bordo di un veicolo moderno e climatizzato — senza fermate condivise, senza tassametro, senza sorprese.`,
+          ? `Stai partendo da Marrakech verso ${dest}, o stai atterrando e hai bisogno di raggiungere il tuo hotel? Con Morocco Trip Mate, un autista privato ti aspetta e ti porta direttamente a destinazione — circa ${km} km, circa ${dur}, in un veicolo moderno e climatizzato, senza fermate condivise né attese.`
+          : `Viaggia da Marrakech a ${dest} in tutta comodità con un autista privato Morocco Trip Mate. I circa ${km} km si percorrono in circa ${dur} a bordo di un veicolo moderno e climatizzato — senza fermate condivise, senza tassametro, senza sorprese.`,
         `Il tuo autista ti preleva all'indirizzo che scegli e ti porta direttamente a destinazione. Il prezzo è fisso e concordato in anticipo — a partire da €${sedanPrice} — confermato via WhatsApp entro un'ora.`,
         `Ideale per famiglie, coppie e viaggiatori d'affari che desiderano un trasferimento Marrakech–${dest} comodo, puntuale e discreto. Disponibile 24 ore su 24, 7 giorni su 7.`,
       ],
@@ -220,8 +220,8 @@ export function getTransferContent(transfer: Transfer, locale: string): Transfer
     h1: `Private Transfer from Marrakech to ${dest}`,
     intro: [
       isAirport
-        ? `Travelling between Marrakech and ${dest}? With Transfer Maroc, a dedicated private chauffeur meets you at your address and drives you straight there — roughly ${km} km, around ${dur}, in a late-model air-conditioned vehicle with no shared stops and no waiting.`
-        : `Travel from Marrakech to ${dest} in complete comfort with a private Transfer Maroc chauffeur. The roughly ${km} km journey takes around ${dur} in a late-model, air-conditioned vehicle — no shared stops, no meter, no surprises.`,
+        ? `Travelling between Marrakech and ${dest}? With Morocco Trip Mate, a dedicated private chauffeur meets you at your address and drives you straight there — roughly ${km} km, around ${dur}, in a late-model air-conditioned vehicle with no shared stops and no waiting.`
+        : `Travel from Marrakech to ${dest} in complete comfort with a private Morocco Trip Mate chauffeur. The roughly ${km} km journey takes around ${dur} in a late-model, air-conditioned vehicle — no shared stops, no meter, no surprises.`,
       `Your chauffeur picks you up at any address of your choice and takes you directly to your destination. The price is fixed and agreed in advance — from €${sedanPrice} — confirmed via WhatsApp within the hour.`,
       `Ideal for families, couples and business travellers who want a Marrakech–${dest} transfer that is comfortable, punctual and discreet. Available 24/7.`,
     ],

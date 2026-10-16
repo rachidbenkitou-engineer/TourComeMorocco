@@ -114,7 +114,7 @@ export function Footer() {
                   fill="#f5b63f"/>
               </svg>
               <span className="font-serif text-[22px] text-[#fff0cb] tracking-[-0.4px]">
-                Transfer Maroc
+                Morocco Trip Mate
               </span>
             </Link>
             <p className="text-[13px] text-white/50 max-w-[380px] leading-relaxed">

@@ -37,7 +37,7 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
-  title: "Transfer Maroc — Explorez, Voyagez, Découvrez",
+  title: "Morocco Trip Mate — Explorez, Voyagez, Découvrez",
   description:
     "Des expériences uniques, des destinations de rêve et un accompagnement sur mesure pour découvrir le Maroc de façon inoubliable.",
 };

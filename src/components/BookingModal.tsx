@@ -490,7 +490,7 @@ function BookingModal({ service, price: _price, onClose }: { service: string; pr
     if (!date) { setErr(labels.errDate); return; }
     setErr(null);
 
-    const lines: string[] = [`*Réservation — Transfer Maroc*`, ``];
+    const lines: string[] = [`*Réservation — Morocco Trip Mate*`, ``];
     if (mode === "transfer") {
       lines.push(`🚗 Marrakech → ${dest}`);
     } else if (mode === "tour") {
@@ -534,7 +534,7 @@ function BookingModal({ service, price: _price, onClose }: { service: string; pr
             <IcoX />
           </button>
           <p className={`text-[9.5px] font-bold tracking-[0.18em] uppercase text-[#f5b63f]/70 mb-0.5 ${locale === "ar" ? "pl-10" : "pr-8"}`}>
-            Transfer Maroc
+            Morocco Trip Mate
           </p>
           <h2 className={`font-serif text-white text-[15px] sm:text-[17px] leading-snug ${locale === "ar" ? "pl-10" : "pr-8"}`}>
             {locale === "ar" ? "احجز رحلتك" : locale === "en" ? "Book your trip" : locale === "it" ? "Prenota il tuo viaggio" : "Réservez votre voyage"}
