@@ -1,23 +1,24 @@
 "use client";
 import { useRef, ReactNode } from "react";
-import { motion, useInView } from "motion/react";
+import { motion, useInView, type TargetAndTransition } from "motion/react";
+
+type From = "up" | "left" | "right" | "scale";
 
 interface Props {
   children: ReactNode;
   delay?: number;
-  /** "up" (default), "left", "right", "scale" */
-  from?: "up" | "left" | "right" | "scale";
+  from?: From;
   className?: string;
 }
 
-const HIDDEN: Record<NonNullable<Props["from"]>, object> = {
+const HIDDEN: Record<From, TargetAndTransition> = {
   up:    { opacity: 0, y: 48 },
   left:  { opacity: 0, x: -48 },
   right: { opacity: 0, x: 48 },
   scale: { opacity: 0, scale: 0.94 },
 };
 
-const VISIBLE: Record<NonNullable<Props["from"]>, object> = {
+const VISIBLE: Record<From, TargetAndTransition> = {
   up:    { opacity: 1, y: 0 },
   left:  { opacity: 1, x: 0 },
   right: { opacity: 1, x: 0 },
