@@ -488,7 +488,10 @@ const IcoNote = () => (
 export function TransferBookingForm({ transfer }: { transfer: Transfer }) {
   const { locale } = useI18n();
   const dest = transfer.to[locale as "fr" | "en" | "ar"] ?? transfer.to.fr;
-  const mktName = locale === "ar" ? "مراكش" : "Marrakech";
+  const fromData = transfer.from as Record<string, string | undefined> | undefined;
+  const mktName = fromData
+    ? (fromData[locale] ?? fromData.en ?? fromData.fr ?? "Marrakech")
+    : locale === "ar" ? "مراكش" : "Marrakech";
   const arrow   = locale === "ar" ? "←" : "→";
 
   const [date,       setDate]   = useState("");

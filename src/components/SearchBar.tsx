@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/i18n/I18nProvider";
-import { transfers, findTransferByDest } from "@/data/transfers";
+import { transfers, findTransferByRoute } from "@/data/transfers";
 
 type Mode = "circuit" | "transfert" | "excursion";
 
@@ -385,24 +385,43 @@ export function SearchBar() {
 
   const router = useRouter();
 
-  const loc = locale as "fr" | "en" | "ar";
-  const transferCities = transfers
-    .map(t => (t.to as Record<string, string | undefined>)[locale] ?? t.to.en)
-    .filter((v): v is string => Boolean(v))
-    .sort((a, b) => a.localeCompare(b, locale));
+  const mktName = locale === "ar" ? "مراكش" : "Marrakech";
+
+  const fromCities: string[] = (() => {
+    const seen = new Set<string>();
+    const result: string[] = [];
+    seen.add(mktName); result.push(mktName);
+    transfers.forEach(t => {
+      if (t.from) {
+        const n = (t.from as Record<string, string | undefined>)[locale] ?? t.from.en ?? t.from.fr ?? "";
+        if (n && !seen.has(n)) { seen.add(n); result.push(n); }
+      }
+    });
+    return result;
+  })();
 
   const [mode,    setMode]   = useState<Mode>("transfert");
-  const mktName = locale === "ar" ? "مراكش" : "Marrakech";
   const [depart,  setDepart] = useState(mktName);
   const [arrivee, setArrivee] = useState("");
   const [date,    setDate]   = useState("");
+
+  const filteredDests = transfers
+    .filter(t => {
+      const fromName = t.from
+        ? (t.from as Record<string, string | undefined>)[locale] ?? t.from.en ?? t.from.fr ?? ""
+        : mktName;
+      return fromName === depart;
+    })
+    .map(t => (t.to as Record<string, string | undefined>)[locale] ?? t.to.en ?? "")
+    .filter((v): v is string => Boolean(v))
+    .sort((a, b) => a.localeCompare(b, locale));
 
   const selectedSlug = (() => {
     const idx = circuitLengths.indexOf(depart);
     return idx >= 0 ? CIRCUIT_SLUGS[idx] : null;
   })();
 
-  const matchedTransfer = mode === "transfert" && arrivee ? findTransferByDest(arrivee) : null;
+  useEffect(() => { if (mode === "transfert") setArrivee(""); }, [depart]);
 
   function reset(newMode: Mode = mode) { setDepart(newMode === "transfert" ? mktName : ""); setArrivee(""); setDate(""); }
 
@@ -413,11 +432,8 @@ export function SearchBar() {
       const slug = idx >= 0 ? CIRCUIT_SLUGS[idx] : null;
       router.push(slug ? `/tours?duree=${slug}` : "/tours");
     } else if (mode === "transfert") {
-      if (matchedTransfer && depart === mktName) {
-        router.push(`/transfers/${matchedTransfer.slug}`);
-      } else {
-        router.push("/transfers");
-      }
+      const found = arrivee ? findTransferByRoute(depart, arrivee, locale) : null;
+      router.push(found ? `/transfers/${found.slug}` : "/transfers");
     } else {
       const idx  = excursionDurations.indexOf(depart);
       const slug = idx >= 0 ? EXCURSION_TYPE_SLUGS[idx] : null;
@@ -502,14 +518,14 @@ export function SearchBar() {
               placeholder={sb.placeholders.departure}
               value={depart}
               onValue={setDepart}
-              options={[locale === "ar" ? "مراكش" : "Marrakech"]}
+              options={fromCities}
             />
             <Field
               IconComponent={IconDest}
               placeholder={sb.placeholders.destination}
               value={arrivee}
               onValue={setArrivee}
-              options={transferCities}
+              options={filteredDests}
               searchable
             />
             <FieldDate

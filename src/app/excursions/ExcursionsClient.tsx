@@ -12,10 +12,6 @@ import { cn } from "@/lib/utils";
 
 type DurationFilter = "all" | "journee" | "demijournee";
 
-function getDurationCategory(duration: string): "journee" | "demijournee" {
-  return duration.toLowerCase().includes("demi") ? "demijournee" : "journee";
-}
-
 function IconClock() {
   return (
     <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -63,7 +59,7 @@ export default function ExcursionsClient() {
 
   const filteredExcursions = filter === "all"
     ? excursions
-    : excursions.filter(e => getDurationCategory(e.duration) === filter);
+    : excursions.filter(e => e.durationKey === filter);
 
   return (
     <main className="min-h-screen bg-[#fff8f0]">
@@ -100,7 +96,7 @@ export default function ExcursionsClient() {
             {FILTERS.map(f => {
               const count = f.id === "all"
                 ? excursions.length
-                : excursions.filter(e => getDurationCategory(e.duration) === f.id).length;
+                : excursions.filter(e => e.durationKey === f.id).length;
               return (
                 <button
                   key={f.id}
@@ -128,7 +124,7 @@ export default function ExcursionsClient() {
           {/* ── Grid ── */}
           {filteredExcursions.length === 0 ? (
             <div className="text-center py-20 text-[#5a7578] text-[14px]">
-              {locale === "ar" ? "لا توجد رحلات لهذه الفئة." : locale === "en" ? "No excursions in this category." : "Aucune excursion dans cette catégorie."}
+              {locale === "ar" ? "لا توجد رحلات لهذه الفئة." : locale === "en" ? "No excursions in this category." : locale === "it" ? "Nessuna escursione in questa categoria." : "Aucune excursion dans cette catégorie."}
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -144,28 +140,28 @@ export default function ExcursionsClient() {
                   className="group bg-white rounded-2xl overflow-hidden shadow-card hover:shadow-lift transition-all duration-300 hover:-translate-y-1.5 flex flex-col"
                 >
                   <div className="relative h-[220px] overflow-hidden flex-shrink-0">
-                    <Image src={excursion.image} alt={excursion.title} fill
+                    <Image src={excursion.image} alt={excursion.title[locale]} fill
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                       sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#031e22]/80 via-[#031e22]/20 to-transparent" />
                     <span className="absolute top-3 left-3 flex items-center gap-1.5 bg-[#062f35]/85 backdrop-blur-sm text-[#f5b63f] text-[10px] font-bold px-2.5 py-1 rounded-full">
-                      <IconClock /> {excursion.duration}
+                      <IconClock /> {excursion.duration[locale]}
                     </span>
                     {excursion.fromPrice && (
                       <span className="absolute top-3 right-3 bg-[#f5b63f] text-[#1c2e2e] text-[11px] font-bold px-2.5 py-1 rounded-full">
-                        {excursion.fromPrice}
+                        {pg.from} {excursion.fromPrice}
                       </span>
                     )}
                   </div>
                   <div className="flex flex-col flex-1 p-5">
                     <h2 className="font-serif text-[16px] font-semibold text-[#062f35] leading-tight mb-2">
-                      {excursion.title}
+                      {excursion.title[locale]}
                     </h2>
                     <p className="text-[12.5px] text-[#5a7578] leading-relaxed mb-3">
-                      {excursion.short}
+                      {excursion.short[locale]}
                     </p>
-                    {excursion.highlights.slice(0, 2).map((h, i) => (
+                    {excursion.highlights[locale].slice(0, 2).map((h, i) => (
                       <div key={i} className="flex items-start gap-1.5 mb-1">
                         <span className="mt-[3px] w-3.5 h-3.5 flex-shrink-0 rounded-full bg-[#f5b63f]/20 border border-[#f5b63f]/40 flex items-center justify-center text-[#b07d21]">
                           <IconCheck />

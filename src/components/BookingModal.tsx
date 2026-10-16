@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/i18n/I18nProvider";
 import { transfers } from "@/data/transfers";
+import { excursions } from "@/data/excursions";
 
 /* ─── WhatsApp ──────────────────────────────────────── */
 const WA_NUMBER = "212709274114";
@@ -12,8 +13,8 @@ function waLink(text: string) {
 }
 
 /* ─── Context ────────────────────────────────────────── */
-type BookingState = { service: string; price?: string } | null;
-type BookingCtx   = { open: (service: string, price?: string) => void };
+type BookingState = { service: string; price?: string; excursionSlug?: string } | null;
+type BookingCtx   = { open: (service: string, price?: string, excursionSlug?: string) => void };
 
 const Ctx = createContext<BookingCtx>({ open: () => {} });
 export function useBooking() { return useContext(Ctx); }
@@ -21,7 +22,7 @@ export function useBooking() { return useContext(Ctx); }
 export function BookingProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<BookingState>(null);
   return (
-    <Ctx.Provider value={{ open: (s, p) => setState({ service: s, price: p }) }}>
+    <Ctx.Provider value={{ open: (s, p, es) => setState({ service: s, price: p, excursionSlug: es }) }}>
       {children}
       <AnimatePresence>
         {state && (
@@ -29,6 +30,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
             key="booking-modal"
             service={state.service}
             price={state.price}
+            excursionSlug={state.excursionSlug}
             onClose={() => setState(null)}
           />
         )}
@@ -428,19 +430,33 @@ const lbl = "block text-[9px] font-bold uppercase tracking-[0.12em] text-[#5a757
 
 /* ─── BookingModal ───────────────────────────────────── */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function BookingModal({ service, price: _price, onClose }: { service: string; price?: string; onClose: () => void }) {
+function BookingModal({ service, price: _price, excursionSlug: initExcSlug, onClose }: { service: string; price?: string; excursionSlug?: string; onClose: () => void }) {
   const { locale } = useI18n();
 
-  const [mode, setMode]   = useState<Mode>("transfer");
-  const [dest, setDest]   = useState("");
-  const [duration, setDuration] = useState("");
-  const [date, setDate]   = useState("");
-  const [name, setName]   = useState("");
-  const [phone, setPhone] = useState("");
-  const [err,  setErr]    = useState<string | null>(null);
+  const [mode, setMode]           = useState<Mode>(initExcSlug ? "excursion" : "transfer");
+  const [departure, setDeparture] = useState(locale === "ar" ? "مراكش" : "Marrakech");
+  const [dest, setDest]           = useState("");
+  const [duration, setDuration]   = useState("");
+  const [excursionName, setExcursionName] = useState("");
+  const [date, setDate]           = useState("");
+  const [name, setName]           = useState("");
+  const [phone, setPhone]         = useState("");
+  const [err,  setErr]            = useState<string | null>(null);
+
+  /* pre-fill from excursion detail page */
+  useEffect(() => {
+    if (initExcSlug) {
+      const exc = excursions.find(e => e.slug === initExcSlug);
+      if (exc) { setExcursionName(exc.title[locale]); setDuration(exc.duration[locale]); }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   /* reset service fields on mode change */
-  function switchMode(m: Mode) { setMode(m); setDest(""); setDuration(""); setDate(""); setErr(null); }
+  function switchMode(m: Mode) {
+    setMode(m); setDeparture(locale === "ar" ? "مراكش" : "Marrakech");
+    setDest(""); setDuration(""); setExcursionName(""); setDate(""); setErr(null);
+  }
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -471,11 +487,36 @@ function BookingModal({ service, price: _price, onClose }: { service: string; pr
     namePh:      locale === "ar" ? "أدخل اسمك" : locale === "en" ? "Your full name" : "Votre nom",
     datePh:      locale === "ar" ? "اختر التاريخ" : locale === "en" ? "Choose a date" : "Choisir une date",
     destPh:      locale === "ar" ? "اختر وجهة" : locale === "en" ? "Choose a destination" : "Choisir une destination",
-    durationPh:  locale === "ar" ? "اختر المدة" : locale === "en" ? "Choose duration" : "Choisir une durée",
+    durationPh:    locale === "ar" ? "اختر المدة"        : locale === "en" ? "Choose duration"          : "Choisir une durée",
+    excursionLabel: locale === "ar" ? "الرحلة"           : locale === "en" ? "Excursion"                 : "Excursion",
+    excursionPh:   locale === "ar" ? "اختر رحلة"        : locale === "en" ? "Choose an excursion"       : "Choisir une excursion",
+    errExcursion:  locale === "ar" ? "الرحلة مطلوبة"    : locale === "en" ? "Excursion required"        : "Excursion requise",
   };
 
-  const loc = locale as "fr" | "en" | "ar";
-  const transferCities   = transfers
+  const excursionsList = excursions.map(e => e.title[locale]);
+
+  const fromCities: string[] = (() => {
+    const mkt = locale === "ar" ? "مراكش" : "Marrakech";
+    const seen = new Set<string>();
+    const result: string[] = [];
+    seen.add(mkt); result.push(mkt);
+    transfers.forEach(t => {
+      if (t.from) {
+        const n = (t.from as Record<string, string | undefined>)[locale] ?? t.from.en ?? t.from.fr ?? "";
+        if (n && !seen.has(n)) { seen.add(n); result.push(n); }
+      }
+    });
+    return result;
+  })();
+
+  const mktLabel = locale === "ar" ? "مراكش" : "Marrakech";
+  const transferCities = transfers
+    .filter(t => {
+      const fromName = t.from
+        ? (t.from as Record<string, string | undefined>)[locale] ?? t.from.en ?? t.from.fr ?? ""
+        : mktLabel;
+      return fromName === departure;
+    })
     .map(t => (t.to as Record<string, string | undefined>)[locale] ?? t.to.en)
     .filter((v): v is string => Boolean(v))
     .sort((a, b) => a.localeCompare(b, locale));
@@ -486,17 +527,20 @@ function BookingModal({ service, price: _price, onClose }: { service: string; pr
     e.preventDefault();
     if (!name.trim())  { setErr(labels.errName);     return; }
     if (mode === "transfer" && !dest) { setErr(labels.errDest); return; }
+    if (mode === "excursion" && !excursionName) { setErr(labels.errExcursion); return; }
     if (mode !== "transfer" && !duration) { setErr(labels.errDuration); return; }
     if (!date) { setErr(labels.errDate); return; }
     setErr(null);
 
-    const lines: string[] = [`*Réservation — Morocco Trip Mate*`, ``];
+    const header = locale === "ar" ? `*حجز — Transfer Maroc*` : locale === "en" ? `*Booking — Transfer Maroc*` : locale === "it" ? `*Prenotazione — Transfer Maroc*` : `*Réservation — Transfer Maroc*`;
+    const lines: string[] = [header, ``];
     if (mode === "transfer") {
-      lines.push(`🚗 Marrakech → ${dest}`);
+      lines.push(`🚗 ${departure} → ${dest}`);
     } else if (mode === "tour") {
       lines.push(`🗺 Circuit : ${duration}`);
     } else {
-      lines.push(`🌄 Excursion : ${duration}`);
+      lines.push(`🌄 ${labels.excursionLabel} : ${excursionName}`);
+      lines.push(`⏱ ${labels.duration} : ${duration}`);
     }
     lines.push(`📅 ${labels.date} : ${fmtDate(date, locale)}`);
     lines.push(`👤 ${labels.name} : ${name}`);
@@ -534,7 +578,7 @@ function BookingModal({ service, price: _price, onClose }: { service: string; pr
             <IcoX />
           </button>
           <p className={`text-[9.5px] font-bold tracking-[0.18em] uppercase text-[#f5b63f]/70 mb-0.5 ${locale === "ar" ? "pl-10" : "pr-8"}`}>
-            Morocco Trip Mate
+            Transfer Maroc
           </p>
           <h2 className={`font-serif text-white text-[15px] sm:text-[17px] leading-snug ${locale === "ar" ? "pl-10" : "pr-8"}`}>
             {locale === "ar" ? "احجز رحلتك" : locale === "en" ? "Book your trip" : locale === "it" ? "Prenota il tuo viaggio" : "Réservez votre voyage"}
@@ -582,10 +626,10 @@ function BookingModal({ service, price: _price, onClose }: { service: string; pr
                 <label className={lbl}>{labels.departure}</label>
                 <SBField
                   IconComp={IcoPin}
-                  placeholder="Marrakech"
-                  value="Marrakech"
-                  onValue={() => {}}
-                  locked
+                  placeholder={mktLabel}
+                  value={departure}
+                  onValue={v => { setDeparture(v); setDest(""); setErr(null); }}
+                  options={fromCities}
                 />
               </div>
               <div>
@@ -618,15 +662,33 @@ function BookingModal({ service, price: _price, onClose }: { service: string; pr
 
           {/* ── Excursion fields ── */}
           {mode === "excursion" && (
-            <div>
-              <label className={lbl}>{labels.duration}</label>
-              <SBField
-                IconComp={IcoClock}
-                placeholder={labels.durationPh}
-                value={duration}
-                onValue={v => { setDuration(v); setErr(null); }}
-                options={excurDurations}
-              />
+            <div className="space-y-2.5">
+              <div>
+                <label className={lbl}>{labels.excursionLabel}</label>
+                <SBField
+                  IconComp={IcoExcursion}
+                  placeholder={labels.excursionPh}
+                  value={excursionName}
+                  onValue={v => {
+                    setExcursionName(v);
+                    const exc = excursions.find(e => e.title[locale] === v);
+                    if (exc) setDuration(exc.duration[locale]);
+                    setErr(null);
+                  }}
+                  options={excursionsList}
+                  searchable
+                />
+              </div>
+              <div>
+                <label className={lbl}>{labels.duration}</label>
+                <SBField
+                  IconComp={IcoClock}
+                  placeholder={labels.durationPh}
+                  value={duration}
+                  onValue={v => { setDuration(v); setErr(null); }}
+                  options={excurDurations}
+                />
+              </div>
             </div>
           )}
 

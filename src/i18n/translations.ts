@@ -95,6 +95,7 @@ export type T = {
     excursions: {
       heroTitle: string; heroSubtitle: string;
       guarantees: [string, string, string, string];
+      from: string;
       filter: { all: string; journee: string; demijournee: string };
       ctaScript: string; ctaSubtitle: string; ctaBtn: string;
       detail: {
@@ -102,6 +103,16 @@ export type T = {
         bookExcursion: string; backToExcursions: string;
         itinerary: string; highlights: string; faq: string;
         ctaTitle: string; ctaDesc: string;
+        overview: string; fromMarrakech: string;
+        perGroup: string; priceByGroup: string;
+        included: string; notIncluded: string;
+        includedItems: [string, string, string, string];
+        notIncludedItems: [string, string, string, string];
+        sidebarItems: [string, string, string];
+        alsoDiscover: string; home: string;
+        factDuration: string; factDeparture: string;
+        factGroup: string; factLanguage: string;
+        factGroupValue: string; factLanguageValue: string;
       };
     };
     gallery: {
@@ -250,6 +261,7 @@ const FR: T = {
       heroTitle: "Excursions Privées",
       heroSubtitle: "Des excursions sur mesure depuis Marrakech — cascades, désert, montagne, côte atlantique. Chauffeur privé dédié, départ à votre rythme.",
       guarantees: ["Chauffeur privé", "Prix fixe tout inclus", "Départ à votre heure", "Disponible 24h/24"],
+      from: "Dès",
       filter: { all: "Toutes", journee: "Journée complète", demijournee: "Demi-journée" },
       ctaScript: "Sur mesure",
       ctaSubtitle: "Vous cherchez une excursion personnalisée ? Contactez-nous et nous organisons votre journée idéale depuis Marrakech.",
@@ -261,6 +273,15 @@ const FR: T = {
         itinerary: "Programme de la journée", highlights: "Points forts",
         faq: "Questions fréquentes",
         ctaTitle: "Prêt pour l'aventure ?", ctaDesc: "Contactez-nous pour un devis personnalisé pour cette excursion.",
+        overview: "Vue d'ensemble", fromMarrakech: "Depuis Marrakech",
+        perGroup: "par groupe · véhicule privé", priceByGroup: "Prix selon groupe et véhicule",
+        included: "Inclus", notIncluded: "Non inclus",
+        includedItems: ["Chauffeur privé tout au long du trajet", "Prise en charge depuis votre hébergement", "Eau minérale à bord", "Guide local francophone"],
+        notIncludedItems: ["Déjeuner et dîner", "Billets d'entrée des sites", "Pourboires (au bon vouloir)", "Activités optionnelles"],
+        sidebarItems: ["Prise en charge depuis votre hôtel", "Réponse en moins d'une heure", "Groupe privé · jusqu'à 7 personnes"],
+        alsoDiscover: "À découvrir aussi", home: "Accueil",
+        factDuration: "Durée", factDeparture: "Départ", factGroup: "Groupe", factLanguage: "Langue",
+        factGroupValue: "Privé · jusqu'à 7", factLanguageValue: "FR · EN · AR · IT",
       },
     },
     gallery: {
@@ -417,6 +438,7 @@ const EN: T = {
       heroTitle: "Private Excursions",
       heroSubtitle: "Tailor-made excursions from Marrakech — waterfalls, desert, mountains, Atlantic coast. Dedicated private driver, leave at your own pace.",
       guarantees: ["Private driver", "All-inclusive fixed price", "Depart at your time", "Available 24/7"],
+      from: "From",
       filter: { all: "All", journee: "Full day", demijournee: "Half day" },
       ctaScript: "Tailor-made",
       ctaSubtitle: "Looking for a personalised excursion? Contact us and we'll plan your ideal day from Marrakech.",
@@ -428,6 +450,15 @@ const EN: T = {
         itinerary: "Day Programme", highlights: "Highlights",
         faq: "Frequently Asked Questions",
         ctaTitle: "Ready for the adventure?", ctaDesc: "Contact us for a personalised quote for this excursion.",
+        overview: "Overview", fromMarrakech: "From Marrakech",
+        perGroup: "per group · private vehicle", priceByGroup: "Price per group and vehicle",
+        included: "Included", notIncluded: "Not included",
+        includedItems: ["Private driver throughout", "Pick-up from your accommodation", "Bottled water on board", "Local English-speaking guide"],
+        notIncludedItems: ["Lunch and dinner", "Site entrance fees", "Tips (discretionary)", "Optional activities"],
+        sidebarItems: ["Pick-up from your hotel", "Response in under one hour", "Private group · up to 7 people"],
+        alsoDiscover: "Also discover", home: "Home",
+        factDuration: "Duration", factDeparture: "Departure", factGroup: "Group", factLanguage: "Language",
+        factGroupValue: "Private · up to 7", factLanguageValue: "FR · EN · AR · IT",
       },
     },
     gallery: {
@@ -584,6 +615,7 @@ const AR: T = {
       heroTitle: "رحلات خاصة",
       heroSubtitle: "رحلات مخصصة من مراكش — الشلالات، الصحراء، الجبال، الساحل الأطلسي. سائق خاص مخصص، انطلق بإيقاعك.",
       guarantees: ["سائق خاص", "سعر ثابت وشامل", "المغادرة في وقتك", "متاح 24/7"],
+      from: "من",
       filter: { all: "الكل", journee: "يوم كامل", demijournee: "نصف يوم" },
       ctaScript: "مخصص لك",
       ctaSubtitle: "تبحث عن رحلة شخصية؟ تواصل معنا وسنخطط ليومك المثالي من مراكش.",
@@ -595,6 +627,15 @@ const AR: T = {
         itinerary: "برنامج اليوم", highlights: "أبرز المحطات",
         faq: "الأسئلة الشائعة",
         ctaTitle: "مستعد للمغامرة؟", ctaDesc: "تواصل معنا للحصول على عرض سعر مخصص لهذه الرحلة.",
+        overview: "نظرة عامة", fromMarrakech: "من مراكش",
+        perGroup: "للمجموعة · سيارة خاصة", priceByGroup: "السعر حسب المجموعة والسيارة",
+        included: "يشمل", notIncluded: "لا يشمل",
+        includedItems: ["سائق خاص طوال الرحلة", "الاستقبال من إقامتك", "مياه معدنية على متن السيارة", "مرشد محلي متعدد اللغات"],
+        notIncludedItems: ["الغداء والعشاء", "رسوم دخول المواقع", "الإكرامية (اختيارية)", "الأنشطة الاختيارية"],
+        sidebarItems: ["الاستقبال من فندقك", "رد خلال أقل من ساعة", "مجموعة خاصة · حتى 7 أشخاص"],
+        alsoDiscover: "اكتشف أيضاً", home: "الرئيسية",
+        factDuration: "المدة", factDeparture: "الانطلاق", factGroup: "المجموعة", factLanguage: "اللغة",
+        factGroupValue: "خاص · حتى 7", factLanguageValue: "FR · EN · AR · IT",
       },
     },
     gallery: {
@@ -751,6 +792,7 @@ const IT: T = {
       heroTitle: "Escursioni Private",
       heroSubtitle: "Escursioni su misura da Marrakech — cascate, deserto, montagna, costa atlantica. Autista privato dedicato, parti al tuo ritmo.",
       guarantees: ["Autista privato", "Prezzo fisso tutto incluso", "Partenza all'ora scelta", "Disponibile 24h/24"],
+      from: "Da",
       filter: { all: "Tutte", journee: "Giornata intera", demijournee: "Mezza giornata" },
       ctaScript: "Su misura",
       ctaSubtitle: "Cerchi un'escursione personalizzata? Contattaci e organizzeremo la tua giornata ideale da Marrakech.",
@@ -762,6 +804,15 @@ const IT: T = {
         itinerary: "Programma della giornata", highlights: "Punti salienti",
         faq: "Domande frequenti",
         ctaTitle: "Pronto per l'avventura?", ctaDesc: "Contattaci per un preventivo personalizzato per questa escursione.",
+        overview: "Panoramica", fromMarrakech: "Da Marrakech",
+        perGroup: "per gruppo · veicolo privato", priceByGroup: "Prezzo per gruppo e veicolo",
+        included: "Incluso", notIncluded: "Non incluso",
+        includedItems: ["Autista privato per tutto il percorso", "Ritiro dalla tua struttura", "Acqua minerale a bordo", "Guida locale multilingue"],
+        notIncludedItems: ["Pranzo e cena", "Biglietti d'ingresso ai siti", "Mance (a discrezione)", "Attività facoltative"],
+        sidebarItems: ["Ritiro dal tuo hotel", "Risposta entro meno di un'ora", "Gruppo privato · fino a 7 persone"],
+        alsoDiscover: "Scopri anche", home: "Home",
+        factDuration: "Durata", factDeparture: "Partenza", factGroup: "Gruppo", factLanguage: "Lingua",
+        factGroupValue: "Privato · fino a 7", factLanguageValue: "FR · EN · AR · IT",
       },
     },
     gallery: {

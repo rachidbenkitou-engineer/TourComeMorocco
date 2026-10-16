@@ -2,6 +2,7 @@ export type TransferCategory = "airport" | "city" | "coast" | "desert";
 
 export type Transfer = {
   slug: string;
+  from?: { fr: string; en: string; ar: string };
   to: { fr: string; en: string; ar: string };
   price: string;
   prices: { sedan: number; van: number; luxuryVan: number };
@@ -20,9 +21,10 @@ export const CATEGORIES: { id: TransferCategory | "all"; label: string }[] = [
   { id: "desert",  label: "Désert & Nature" },
 ];
 
-/* All transfers depart from Marrakech */
+/* All transfers without a `from` depart from Marrakech */
 export const transfers: Transfer[] = [
-  /* ── Aéroports ─────────────────────────────── */
+
+  /* ── Aéroports (depuis Marrakech) ──────────────────── */
   {
     slug: "aeroport-menara",
     to: { fr: "Aéroport Marrakech Menara", en: "Marrakech Menara Airport", ar: "مطار مراكش المنارة" },
@@ -34,21 +36,29 @@ export const transfers: Transfer[] = [
   {
     slug: "aeroport-mohammed-v",
     to: { fr: "Aéroport Mohammed V", en: "Mohammed V Airport", ar: "مطار محمد الخامس" },
-    price: "€140",
-    prices: { sedan: 140, van: 150, luxuryVan: 150 },
+    price: "€120",
+    prices: { sedan: 120, van: 145, luxuryVan: 165 },
     duration: "3 h", distance: "238 km", distanceKm: 238,
     image: "casablanca.jpg", category: "airport",
   },
   {
+    slug: "aeroport-agadir",
+    to: { fr: "Aéroport Agadir Al Massira", en: "Agadir Al Massira Airport", ar: "مطار أكادير المسيرة" },
+    price: "€120",
+    prices: { sedan: 120, van: 145, luxuryVan: 165 },
+    duration: "3 h", distance: "275 km", distanceKm: 275,
+    image: "agadirBeach.jpg", category: "airport",
+  },
+  {
     slug: "aeroport-ibn-battouta",
     to: { fr: "Aéroport Ibn Battouta", en: "Ibn Battouta Airport", ar: "مطار ابن بطوطة" },
-    price: "€330",
-    prices: { sedan: 330, van: 410, luxuryVan: 460 },
+    price: "€300",
+    prices: { sedan: 300, van: 370, luxuryVan: 415 },
     duration: "9 h 30", distance: "570 km", distanceKm: 570,
     image: "tangerCity.jpg", category: "airport",
   },
 
-  /* ── Villes ─────────────────────────────────── */
+  /* ── Villes (depuis Marrakech) ──────────────────────── */
   {
     slug: "beni-mellal",
     to: { fr: "Béni Mellal", en: "Beni Mellal", ar: "بني ملال" },
@@ -68,16 +78,16 @@ export const transfers: Transfer[] = [
   {
     slug: "casablanca",
     to: { fr: "Casablanca", en: "Casablanca", ar: "الدار البيضاء" },
-    price: "€140",
-    prices: { sedan: 140, van: 150, luxuryVan: 150 },
+    price: "€120",
+    prices: { sedan: 120, van: 145, luxuryVan: 165 },
     duration: "3 h 15", distance: "238 km", distanceKm: 238,
     image: "casablanca.jpg", category: "city",
   },
   {
     slug: "rabat",
     to: { fr: "Rabat", en: "Rabat", ar: "الرباط" },
-    price: "€190",
-    prices: { sedan: 190, van: 235, luxuryVan: 260 },
+    price: "€165",
+    prices: { sedan: 165, van: 200, luxuryVan: 230 },
     duration: "5 h 30", distance: "323 km", distanceKm: 323,
     image: "rabatCity.jpg", category: "city",
   },
@@ -108,16 +118,24 @@ export const transfers: Transfer[] = [
   {
     slug: "tanger",
     to: { fr: "Tanger", en: "Tangier", ar: "طنجة" },
-    price: "€330",
-    prices: { sedan: 330, van: 410, luxuryVan: 460 },
+    price: "€300",
+    prices: { sedan: 300, van: 370, luxuryVan: 415 },
+    duration: "9 h 30", distance: "565 km", distanceKm: 565,
+    image: "tangerCity.jpg", category: "city",
+  },
+  {
+    slug: "tetouan",
+    to: { fr: "Tétouan", en: "Tetouan", ar: "تطوان" },
+    price: "€300",
+    prices: { sedan: 300, van: 370, luxuryVan: 415 },
     duration: "9 h 30", distance: "565 km", distanceKm: 565,
     image: "tangerCity.jpg", category: "city",
   },
   {
     slug: "fes",
     to: { fr: "Fès", en: "Fez", ar: "فاس" },
-    price: "€365",
-    prices: { sedan: 365, van: 450, luxuryVan: 510 },
+    price: "€280",
+    prices: { sedan: 280, van: 345, luxuryVan: 390 },
     duration: "7 h 30", distance: "430 km", distanceKm: 430,
     image: "fes.jpg", category: "city",
   },
@@ -130,12 +148,12 @@ export const transfers: Transfer[] = [
     image: "chefchaouen.jpg", category: "city",
   },
 
-  /* ── Côte & Sud ─────────────────────────────── */
+  /* ── Côte & Sud (depuis Marrakech) ──────────────────── */
   {
     slug: "essaouira",
     to: { fr: "Essaouira", en: "Essaouira", ar: "الصويرة" },
-    price: "€105",
-    prices: { sedan: 105, van: 135, luxuryVan: 150 },
+    price: "€95",
+    prices: { sedan: 95, van: 120, luxuryVan: 135 },
     duration: "2 h 30", distance: "176 km", distanceKm: 176,
     image: "essaouira.jpg", category: "coast",
   },
@@ -166,8 +184,8 @@ export const transfers: Transfer[] = [
   {
     slug: "taghazout",
     to: { fr: "Taghazout", en: "Taghazout", ar: "تاغازوت" },
-    price: "€180",
-    prices: { sedan: 180, van: 225, luxuryVan: 250 },
+    price: "€135",
+    prices: { sedan: 135, van: 165, luxuryVan: 190 },
     duration: "3 h", distance: "225 km", distanceKm: 225,
     image: "taghazoutVillage.jpg", category: "coast",
   },
@@ -180,20 +198,20 @@ export const transfers: Transfer[] = [
     image: "taroudantGate.jpg", category: "coast",
   },
 
-  /* ── Désert & Nature ────────────────────────── */
+  /* ── Désert & Nature (depuis Marrakech) ─────────────── */
   {
     slug: "agafay",
     to: { fr: "Agafay", en: "Agafay", ar: "أكافاي" },
-    price: "€110",
-    prices: { sedan: 110, van: 75, luxuryVan: 80 },
+    price: "€70",
+    prices: { sedan: 70, van: 90, luxuryVan: 100 },
     duration: "55 min", distance: "35 km", distanceKm: 35,
     image: "agafay.jpg", category: "desert",
   },
   {
     slug: "ourika",
     to: { fr: "Vallée de l'Ourika", en: "Ourika Valley", ar: "وادي أوريكا" },
-    price: "€110",
-    prices: { sedan: 110, van: 75, luxuryVan: 80 },
+    price: "€80",
+    prices: { sedan: 80, van: 100, luxuryVan: 115 },
     duration: "50 min", distance: "36 km", distanceKm: 36,
     image: "ourikaFalls.jpg", category: "desert",
   },
@@ -224,8 +242,8 @@ export const transfers: Transfer[] = [
   {
     slug: "ouzoud",
     to: { fr: "Cascades d'Ouzoud", en: "Ouzoud Waterfalls", ar: "شلالات أوزود" },
-    price: "€135",
-    prices: { sedan: 135, van: 165, luxuryVan: 190 },
+    price: "€160",
+    prices: { sedan: 160, van: 195, luxuryVan: 220 },
     duration: "1 h 45", distance: "155 km", distanceKm: 155,
     image: "ouzoud.jpg", category: "desert",
   },
@@ -256,18 +274,101 @@ export const transfers: Transfer[] = [
   {
     slug: "zagora",
     to: { fr: "Zagora", en: "Zagora", ar: "زاكورة" },
-    price: "€500",
-    prices: { sedan: 500, van: 500, luxuryVan: 500 },
+    price: "€450",
+    prices: { sedan: 450, van: 555, luxuryVan: 625 },
     duration: "3 h 45", distance: "370 km", distanceKm: 370,
     image: "dunes.jpg", category: "desert",
   },
   {
     slug: "merzouga",
     to: { fr: "Merzouga", en: "Merzouga", ar: "مرزوقة" },
-    price: "€500",
-    prices: { sedan: 500, van: 500, luxuryVan: 500 },
+    price: "€450",
+    prices: { sedan: 450, van: 555, luxuryVan: 625 },
     duration: "7 h 15", distance: "545 km", distanceKm: 545,
     image: "desertCamels.jpg", category: "desert",
+  },
+
+  /* ── Routes inter-villes (départ ≠ Marrakech) ────────── */
+  {
+    slug: "casa-airport-casablanca",
+    from: { fr: "Aéroport Mohammed V", en: "Mohammed V Airport", ar: "مطار محمد الخامس" },
+    to:   { fr: "Casablanca", en: "Casablanca", ar: "الدار البيضاء" },
+    price: "€30",
+    prices: { sedan: 30, van: 40, luxuryVan: 45 },
+    duration: "30 min", distance: "30 km", distanceKm: 30,
+    image: "casablanca.jpg", category: "airport",
+  },
+  {
+    slug: "casa-airport-rabat",
+    from: { fr: "Aéroport Mohammed V", en: "Mohammed V Airport", ar: "مطار محمد الخامس" },
+    to:   { fr: "Rabat", en: "Rabat", ar: "الرباط" },
+    price: "€70",
+    prices: { sedan: 70, van: 85, luxuryVan: 100 },
+    duration: "1 h", distance: "90 km", distanceKm: 90,
+    image: "rabatCity.jpg", category: "airport",
+  },
+  {
+    slug: "aeroport-agadir-essaouira",
+    from: { fr: "Aéroport Agadir Al Massira", en: "Agadir Al Massira Airport", ar: "مطار أكادير المسيرة" },
+    to:   { fr: "Essaouira", en: "Essaouira", ar: "الصويرة" },
+    price: "€120",
+    prices: { sedan: 120, van: 145, luxuryVan: 165 },
+    duration: "2 h", distance: "175 km", distanceKm: 175,
+    image: "essaouira.jpg", category: "coast",
+  },
+  {
+    slug: "essaouira-agadir",
+    from: { fr: "Essaouira", en: "Essaouira", ar: "الصويرة" },
+    to:   { fr: "Agadir", en: "Agadir", ar: "أكادير" },
+    price: "€105",
+    prices: { sedan: 105, van: 130, luxuryVan: 145 },
+    duration: "2 h", distance: "175 km", distanceKm: 175,
+    image: "agadirBeach.jpg", category: "coast",
+  },
+  {
+    slug: "essaouira-casablanca",
+    from: { fr: "Essaouira", en: "Essaouira", ar: "الصويرة" },
+    to:   { fr: "Casablanca", en: "Casablanca", ar: "الدار البيضاء" },
+    price: "€230",
+    prices: { sedan: 230, van: 285, luxuryVan: 320 },
+    duration: "4 h", distance: "375 km", distanceKm: 375,
+    image: "casablanca.jpg", category: "city",
+  },
+  {
+    slug: "essaouira-agafay",
+    from: { fr: "Essaouira", en: "Essaouira", ar: "الصويرة" },
+    to:   { fr: "Agafay", en: "Agafay", ar: "أكافاي" },
+    price: "€120",
+    prices: { sedan: 120, van: 145, luxuryVan: 165 },
+    duration: "3 h", distance: "240 km", distanceKm: 240,
+    image: "agafay.jpg", category: "desert",
+  },
+  {
+    slug: "agadir-casablanca",
+    from: { fr: "Agadir", en: "Agadir", ar: "أكادير" },
+    to:   { fr: "Casablanca", en: "Casablanca", ar: "الدار البيضاء" },
+    price: "€230",
+    prices: { sedan: 230, van: 285, luxuryVan: 320 },
+    duration: "5 h", distance: "460 km", distanceKm: 460,
+    image: "casablanca.jpg", category: "city",
+  },
+  {
+    slug: "agadir-rabat",
+    from: { fr: "Agadir", en: "Agadir", ar: "أكادير" },
+    to:   { fr: "Rabat", en: "Rabat", ar: "الرباط" },
+    price: "€260",
+    prices: { sedan: 260, van: 320, luxuryVan: 360 },
+    duration: "5 h 30", distance: "520 km", distanceKm: 520,
+    image: "rabatCity.jpg", category: "city",
+  },
+  {
+    slug: "agadir-agafay",
+    from: { fr: "Agadir", en: "Agadir", ar: "أكادير" },
+    to:   { fr: "Agafay", en: "Agafay", ar: "أكافاي" },
+    price: "€145",
+    prices: { sedan: 145, van: 180, luxuryVan: 200 },
+    duration: "3 h 30", distance: "320 km", distanceKm: 320,
+    image: "agafay.jpg", category: "desert",
   },
 ];
 
@@ -275,12 +376,33 @@ export function getTransferBySlug(slug: string): Transfer | undefined {
   return transfers.find(t => t.slug === slug);
 }
 
-/** Match a destination name (any locale) to a transfer record */
+/** Match by destination name in any locale (Marrakech-origin only, for backward compat) */
 export function findTransferByDest(dest: string): Transfer | undefined {
   const d = dest.trim().toLowerCase();
   return transfers.find(t =>
-    t.to.fr.toLowerCase() === d ||
-    t.to.en.toLowerCase() === d ||
-    t.to.ar === dest.trim()
+    !t.from && (
+      t.to.fr.toLowerCase() === d ||
+      t.to.en.toLowerCase() === d ||
+      t.to.ar === dest.trim()
+    )
   );
+}
+
+/** Match by displayed from + to names in the given locale */
+export function findTransferByRoute(
+  fromDisplay: string,
+  toDisplay: string,
+  locale: string
+): Transfer | undefined {
+  const mktFr = "marrakech";
+  return transfers.find(t => {
+    const tFrom = t.from
+      ? ((t.from as Record<string, string | undefined>)[locale] ?? t.from.en ?? t.from.fr ?? "")
+      : "Marrakech";
+    const tTo = (t.to as Record<string, string | undefined>)[locale] ?? t.to.en ?? t.to.fr ?? "";
+    const fromMatch =
+      tFrom.toLowerCase() === fromDisplay.toLowerCase() ||
+      (!t.from && (fromDisplay.toLowerCase() === mktFr || fromDisplay === "مراكش"));
+    return fromMatch && tTo.toLowerCase() === toDisplay.toLowerCase();
+  });
 }

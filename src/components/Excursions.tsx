@@ -7,69 +7,6 @@ import { useI18n } from "@/i18n/I18nProvider";
 import { Reveal } from "@/components/Reveal";
 
 type L = "fr" | "en" | "ar" | "it";
-const EXCURSION_I18N: Record<string, { title: Record<L, string>; short: Record<L, string> }> = {
-  "vallee-ourika-atlas": {
-    title: {
-      fr: "Vallée de l'Ourika et Atlas depuis Marrakech",
-      en: "Ourika Valley and Atlas from Marrakech",
-      ar: "وادي أوريكا والأطلس من مراكش",
-      it: "Valle dell'Ourika e Atlante da Marrakech",
-    },
-    short: {
-      fr: "Villages berbères, coopérative d'argan et cascades de Setti Fatma",
-      en: "Berber villages, argan cooperative and Setti Fatma waterfalls",
-      ar: "قرى أمازيغية، تعاونية أركان وشلالات سيتي فاطمة",
-      it: "Villaggi berberi, cooperativa di argan e cascate di Setti Fatma",
-    },
-  },
-  "cascades-ouzoud": {
-    title: {
-      fr: "Cascades d'Ouzoud depuis Marrakech",
-      en: "Ouzoud Waterfalls from Marrakech",
-      ar: "شلالات أوزود من مراكش",
-      it: "Cascate di Ouzoud da Marrakech",
-    },
-    short: {
-      fr: "Les plus hautes cascades du Maroc, oliveraies et singes sauvages",
-      en: "Morocco's highest waterfalls, olive groves and wild monkeys",
-      ar: "أعلى شلالات المغرب، غابات الزيتون والقرود البربرية",
-      it: "Le cascate più alte del Marocco, uliveti e scimmie selvatiche",
-    },
-  },
-  "desert-agafay-coucher-soleil": {
-    title: {
-      fr: "Coucher de soleil et dromadaire dans le désert d'Agafay",
-      en: "Sunset and camel ride in Agafay Desert",
-      ar: "غروب الشمس وركوب الإبل في صحراء أكافاي",
-      it: "Tramonto e cammello nel deserto di Agafay",
-    },
-    short: {
-      fr: "Désert de pierre, balade à dromadaire au coucher du soleil et dîner sous les étoiles",
-      en: "Stone desert, camel ride at sunset and dinner under the stars",
-      ar: "صحراء حجرية، ركوب الإبل عند الغروب والعشاء تحت النجوم",
-      it: "Deserto di pietra, giro in cammello al tramonto e cena sotto le stelle",
-    },
-  },
-  "imlil-toubkal-atlas": {
-    title: {
-      fr: "Imlil et parc national du Toubkal depuis Marrakech",
-      en: "Imlil and Toubkal National Park from Marrakech",
-      ar: "إملي وحديقة توبقال الوطنية من مراكش",
-      it: "Imlil e parco nazionale del Toubkal da Marrakech",
-    },
-    short: {
-      fr: "Randonnée dans le Haut Atlas jusqu'aux villages berbères sous le plus haut sommet d'Afrique du Nord",
-      en: "Hiking in the High Atlas to Berber villages under North Africa's highest peak",
-      ar: "مشي في جبال الأطلس إلى القرى الأمازيغية تحت أعلى قمة في شمال أفريقيا",
-      it: "Escursione nell'Alto Atlante fino ai villaggi berberi sotto la vetta più alta del Nord Africa",
-    },
-  },
-};
-
-const DURATION_I18N: Record<string, Record<L, string>> = {
-  "Journée complète": { fr: "Journée complète", en: "Full Day",  ar: "يوم كامل",  it: "Giornata intera" },
-  "Demi-journée":     { fr: "Demi-journée",     en: "Half Day",  ar: "نصف يوم",   it: "Mezza giornata"  },
-};
 
 const SPRING = { type: "spring" as const, stiffness: 280, damping: 22 };
 
@@ -146,7 +83,7 @@ export function Excursions() {
                   className="group bg-white rounded-2xl overflow-hidden shadow-card hover:shadow-lift transition-shadow duration-300 flex flex-col h-full"
                 >
                   <div className="relative h-[190px] overflow-hidden flex-shrink-0">
-                    <Image src={excursion.image} alt={excursion.title} fill
+                    <Image src={excursion.image} alt={excursion.title[loc]} fill
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
                       sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 25vw"
                     />
@@ -157,15 +94,15 @@ export function Excursions() {
                       transition={{ delay: i * 0.08 + 0.3, duration: 0.45 }}
                       className="absolute bottom-3 left-3 flex items-center gap-1.5 bg-[#062f35]/80 backdrop-blur-sm text-[#f5b63f] text-[10px] font-bold px-2.5 py-1 rounded-full"
                     >
-                      <IconClock /> {DURATION_I18N[excursion.duration]?.[loc] ?? excursion.duration}
+                      <IconClock /> {excursion.duration[loc]}
                     </motion.span>
                   </div>
                   <div className="flex flex-col flex-1 p-4">
                     <h3 className="font-serif text-[14.5px] font-semibold text-[#062f35] leading-snug mb-1.5">
-                      {EXCURSION_I18N[excursion.slug]?.title[loc] ?? excursion.title}
+                      {excursion.title[loc]}
                     </h3>
                     <p className="text-[12px] text-[#5a7578] leading-relaxed flex-1 mb-3">
-                      {EXCURSION_I18N[excursion.slug]?.short[loc] ?? excursion.short}
+                      {excursion.short[loc]}
                     </p>
                     <div className="flex items-center justify-between pt-3 border-t border-[#f0ebe3] mt-auto">
                       <span className="text-[9.5px] font-bold text-[#a87627] uppercase tracking-[0.08em]">

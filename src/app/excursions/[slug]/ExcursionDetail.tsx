@@ -99,41 +99,31 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
   );
 }
 
-const INCLUDED = [
-  "Chauffeur privé tout au long du trajet",
-  "Prise en charge depuis votre hébergement",
-  "Eau minérale à bord",
-  "Guide local francophone",
-];
-const NOT_INCLUDED = [
-  "Déjeuner et dîner",
-  "Billets d'entrée des sites",
-  "Pourboires (au bon vouloir)",
-  "Activités optionnelles",
-];
-
 export default function ExcursionDetail({ slug }: { slug: string }) {
   const excursion = getExcursion(slug);
   if (!excursion) notFound();
 
   const { open: openBooking } = useBooking();
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const dt = t.pages.excursions.detail;
   const pg = t.pages.excursions;
 
   const bookFn = () => openBooking(
-    `${dt.privateExcursion} : ${excursion.title} (${excursion.duration})`,
-    excursion.fromPrice
+    `${dt.privateExcursion} : ${excursion.title[locale]}`,
+    excursion.fromPrice,
+    excursion.slug
   );
 
   const related = excursions.filter(e => e.slug !== excursion.slug).slice(0, 3);
 
   const facts = [
-    { icon: <IconClock />, label: "Durée",  value: excursion.duration },
-    { icon: <IconPin />,   label: "Départ", value: "Marrakech" },
-    { icon: <IconUsers />, label: "Groupe", value: "Privé · jusqu'à 7" },
-    { icon: <IconGlobe />, label: "Langue", value: "FR · EN · AR" },
+    { icon: <IconClock />, label: dt.factDuration,  value: excursion.duration[locale] },
+    { icon: <IconPin />,   label: dt.factDeparture, value: "Marrakech" },
+    { icon: <IconUsers />, label: dt.factGroup,     value: dt.factGroupValue },
+    { icon: <IconGlobe />, label: dt.factLanguage,  value: dt.factLanguageValue },
   ];
+
+  const sidebarIcons = [<IconShield key="s" />, <IconZap key="z" />, <IconUsers key="u" />];
 
   return (
     <main className="min-h-screen bg-[#fff8f0]">
@@ -141,7 +131,7 @@ export default function ExcursionDetail({ slug }: { slug: string }) {
         {/* ── Hero ── */}
         <section className="relative overflow-hidden" style={{ height: "72vh", minHeight: "500px" }}>
           <div className="absolute inset-0 kenburns">
-            <Image src={excursion.image} alt={excursion.title} fill priority sizes="100vw" className="object-cover" />
+            <Image src={excursion.image} alt={excursion.title[locale]} fill priority sizes="100vw" className="object-cover" />
           </div>
           <div className="absolute inset-0 bg-gradient-to-t from-[#031e22]/93 via-[#031e22]/50 to-[#031e22]/18" />
 
@@ -149,36 +139,36 @@ export default function ExcursionDetail({ slug }: { slug: string }) {
             style={{ paddingTop: "78px" }}>
             {/* Breadcrumb */}
             <div className="flex items-center gap-1.5 text-white/45 text-[11px] mb-5">
-              <Link href="/" className="hover:text-white/75 transition-colors">Accueil</Link>
+              <Link href="/" className="hover:text-white/75 transition-colors">{dt.home}</Link>
               <span>/</span>
               <Link href="/excursions" className="hover:text-white/75 transition-colors">{t.nav.excursions}</Link>
               <span>/</span>
-              <span className="text-white/65 line-clamp-1">{excursion.title}</span>
+              <span className="text-white/65 line-clamp-1">{excursion.title[locale]}</span>
             </div>
 
             <span className="inline-flex items-center gap-1.5 bg-[#f5b63f]/15 border border-[#f5b63f]/35 text-[#f5b63f] text-[10px] font-bold px-3 py-1 rounded-full mb-4 w-fit uppercase tracking-wider">
-              {dt.privateExcursion} · Depuis Marrakech
+              {dt.privateExcursion} · {dt.fromMarrakech}
             </span>
 
             <h1 className="font-serif font-semibold text-white leading-tight max-w-[780px] mb-4"
               style={{ fontSize: "clamp(26px,4.5vw,56px)" }}>
-              {excursion.title}
+              {excursion.title[locale]}
             </h1>
             <p className="text-white/75 max-w-[560px] mb-7 leading-relaxed"
               style={{ fontSize: "clamp(13px,1.1vw,15.5px)" }}>
-              {excursion.short}
+              {excursion.short[locale]}
             </p>
 
             {/* Pills */}
             <div className="flex flex-wrap gap-2 text-[12px]">
               <span className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm border border-white/18 text-white px-3 py-1.5 rounded-full font-medium">
-                <IconClock /> {excursion.duration}
+                <IconClock /> {excursion.duration[locale]}
               </span>
               <span className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm border border-white/18 text-white px-3 py-1.5 rounded-full font-medium">
-                <IconPin /> Depuis Marrakech
+                <IconPin /> {dt.fromMarrakech}
               </span>
               <span className="flex items-center gap-1.5 bg-[#f5b63f] text-[#1c2e2e] font-bold px-3 py-1.5 rounded-full">
-                {excursion.fromPrice ?? dt.getQuote}
+                {excursion.fromPrice ? `${pg.from} ${excursion.fromPrice}` : dt.getQuote}
               </span>
             </div>
           </div>
@@ -186,10 +176,10 @@ export default function ExcursionDetail({ slug }: { slug: string }) {
 
         {/* ── Sticky in-page nav ── */}
         <nav className="sticky z-30 border-b border-[#e4eaeb] bg-white/92 backdrop-blur-sm"
-          style={{ top: "60px" }} aria-label={excursion.title}>
+          style={{ top: "60px" }} aria-label={excursion.title[locale]}>
           <div className="max-w-[1280px] mx-auto px-[clamp(16px,4.5vw,56px)] flex gap-6 overflow-x-auto text-[12.5px] font-semibold">
             {[
-              { href: "#overview",   label: "Vue d'ensemble" },
+              { href: "#overview",   label: dt.overview },
               { href: "#programme",  label: dt.itinerary },
               { href: "#highlights", label: dt.highlights },
               ...(excursion.faqs.length > 0 ? [{ href: "#faq", label: dt.faq }] : []),
@@ -211,8 +201,8 @@ export default function ExcursionDetail({ slug }: { slug: string }) {
 
               {/* Overview */}
               <section id="overview" className="scroll-mt-[140px]">
-                <h2 className="font-serif text-[24px] font-semibold text-[#062f35] mb-5">Vue d&apos;ensemble</h2>
-                <p className="text-[15px] text-[#3a5a5e] leading-[1.75] mb-8">{excursion.intro}</p>
+                <h2 className="font-serif text-[24px] font-semibold text-[#062f35] mb-5">{dt.overview}</h2>
+                <p className="text-[15px] text-[#3a5a5e] leading-[1.75] mb-8">{excursion.intro[locale]}</p>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   {facts.map(f => (
                     <div key={f.label} className="rounded-2xl border border-[#dce8e8] bg-white p-4">
@@ -234,9 +224,9 @@ export default function ExcursionDetail({ slug }: { slug: string }) {
                         {i + 1}
                       </span>
                       <div className="rounded-2xl border border-[#dce8e8] bg-white p-5 shadow-card">
-                        <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#a87627]">{step.day}</span>
-                        <h3 className="font-serif text-[16px] text-[#062f35] mt-1 mb-2 font-semibold">{step.title}</h3>
-                        <p className="text-[13px] text-[#5a7578] leading-relaxed">{step.description}</p>
+                        <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#a87627]">{step.day[locale]}</span>
+                        <h3 className="font-serif text-[16px] text-[#062f35] mt-1 mb-2 font-semibold">{step.title[locale]}</h3>
+                        <p className="text-[13px] text-[#5a7578] leading-relaxed">{step.description[locale]}</p>
                       </div>
                     </li>
                   ))}
@@ -247,7 +237,7 @@ export default function ExcursionDetail({ slug }: { slug: string }) {
               <section id="highlights" className="scroll-mt-[140px]">
                 <h2 className="font-serif text-[24px] font-semibold text-[#062f35] mb-6">{dt.highlights}</h2>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {excursion.highlights.map((h, i) => (
+                  {excursion.highlights[locale].map((h, i) => (
                     <li key={i} className="flex items-start gap-3 rounded-2xl border border-[#dce8e8] bg-white p-4">
                       <span className="mt-0.5 w-6 h-6 flex-shrink-0 rounded-full bg-[#f5b63f]/15 border border-[#f5b63f]/30 flex items-center justify-center text-[#b07d21]">
                         <IconCheck />
@@ -261,9 +251,9 @@ export default function ExcursionDetail({ slug }: { slug: string }) {
               {/* Inclus / Non inclus */}
               <section className="grid gap-4 md:grid-cols-2">
                 <div className="rounded-2xl border border-[#dce8e8] bg-white p-6">
-                  <h2 className="font-serif text-[20px] font-semibold text-[#062f35] mb-5">Inclus</h2>
+                  <h2 className="font-serif text-[20px] font-semibold text-[#062f35] mb-5">{dt.included}</h2>
                   <ul className="space-y-3">
-                    {INCLUDED.map(item => (
+                    {dt.includedItems.map(item => (
                       <li key={item} className="flex items-start gap-2.5 text-[13px] text-[#3a5a5e]">
                         <span className="mt-0.5 flex-shrink-0 text-[#25d366]"><IconCheck /></span>
                         {item}
@@ -272,9 +262,9 @@ export default function ExcursionDetail({ slug }: { slug: string }) {
                   </ul>
                 </div>
                 <div className="rounded-2xl border border-[#dce8e8] bg-white p-6">
-                  <h2 className="font-serif text-[20px] font-semibold text-[#062f35] mb-5">Non inclus</h2>
+                  <h2 className="font-serif text-[20px] font-semibold text-[#062f35] mb-5">{dt.notIncluded}</h2>
                   <ul className="space-y-3">
-                    {NOT_INCLUDED.map(item => (
+                    {dt.notIncludedItems.map(item => (
                       <li key={item} className="flex items-start gap-2.5 text-[13px] text-[#5a7578]">
                         <span className="mt-0.5 flex-shrink-0 text-[#e05b5b]"><IconX /></span>
                         {item}
@@ -290,7 +280,7 @@ export default function ExcursionDetail({ slug }: { slug: string }) {
                   <h2 className="font-serif text-[24px] font-semibold text-[#062f35] mb-6">{dt.faq}</h2>
                   <div className="bg-white rounded-2xl border border-[#dce8e8] px-6">
                     {excursion.faqs.map((faq, i) => (
-                      <FaqItem key={i} question={faq.question} answer={faq.answer} />
+                      <FaqItem key={i} question={faq.question[locale]} answer={faq.answer[locale]} />
                     ))}
                   </div>
                 </section>
@@ -307,16 +297,16 @@ export default function ExcursionDetail({ slug }: { slug: string }) {
                   {excursion.fromPrice ? (
                     <>
                       <p className="font-serif text-white mt-1 leading-tight" style={{ fontSize: "clamp(22px,2.5vw,30px)" }}>
-                        {excursion.fromPrice}
+                        {pg.from} {excursion.fromPrice}
                       </p>
-                      <p className="text-white/50 text-[11.5px] mt-0.5">par groupe · véhicule privé</p>
+                      <p className="text-white/50 text-[11.5px] mt-0.5">{dt.perGroup}</p>
                     </>
                   ) : (
                     <>
                       <p className="font-serif text-white mt-1 leading-tight" style={{ fontSize: "clamp(20px,2.2vw,26px)" }}>
                         {dt.getQuote}
                       </p>
-                      <p className="text-white/50 text-[11.5px] mt-0.5">Prix selon groupe et véhicule</p>
+                      <p className="text-white/50 text-[11.5px] mt-0.5">{dt.priceByGroup}</p>
                     </>
                   )}
                 </div>
@@ -331,14 +321,10 @@ export default function ExcursionDetail({ slug }: { slug: string }) {
                   </button>
 
                   <ul className="pt-1 space-y-2.5">
-                    {[
-                      { icon: <IconShield />, text: "Prise en charge depuis votre hôtel" },
-                      { icon: <IconZap />,    text: "Réponse en moins d'une heure" },
-                      { icon: <IconUsers />,  text: "Groupe privé · jusqu'à 7 personnes" },
-                    ].map(item => (
-                      <li key={item.text} className="flex items-center gap-2 text-[12px] text-[#5a7578]">
-                        <span className="text-[#a87627] flex-shrink-0">{item.icon}</span>
-                        {item.text}
+                    {dt.sidebarItems.map((text, i) => (
+                      <li key={i} className="flex items-center gap-2 text-[12px] text-[#5a7578]">
+                        <span className="text-[#a87627] flex-shrink-0">{sidebarIcons[i]}</span>
+                        {text}
                       </li>
                     ))}
                   </ul>
@@ -376,29 +362,29 @@ export default function ExcursionDetail({ slug }: { slug: string }) {
               </p>
             </div>
             <h2 className="font-serif text-[#062f35] font-semibold mb-8" style={{ fontSize: "clamp(22px,2.8vw,32px)" }}>
-              À découvrir aussi
+              {dt.alsoDiscover}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {related.map(rel => (
                 <Link key={rel.slug} href={`/excursions/${rel.slug}`}
                   className="group bg-[#fff8f0] rounded-2xl overflow-hidden shadow-card hover:shadow-lift transition-all duration-300 hover:-translate-y-1.5 flex flex-col">
                   <div className="relative h-[180px] overflow-hidden flex-shrink-0">
-                    <Image src={rel.image} alt={rel.title} fill
+                    <Image src={rel.image} alt={rel.title[locale]} fill
                       sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
                       className="object-cover transition-transform duration-700 group-hover:scale-105" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#031e22]/72 to-transparent" />
                     <span className="absolute bottom-3 left-3 flex items-center gap-1.5 bg-[#062f35]/80 backdrop-blur-sm text-[#f5b63f] text-[10px] font-bold px-2.5 py-1 rounded-full">
-                      <IconClock /> {rel.duration}
+                      <IconClock /> {rel.duration[locale]}
                     </span>
                     {rel.fromPrice && (
                       <span className="absolute top-3 right-3 bg-[#f5b63f] text-[#1c2e2e] text-[10px] font-bold px-2.5 py-0.5 rounded-full">
-                        {rel.fromPrice}
+                        {pg.from} {rel.fromPrice}
                       </span>
                     )}
                   </div>
                   <div className="p-4 flex-1">
-                    <h3 className="font-serif text-[14.5px] font-semibold text-[#062f35] leading-tight mb-1.5">{rel.title}</h3>
-                    <p className="text-[12px] text-[#5a7578] line-clamp-2">{rel.short}</p>
+                    <h3 className="font-serif text-[14.5px] font-semibold text-[#062f35] leading-tight mb-1.5">{rel.title[locale]}</h3>
+                    <p className="text-[12px] text-[#5a7578] line-clamp-2">{rel.short[locale]}</p>
                   </div>
                 </Link>
               ))}

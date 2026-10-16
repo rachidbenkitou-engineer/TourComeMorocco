@@ -111,7 +111,10 @@ function DestinationSearch({
     !q ||
     tr.to.fr.toLowerCase().includes(q) ||
     tr.to.en.toLowerCase().includes(q) ||
-    (tr.to.ar ?? "").toLowerCase().includes(q)
+    (tr.to.ar ?? "").toLowerCase().includes(q) ||
+    (tr.from?.fr ?? "").toLowerCase().includes(q) ||
+    (tr.from?.en ?? "").toLowerCase().includes(q) ||
+    (tr.from?.ar ?? "").toLowerCase().includes(q)
   );
 
   useEffect(() => {
@@ -237,7 +240,10 @@ function TransferCard({ transfer }: { transfer: Transfer }) {
   const { t, locale } = useI18n();
   const pg = t.pages.transfers;
   const dest   = (transfer.to as Record<string, string | undefined>)[locale] ?? transfer.to.fr;
-  const mktName = locale === "ar" ? "مراكش" : "Marrakech";
+  const fromData = transfer.from as Record<string, string | undefined> | undefined;
+  const mktName = fromData
+    ? (fromData[locale] ?? fromData.en ?? fromData.fr ?? "Marrakech")
+    : locale === "ar" ? "مراكش" : "Marrakech";
   const discoverLabel = locale === "ar" ? "اكتشف" : locale === "en" ? "Discover" : locale === "it" ? "Scopri" : "Découvrir";
 
   return (
@@ -305,7 +311,10 @@ export default function TransfersClient() {
     ? transfers.filter(tr =>
         tr.to.fr.toLowerCase().includes(q) ||
         tr.to.en.toLowerCase().includes(q) ||
-        (tr.to.ar ?? "").toLowerCase().includes(q)
+        (tr.to.ar ?? "").toLowerCase().includes(q) ||
+        (tr.from?.fr ?? "").toLowerCase().includes(q) ||
+        (tr.from?.en ?? "").toLowerCase().includes(q) ||
+        (tr.from?.ar ?? "").toLowerCase().includes(q)
       )
     : transfers;
 
