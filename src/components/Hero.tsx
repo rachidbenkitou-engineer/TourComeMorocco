@@ -2,13 +2,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { motion } from "motion/react";
 import { useI18n } from "@/i18n/I18nProvider";
 import { useBooking } from "@/components/BookingModal";
 
+const SPRING = { type: "spring" as const, stiffness: 280, damping: 22 };
+
 const SLIDE_IMAGES = [
-  { src: "/slide1.jpg", pos: "center 38%" },
-  { src: "/slide2.jpg", pos: "center 50%" },
-  { src: "/slide3.jpg", pos: "center 50%" },
+  { src: "/slide2.jpg", pos: "center 60%" },
+  { src: "/slide3.png", pos: "center 40%" },
 ];
 
 export function Hero() {
@@ -110,32 +112,37 @@ export function Hero() {
 
           {/* Boutons */}
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link
-              href="/tours"
-              className="group inline-flex items-center gap-3 rounded-full transition-all duration-300 hover:-translate-y-[3px] hover:shadow-[0_12px_32px_rgba(245,182,63,.45)]"
-              style={{
-                background: "linear-gradient(135deg,#f5c842 0%,#e8921e 100%)",
-                fontSize: "11px", letterSpacing: "0.12em", fontWeight: 700,
-                padding: "13px 14px 13px 26px", color: "#1c2e2e", textTransform: "uppercase",
-              }}
-            >
-              {t.hero.cta1}
-              <span className="w-7 h-7 rounded-full bg-[#1c2e2e]/15 flex items-center justify-center group-hover:bg-[#1c2e2e]/25 transition-colors text-[15px] leading-none">
-                {locale === "ar" ? "←" : "→"}
-              </span>
-            </Link>
+            <motion.div whileHover={{ y: -5, scale: 1.04 }} whileTap={{ scale: 0.96 }} transition={SPRING}>
+              <Link
+                href="/tours"
+                className="group inline-flex items-center gap-3 rounded-full hover:shadow-[0_14px_36px_rgba(245,182,63,.5)] transition-shadow duration-300"
+                style={{
+                  background: "linear-gradient(135deg,#f5c842 0%,#e8921e 100%)",
+                  fontSize: "11px", letterSpacing: "0.12em", fontWeight: 700,
+                  padding: "13px 14px 13px 26px", color: "#1c2e2e", textTransform: "uppercase",
+                }}
+              >
+                {t.hero.cta1}
+                <span className="w-7 h-7 rounded-full bg-[#1c2e2e]/15 flex items-center justify-center group-hover:bg-[#1c2e2e]/25 transition-colors text-[15px] leading-none">
+                  {locale === "ar" ? "←" : "→"}
+                </span>
+              </Link>
+            </motion.div>
 
-            <button
+            <motion.button
               type="button"
               onClick={() => openBooking("")}
-              className="inline-flex items-center rounded-full border border-white/45 text-white transition-all duration-300 hover:-translate-y-[3px] hover:border-white hover:bg-white/10 hover:shadow-[0_8px_24px_rgba(255,255,255,.12)] backdrop-blur-[2px] cursor-pointer"
+              whileHover={{ y: -5, scale: 1.04, borderColor: "rgba(255,255,255,1)", backgroundColor: "rgba(255,255,255,.1)" }}
+              whileTap={{ scale: 0.96 }}
+              transition={SPRING}
+              className="inline-flex items-center rounded-full border border-white/45 text-white backdrop-blur-[2px] cursor-pointer"
               style={{
                 fontSize: "11px", letterSpacing: "0.12em", fontWeight: 600,
                 padding: "13px 26px", textTransform: "uppercase",
               }}
             >
               {t.hero.cta2}
-            </button>
+            </motion.button>
           </div>
 
           {/* Dots */}

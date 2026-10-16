@@ -14,7 +14,7 @@ export type T = {
     gallery: string; contact: string; bookNow: string; whatsapp: string; language: string;
   };
   hero: {
-    slides: [Slide, Slide, Slide];
+    slides: [Slide, Slide];
     cta1: string; cta2: string;
   };
   searchBar: {
@@ -127,12 +127,10 @@ const FR: T = {
   },
   hero: {
     slides: [
-      { script: "Kasbah & Montagnes", titleLine1: "Entre kasbahs et", titleLine2: "horizons dorés",
-        desc: "Partez à la découverte des villages berbères et des kasbahs millénaires au cœur des montagnes marocaines." },
-      { script: "Désert du Sahara", titleLine1: "L'immensité dorée", titleLine2: "du Grand Erg",
-        desc: "Vivez l'aventure ultime entre dunes à perte de vue et couchers de soleil inoubliables sur l'Erg Chebbi." },
-      { script: "Médinas & Riads", titleLine1: "L'âme du Maroc", titleLine2: "authentique",
-        desc: "Perdez-vous dans les ruelles colorées des médinas, entre épices envoûtantes, riads fleuris et artisanat d'exception." },
+      { script: "Aventure & Désert", titleLine1: "L'aventure ultime", titleLine2: "au cœur du Sahara",
+        desc: "Partez à l'assaut des dunes d'or à bord d'un 4x4 privé et vivez l'expérience inoubliable du grand désert marocain." },
+      { script: "Atlas & Kasbahs", titleLine1: "Les trésors cachés", titleLine2: "de l'Atlas marocain",
+        desc: "Des kasbahs dorées aux sommets enneigés de l'Atlas, découvrez un Maroc authentique et grandiose à votre propre rythme." },
     ],
     cta1: "Explorer nos voyages", cta2: "Réserver maintenant",
   },
@@ -296,12 +294,10 @@ const EN: T = {
   },
   hero: {
     slides: [
-      { script: "Kasbahs & Mountains", titleLine1: "Between kasbahs and", titleLine2: "golden horizons",
-        desc: "Discover Berber villages and ancient kasbahs in the heart of the Moroccan mountains." },
-      { script: "Sahara Desert", titleLine1: "The golden vastness", titleLine2: "of the Grand Erg",
-        desc: "Live the ultimate adventure among endless dunes and unforgettable sunsets over Erg Chebbi." },
-      { script: "Medinas & Riads", titleLine1: "The soul of", titleLine2: "authentic Morocco",
-        desc: "Wander through colourful medina alleyways, among enchanting spices, blooming riads and exceptional crafts." },
+      { script: "Desert Adventure", titleLine1: "The ultimate adventure", titleLine2: "in the heart of the Sahara",
+        desc: "Conquer the golden dunes in a private 4x4 and live the unforgettable experience of the great Moroccan desert." },
+      { script: "Atlas & Kasbahs", titleLine1: "The hidden treasures", titleLine2: "of the Moroccan Atlas",
+        desc: "From golden kasbahs to the snow-capped Atlas peaks, discover an authentic and majestic Morocco at your own pace." },
     ],
     cta1: "Explore our tours", cta2: "Book now",
   },
@@ -465,12 +461,10 @@ const AR: T = {
   },
   hero: {
     slides: [
-      { script: "القصبات والجبال", titleLine1: "بين القصبات", titleLine2: "والآفاق الذهبية",
-        desc: "اكتشف القرى البربرية والقصبات العريقة في قلب جبال المغرب الخلابة." },
-      { script: "صحراء الصحراء الكبرى", titleLine1: "الشساعة الذهبية", titleLine2: "للعرق الكبير",
-        desc: "عيش المغامرة الكبرى بين كثبان رملية لا تنتهي وغروب شمس لا يُنسى فوق إرق الشبي." },
-      { script: "المدن العتيقة والرياض", titleLine1: "روح المغرب", titleLine2: "الأصيل",
-        desc: "تيه في أزقة المدن الملونة بين التوابل الساحرة والرياض المزهرة والحرف الاستثنائية." },
+      { script: "مغامرة الصحراء", titleLine1: "المغامرة الكبرى", titleLine2: "في قلب الصحراء الكبرى",
+        desc: "اقتحم الكثبان الذهبية على متن سيارة 4×4 خاصة وعش تجربة لا تُنسى في قلب الصحراء المغربية العظيمة." },
+      { script: "الأطلس والقصبات", titleLine1: "الكنوز الخفية", titleLine2: "لجبال الأطلس المغربية",
+        desc: "من القصبات الذهبية إلى قمم الأطلس المكسوة بالثلوج، اكتشف مغربًا أصيلًا وعظيمًا بإيقاعك الخاص." },
     ],
     cta1: "استكشف رحلاتنا", cta2: "احجز الآن",
   },
@@ -634,12 +628,10 @@ const IT: T = {
   },
   hero: {
     slides: [
-      { script: "Kasbah & Montagne", titleLine1: "Tra kasbah e", titleLine2: "orizzonti dorati",
-        desc: "Scopri i villaggi berberi e le antiche kasbah nel cuore delle montagne marocchine." },
-      { script: "Deserto del Sahara", titleLine1: "La vastità dorata", titleLine2: "del Grand Erg",
-        desc: "Vivi l'avventura suprema tra dune a perdita d'occhio e tramonti indimenticabili sull'Erg Chebbi." },
-      { script: "Medine e Riad", titleLine1: "L'anima del Marocco", titleLine2: "autentico",
-        desc: "Perdersi nei vicoli colorati delle medine, tra spezie incantevoli, riad fioriti e artigianato d'eccezione." },
+      { script: "Avventura & Deserto", titleLine1: "L'avventura suprema", titleLine2: "nel cuore del Sahara",
+        desc: "Conquista le dune dorate a bordo di un 4x4 privato e vivi l'esperienza indimenticabile del grande deserto marocchino." },
+      { script: "Atlante & Kasbah", titleLine1: "I tesori nascosti", titleLine2: "dell'Atlante marocchino",
+        desc: "Dalle kasbah dorate alle vette innevate dell'Atlante, scopri un Marocco autentico e maestoso al tuo ritmo." },
     ],
     cta1: "Esplora i nostri viaggi", cta2: "Prenota ora",
   },

@@ -1,7 +1,10 @@
 "use client";
 import Link from "next/link";
+import { motion } from "motion/react";
 import { useI18n } from "@/i18n/I18nProvider";
 import { Reveal } from "@/components/Reveal";
+
+const SPRING = { type: "spring" as const, stiffness: 280, damping: 22 };
 
 export function CTABanner() {
   const { t, locale } = useI18n();
@@ -17,7 +20,15 @@ export function CTABanner() {
           "url('https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=1800&q=85') center 50%/cover",
       }}
     >
-      <span className="absolute left-[16%] top-3 text-[29px] text-gold -rotate-[25deg]">✈</span>
+      <motion.span
+        initial={{ opacity: 0, rotate: -35, scale: 0.5 }}
+        whileInView={{ opacity: 1, rotate: -25, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        className="absolute left-[16%] top-3 text-[29px] text-gold"
+      >
+        ✈
+      </motion.span>
 
       <Reveal from="left">
         <div className="text-center">
@@ -31,12 +42,18 @@ export function CTABanner() {
       </Reveal>
 
       <Reveal from="right" delay={0.12}>
-        <Link
-          href="#contact"
-          className="flex-shrink-0 inline-flex items-center gap-4 bg-gold text-[#182c2c] text-[11px] font-bold px-5 py-3 rounded-[30px] hover:-translate-y-[2px] hover:shadow-[0_7px_20px_rgba(0,0,0,.2)] transition-all duration-200 whitespace-nowrap"
+        <motion.div
+          whileHover={{ scale: 1.07, y: -3 }}
+          whileTap={{ scale: 0.96 }}
+          transition={SPRING}
         >
-          {ct.button} <span className="text-[18px] leading-[10px]">{locale === "ar" ? "←" : "→"}</span>
-        </Link>
+          <Link
+            href="#contact"
+            className="flex-shrink-0 inline-flex items-center gap-4 bg-gold text-[#182c2c] text-[11px] font-bold px-5 py-3 rounded-[30px] hover:shadow-[0_8px_24px_rgba(245,182,63,.5)] transition-shadow duration-200 whitespace-nowrap"
+          >
+            {ct.button} <span className="text-[18px] leading-[10px]">{locale === "ar" ? "←" : "→"}</span>
+          </Link>
+        </motion.div>
       </Reveal>
     </section>
   );

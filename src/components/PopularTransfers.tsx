@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "motion/react";
 import { useI18n } from "@/i18n/I18nProvider";
 import { transfers } from "@/data/transfers";
 import { Reveal } from "@/components/Reveal";
@@ -16,6 +17,8 @@ const FEATURED_SLUGS = [
   { slug: "merzouga",         img: "/gallery/g24.jpg" },
   { slug: "casablanca",       img: "/gallery/g02.jpg" },
 ];
+
+const SPRING = { type: "spring" as const, stiffness: 280, damping: 22 };
 
 function localizeUnits(str: string, locale: string) {
   if (locale !== "ar") return str;
@@ -66,62 +69,83 @@ export function PopularTransfers() {
     <section className="pt-2 pb-20 bg-[#fff8f0]">
       <div className="max-w-[1280px] mx-auto px-[clamp(16px,4.5vw,56px)]">
 
-        {/* Header */}
-        <Reveal className="mb-10">
-          <p className="font-script text-[#f5b63f] mb-1"
-            style={{ fontSize: "clamp(20px,2.2vw,28px)", transform: "rotate(-1.5deg)" }}>
-            {tr.script}
-          </p>
-          <h2 className="font-serif font-semibold text-[#062f35] leading-tight"
-            style={{ fontSize: "clamp(26px,3.2vw,42px)" }}>
-            {tr.title}
-          </h2>
-          <p className="text-[#5a7578] text-[13.5px] mt-2 max-w-[460px] leading-relaxed">
-            {tr.subtitle}
-          </p>
-        </Reveal>
+        {/* Header — per-element stagger */}
+        <div className="mb-10">
+          <Reveal from="left">
+            <p className="font-script text-[#f5b63f] mb-1"
+              style={{ fontSize: "clamp(20px,2.2vw,28px)", transform: "rotate(-1.5deg)" }}>
+              {tr.script}
+            </p>
+          </Reveal>
+          <Reveal from="up" delay={0.1}>
+            <h2 className="font-serif font-semibold text-[#062f35] leading-tight"
+              style={{ fontSize: "clamp(26px,3.2vw,42px)" }}>
+              {tr.title}
+            </h2>
+          </Reveal>
+          <Reveal from="up" delay={0.18}>
+            <p className="text-[#5a7578] text-[13.5px] mt-2 max-w-[460px] leading-relaxed">
+              {tr.subtitle}
+            </p>
+          </Reveal>
+        </div>
 
         {/* Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           {routes.map((route, i) => (
             <Reveal key={route.slug} delay={i * 0.07}>
-              <Link href={`/transfers/${route.slug}`}
-                className="group relative h-[160px] sm:h-[190px] md:h-[210px] overflow-hidden rounded-2xl cursor-pointer shadow-[0_4px_20px_rgba(6,47,53,.12)] hover:shadow-[0_12px_36px_rgba(6,47,53,.22)] transition-all duration-300 hover:-translate-y-1 block"
+              <motion.div
+                whileHover={{ y: -8, scale: 1.03 }}
+                whileTap={{ scale: 0.98 }}
+                transition={SPRING}
+                className="h-full"
               >
-                <Image src={route.img} alt={route.name} fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  sizes="(max-width:640px) 50vw, 33vw" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#031e22]/90 via-[#031e22]/25 to-transparent" />
-                <div className="absolute top-3 right-3 bg-[#f5b63f] text-[#1c2e2e] text-[10.5px] font-bold px-2.5 py-1 rounded-full shadow-md">
-                  {tr.cardFrom} {route.price}
-                </div>
-                <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <p className="text-white/60 text-[9.5px] font-bold uppercase tracking-[0.12em] mb-0.5">
-                    {tr.cardOrigin}
-                  </p>
-                  <p className="text-white font-bold leading-tight mb-2.5" style={{ fontSize: "clamp(13px,1.3vw,16px)" }}>
-                    {route.name}
-                  </p>
-                  <div className="flex items-center justify-between">
-                    <span className="flex items-center gap-1 text-white/75 text-[10px] font-medium">
-                      <IconClock /> {localizeUnits(route.duration, locale)}
-                    </span>
-                    <span className="flex items-center gap-1 text-[9px] font-bold text-[#6ee7a8] bg-white/10 backdrop-blur-sm px-2 py-0.5 rounded-full border border-white/10">
-                      <IconShield /> {tr.cardFixed}
-                    </span>
+                <Link href={`/transfers/${route.slug}`}
+                  className="group relative h-[160px] sm:h-[190px] md:h-[210px] overflow-hidden rounded-2xl cursor-pointer shadow-[0_4px_20px_rgba(6,47,53,.12)] hover:shadow-[0_16px_40px_rgba(6,47,53,.25)] transition-shadow duration-300 block"
+                >
+                  <Image src={route.img} alt={route.name} fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-112"
+                    sizes="(max-width:640px) 50vw, 33vw" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#031e22]/90 via-[#031e22]/25 to-transparent" />
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.07 + 0.25, duration: 0.4 }}
+                    className="absolute top-3 right-3 bg-[#f5b63f] text-[#1c2e2e] text-[10.5px] font-bold px-2.5 py-1 rounded-full shadow-md"
+                  >
+                    {tr.cardFrom} {route.price}
+                  </motion.div>
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <p className="text-[#f5b63f] text-[9.5px] font-bold uppercase tracking-[0.12em] mb-0.5">
+                      {tr.cardOrigin}
+                    </p>
+                    <p className="text-white font-bold leading-tight mb-2.5" style={{ fontSize: "clamp(13px,1.3vw,16px)" }}>
+                      {route.name}
+                    </p>
+                    <div className="flex items-center justify-between">
+                      <span className="flex items-center gap-1 text-white/75 text-[10px] font-medium">
+                        <IconClock /> {localizeUnits(route.duration, locale)}
+                      </span>
+                      <span className="flex items-center gap-1 text-[9px] font-bold text-[#6ee7a8] bg-white/10 backdrop-blur-sm px-2 py-0.5 rounded-full border border-white/10">
+                        <IconShield /> {tr.cardFixed}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </Link>
+                </Link>
+              </motion.div>
             </Reveal>
           ))}
         </div>
 
         {/* CTA */}
         <Reveal delay={0.12} className="mt-10 flex justify-center">
-          <Link href="/transfers"
-            className="flex items-center gap-2 text-[12px] font-bold text-[#062f35] border-2 border-[#062f35] px-8 py-3 rounded-full hover:bg-[#062f35] hover:text-white transition-all duration-200">
-            {tr.seeAll} <IconArrowRight />
-          </Link>
+          <motion.div whileHover={{ scale: 1.06, y: -3 }} whileTap={{ scale: 0.97 }} transition={SPRING}>
+            <Link href="/transfers"
+              className="flex items-center gap-2 text-[12px] font-bold text-[#062f35] border-2 border-[#062f35] px-8 py-3 rounded-full hover:bg-[#062f35] hover:text-white transition-colors duration-200">
+              {tr.seeAll} <IconArrowRight />
+            </Link>
+          </motion.div>
         </Reveal>
 
       </div>
