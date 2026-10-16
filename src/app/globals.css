@@ -69,8 +69,8 @@
   --font-script: var(--font-caveat),   cursive;
 }
 
-html { scroll-behavior: smooth; scroll-padding-top: 80px; }
-body { background-color: var(--color-cream); color: var(--color-ink); }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; overflow-x: hidden; }
+body { background-color: var(--color-cream); color: var(--color-ink); overflow-x: hidden; }
 
 /* ── Outfit — rendu optimal sur les titres ── */
 .font-serif {
