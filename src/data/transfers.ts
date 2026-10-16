@@ -168,8 +168,8 @@ export const transfers: Transfer[] = [
   {
     slug: "agadir",
     to: { fr: "Agadir", en: "Agadir", ar: "أكادير" },
-    price: "€165",
-    prices: { sedan: 165, van: 205, luxuryVan: 235 },
+    price: "€125",
+    prices: { sedan: 125, van: 205, luxuryVan: 235 },
     duration: "3 h", distance: "252 km", distanceKm: 252,
     image: "agadirBeach.jpg", category: "coast",
   },

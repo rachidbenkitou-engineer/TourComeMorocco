@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -202,7 +202,7 @@ export function Navbar() {
           </svg>
           <span className="leading-none">
             <strong className="block font-serif text-[16px] sm:text-[20px] text-[#fff0cb] tracking-[-0.3px]">
-              Morocco Trip Mate
+              Tour Me Morocco
             </strong>
             <small className="hidden sm:block text-[8.5px] tracking-[0.2em] text-white/45 mt-1 font-sans">
               {{ fr: "Explorez · Voyagez · Découvrez", en: "Explore · Travel · Discover", ar: "استكشف · سافر · اكتشف", it: "Esplora · Viaggia · Scopri" }[locale] ?? "Explorez · Voyagez · Découvrez"}

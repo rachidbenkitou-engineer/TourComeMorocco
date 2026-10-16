@@ -4,6 +4,7 @@ import { Stats }              from "@/components/Stats";
 import { PopularTransfers }   from "@/components/PopularTransfers";
 import { Tours }              from "@/components/Tours";
 import { Excursions }         from "@/components/Excursions";
+import { GalleryPreview }     from "@/components/GalleryPreview";
 import { Destinations }       from "@/components/Destinations";
 import { About }              from "@/components/About";
 import { Testimonials }       from "@/components/Testimonials";
@@ -24,6 +25,7 @@ export default function Home() {
       <PopularTransfers />
       <Tours />
       <Excursions />
+      <GalleryPreview />
       <Destinations />
       <About />
       <Testimonials />

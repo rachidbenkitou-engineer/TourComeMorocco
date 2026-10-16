@@ -1,4 +1,4 @@
-export type Locale = "fr" | "en" | "ar" | "it";
+﻿export type Locale = "fr" | "en" | "ar" | "it";
 export const LOCALES: Locale[] = ["en", "fr", "it", "ar"];
 export const LOCALE_NAMES: Record<Locale, string> = { fr: "Français", en: "English", ar: "العربية", it: "Italiano" };
 export const LOCALE_LABELS: Record<Locale, string> = { fr: "FR", en: "EN", ar: "AR", it: "IT" };
@@ -119,6 +119,7 @@ export type T = {
       heroScript: string; heroTitle: string; heroSubtitle: string;
       statsPhotos: string; statsGuests: string; statsDest: string;
       ctaScript: string; ctaSubtitle: string; ctaBtn: string;
+      homeScript: string; homeTitle: string; homeSubtitle: string; viewAll: string;
     };
     fleet: {
       heroScript: string; heroTitle: string; heroSubtitle: string;
@@ -174,7 +175,7 @@ const FR: T = {
   about: {
     eyebrow: "POURQUOI CHOISIR TRANSFER MAROC ?",
     title: "Une agence de voyage passionnée par l'exploration",
-    desc: "Chez Morocco Trip Mate, nous transformons vos rêves en réalité. Que vous recherchiez une aventure dans le Sahara, une immersion dans la médina de Fès ou une escapade à Chefchaouen, nous vous offrons des voyages sur mesure avec un service d'exception.",
+    desc: "Chez Tour Me Morocco, nous transformons vos rêves en réalité. Que vous recherchiez une aventure dans le Sahara, une immersion dans la médina de Fès ou une escapade à Chefchaouen, nous vous offrons des voyages sur mesure avec un service d'exception.",
     cta: "En savoir plus",
     caption: "Le Maroc\nvous attend...",
     points: [
@@ -189,11 +190,11 @@ const FR: T = {
     title: "Ils ont vécu une expérience inoubliable",
     reviews: [
       { name: "Sophie L.", text: "« Une agence au top ! Mon voyage au Maroc a été parfait, une organisation impeccable et une équipe très professionnelle. Je recommande vivement ! »" },
-      { name: "Karim B.",  text: "« Morocco Trip Mate a transformé notre rêve en réalité. Un service exceptionnel et des souvenirs pour la vie. »" },
+      { name: "Karim B.",  text: "« Tour Me Morocco a transformé notre rêve en réalité. Un service exceptionnel et des souvenirs pour la vie. »" },
       { name: "Nadia T.",  text: "« Une expérience magique ! Je remercie toute l'équipe pour leur professionnalisme et leur bienveillance. »" },
     ],
   },
-  cta: { title: "Prêt pour votre prochaine aventure ?", subtitle: "Partez à la découverte du Maroc avec Morocco Trip Mate", button: "Réserver maintenant" },
+  cta: { title: "Prêt pour votre prochaine aventure ?", subtitle: "Partez à la découverte du Maroc avec Tour Me Morocco", button: "Réserver maintenant" },
   booking: {
     label: "Réservation", fixedPrice: "Prix fixe :", submit: "Réserver", waNote: "Votre demande sera transmise via WhatsApp.",
     moreOptions: "Dépose, vol, extras & notes", hideOptions: "Masquer les options",
@@ -212,7 +213,7 @@ const FR: T = {
     tagline: "Votre partenaire de confiance pour explorer le Maroc avec style et confort.",
     popularTransfers: "Transferts Populaires", excursionsTitle: "Nos Excursions", toursTitle: "Tours Privés",
     helpTitle: "Informations", viewAll: "Voir tout →", instagram: "Instagram", whatsapp: "WhatsApp",
-    available: "Disponible 24h/24 · 7j/7", rights: "Morocco Trip Mate. Tous droits réservés.",
+    available: "Disponible 24h/24 · 7j/7", rights: "Tour Me Morocco. Tous droits réservés.",
     helpLinks: { fleet: "Notre Flotte", gallery: "Galerie Photos", contact: "Nous Contacter", bookNow: "Réserver" },
     transferLinks: ["Marrakech → Casablanca","Marrakech → Essaouira","Marrakech → Agadir","Marrakech → Ouarzazate","Marrakech → Aéroport RAK","Marrakech → Fès"],
     excursionLinks: ["Vallée de l'Ourika","Cascades d'Ouzoud","Désert d'Agafay","Imlil & Toubkal"],
@@ -292,6 +293,10 @@ const FR: T = {
       ctaScript: "Votre voyage, vos souvenirs",
       ctaSubtitle: "Rejoignez nos clients et créez vos propres moments inoubliables au Maroc.",
       ctaBtn: "Réserver maintenant",
+      homeScript: "Ils nous ont fait confiance",
+      homeTitle: "Moments partagés",
+      homeSubtitle: "Chaque photo raconte une aventure vécue par nos clients au cœur du Maroc.",
+      viewAll: "Voir toute la galerie",
     },
     fleet: {
       heroScript: "Nos véhicules",
@@ -351,7 +356,7 @@ const EN: T = {
   about: {
     eyebrow: "WHY CHOOSE TRANSFER MAROC?",
     title: "A travel agency passionate about exploration",
-    desc: "At Morocco Trip Mate, we turn your dreams into reality. Whether you're seeking a Sahara adventure, an immersion in the Fès medina or an escape to Chefchaouen, we offer tailor-made journeys with exceptional service.",
+    desc: "At Tour Me Morocco, we turn your dreams into reality. Whether you're seeking a Sahara adventure, an immersion in the Fès medina or an escape to Chefchaouen, we offer tailor-made journeys with exceptional service.",
     cta: "Learn more",
     caption: "Morocco\nawaits you...",
     points: [
@@ -366,11 +371,11 @@ const EN: T = {
     title: "They lived an unforgettable experience",
     reviews: [
       { name: "Sophie L.", text: "« A top agency! My trip to Morocco was perfect — impeccable organisation and a very professional team. Highly recommended! »" },
-      { name: "Karim B.",  text: "« Morocco Trip Mate turned our dream into reality. Exceptional service and memories for life. »" },
+      { name: "Karim B.",  text: "« Tour Me Morocco turned our dream into reality. Exceptional service and memories for life. »" },
       { name: "Nadia T.",  text: "« A magical experience! I thank the whole team for their professionalism and kindness. »" },
     ],
   },
-  cta: { title: "Ready for your next adventure?", subtitle: "Discover Morocco with Morocco Trip Mate", button: "Book now" },
+  cta: { title: "Ready for your next adventure?", subtitle: "Discover Morocco with Tour Me Morocco", button: "Book now" },
   booking: {
     label: "Booking", fixedPrice: "Fixed price:", submit: "Book", waNote: "Your request will be sent via WhatsApp.",
     moreOptions: "Drop-off, flight, extras & notes", hideOptions: "Hide options",
@@ -389,7 +394,7 @@ const EN: T = {
     tagline: "Your trusted partner for exploring Morocco in style and comfort.",
     popularTransfers: "Popular Transfers", excursionsTitle: "Our Excursions", toursTitle: "Private Tours",
     helpTitle: "Information", viewAll: "View All →", instagram: "Instagram", whatsapp: "WhatsApp",
-    available: "Available 24/7", rights: "Morocco Trip Mate. All rights reserved.",
+    available: "Available 24/7", rights: "Tour Me Morocco. All rights reserved.",
     helpLinks: { fleet: "Our Fleet", gallery: "Photo Gallery", contact: "Contact Us", bookNow: "Book Now" },
     transferLinks: ["Marrakech → Casablanca","Marrakech → Essaouira","Marrakech → Agadir","Marrakech → Ouarzazate","Marrakech Airport Transfer","Marrakech → Fes"],
     excursionLinks: ["Ourika Valley","Ouzoud Waterfalls","Agafay Desert","Imlil & Toubkal"],
@@ -469,6 +474,10 @@ const EN: T = {
       ctaScript: "Your journey, your memories",
       ctaSubtitle: "Join our clients and create your own unforgettable moments in Morocco.",
       ctaBtn: "Book now",
+      homeScript: "They trusted us",
+      homeTitle: "Shared Moments",
+      homeSubtitle: "Every photo tells an adventure lived by our clients across the heart of Morocco.",
+      viewAll: "View full gallery",
     },
     fleet: {
       heroScript: "Our vehicles",
@@ -528,7 +537,7 @@ const AR: T = {
   about: {
     eyebrow: "لماذا تختار تور كم موروكو؟",
     title: "وكالة سفر شغوفة بالاستكشاف",
-    desc: "في Morocco Trip Mate، نحول أحلامك إلى واقع. سواء كنت تبحث عن مغامرة في الصحراء، أو غمر في مدينة فاس العتيقة، أو هروب إلى شفشاون، نقدم لك رحلات مصممة خصيصاً مع خدمة استثنائية.",
+    desc: "في Tour Me Morocco، نحول أحلامك إلى واقع. سواء كنت تبحث عن مغامرة في الصحراء، أو غمر في مدينة فاس العتيقة، أو هروب إلى شفشاون، نقدم لك رحلات مصممة خصيصاً مع خدمة استثنائية.",
     cta: "اعرف المزيد",
     caption: "المغرب\nينتظرك...",
     points: [
@@ -543,11 +552,11 @@ const AR: T = {
     title: "عاشوا تجربة لا تُنسى",
     reviews: [
       { name: "سوفي ل.", text: "« وكالة رائعة! كانت رحلتي إلى المغرب مثالية، تنظيم لا تشوبه شائبة وفريق محترف جداً. أوصي بها بشدة! »" },
-      { name: "كريم ب.", text: "« حوّل Morocco Trip Mate حلمنا إلى واقع. خدمة استثنائية وذكريات للحياة. »" },
+      { name: "كريم ب.", text: "« حوّل Tour Me Morocco حلمنا إلى واقع. خدمة استثنائية وذكريات للحياة. »" },
       { name: "نادية ت.", text: "« تجربة ساحرة! أشكر الفريق كله على احترافيتهم وطيبتهم. »" },
     ],
   },
-  cta: { title: "مستعد لمغامرتك القادمة؟", subtitle: "اكتشف المغرب مع Morocco Trip Mate", button: "احجز الآن" },
+  cta: { title: "مستعد لمغامرتك القادمة؟", subtitle: "اكتشف المغرب مع Tour Me Morocco", button: "احجز الآن" },
   booking: {
     label: "حجز", fixedPrice: "السعر الثابت:", submit: "احجز", waNote: "سيتم إرسال طلبك عبر واتساب.",
     moreOptions: "المغادرة، الرحلة، الإضافات والملاحظات", hideOptions: "إخفاء الخيارات",
@@ -646,6 +655,10 @@ const AR: T = {
       ctaScript: "رحلتك، ذكرياتك",
       ctaSubtitle: "انضم إلى عملائنا واصنع لحظاتك التي لا تُنسى في المغرب.",
       ctaBtn: "احجز الآن",
+      homeScript: "وثقوا بنا",
+      homeTitle: "لحظات مشتركة",
+      homeSubtitle: "كل صورة تحكي مغامرة عاشها عملاؤنا في أرجاء المغرب.",
+      viewAll: "عرض المعرض كاملاً",
     },
     fleet: {
       heroScript: "سياراتنا",
@@ -705,7 +718,7 @@ const IT: T = {
   about: {
     eyebrow: "PERCHÉ SCEGLIERE TRANSFER MAROC?",
     title: "Un'agenzia di viaggi appassionata dell'esplorazione",
-    desc: "Da Morocco Trip Mate trasformiamo i tuoi sogni in realtà. Che tu cerchi un'avventura nel Sahara, un'immersione nella medina di Fès o una fuga a Chefchaouen, offriamo viaggi su misura con un servizio eccezionale.",
+    desc: "Da Tour Me Morocco trasformiamo i tuoi sogni in realtà. Che tu cerchi un'avventura nel Sahara, un'immersione nella medina di Fès o una fuga a Chefchaouen, offriamo viaggi su misura con un servizio eccezionale.",
     cta: "Scopri di più",
     caption: "Il Marocco\nti aspetta...",
     points: [
@@ -720,11 +733,11 @@ const IT: T = {
     title: "Hanno vissuto un'esperienza indimenticabile",
     reviews: [
       { name: "Sophie L.", text: "« Un'agenzia eccellente! Il mio viaggio in Marocco è stato perfetto, organizzazione impeccabile e un team molto professionale. Consiglio vivamente! »" },
-      { name: "Karim B.",  text: "« Morocco Trip Mate ha trasformato il nostro sogno in realtà. Servizio eccezionale e ricordi per tutta la vita. »" },
+      { name: "Karim B.",  text: "« Tour Me Morocco ha trasformato il nostro sogno in realtà. Servizio eccezionale e ricordi per tutta la vita. »" },
       { name: "Nadia T.",  text: "« Un'esperienza magica! Ringrazio tutto il team per la loro professionalità e gentilezza. »" },
     ],
   },
-  cta: { title: "Pronto per la tua prossima avventura?", subtitle: "Scopri il Marocco con Morocco Trip Mate", button: "Prenota ora" },
+  cta: { title: "Pronto per la tua prossima avventura?", subtitle: "Scopri il Marocco con Tour Me Morocco", button: "Prenota ora" },
   booking: {
     label: "Prenotazione", fixedPrice: "Prezzo fisso:", submit: "Prenota", waNote: "La tua richiesta sarà inviata via WhatsApp.",
     moreOptions: "Destinazione, volo, extra e note", hideOptions: "Nascondi le opzioni",
@@ -743,7 +756,7 @@ const IT: T = {
     tagline: "Il tuo partner di fiducia per esplorare il Marocco con stile e comfort.",
     popularTransfers: "Trasferimenti Popolari", excursionsTitle: "Le Nostre Escursioni", toursTitle: "Tour Privati",
     helpTitle: "Informazioni", viewAll: "Vedi tutto →", instagram: "Instagram", whatsapp: "WhatsApp",
-    available: "Disponibile 24h/24 · 7g/7", rights: "Morocco Trip Mate. Tutti i diritti riservati.",
+    available: "Disponibile 24h/24 · 7g/7", rights: "Tour Me Morocco. Tutti i diritti riservati.",
     helpLinks: { fleet: "La Nostra Flotta", gallery: "Galleria Foto", contact: "Contattaci", bookNow: "Prenota" },
     transferLinks: ["Marrakech → Casablanca","Marrakech → Essaouira","Marrakech → Agadir","Marrakech → Ouarzazate","Marrakech → Aeroporto RAK","Marrakech → Fès"],
     excursionLinks: ["Valle dell'Ourika","Cascate di Ouzoud","Deserto di Agafay","Imlil & Toubkal"],
@@ -823,6 +836,10 @@ const IT: T = {
       ctaScript: "Il tuo viaggio, i tuoi ricordi",
       ctaSubtitle: "Unisciti ai nostri clienti e crea i tuoi momenti indimenticabili in Marocco.",
       ctaBtn: "Prenota ora",
+      homeScript: "Si sono fidati di noi",
+      homeTitle: "Momenti condivisi",
+      homeSubtitle: "Ogni foto racconta un'avventura vissuta dai nostri clienti nel cuore del Marocco.",
+      viewAll: "Vedi tutta la galleria",
     },
     fleet: {
       heroScript: "I nostri veicoli",

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { DM_Sans, Playfair_Display, Caveat, Geist, Outfit } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -37,7 +37,7 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
-  title: "Morocco Trip Mate — Explorez, Voyagez, Découvrez",
+  title: "Tour Me Morocco — Explorez, Voyagez, Découvrez",
   description:
     "Des expériences uniques, des destinations de rêve et un accompagnement sur mesure pour découvrir le Maroc de façon inoubliable.",
 };

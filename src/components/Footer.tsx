@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import Link from "next/link";
 import { Instagram } from "lucide-react";
 import { useI18n } from "@/i18n/I18nProvider";
@@ -114,7 +114,7 @@ export function Footer() {
                   fill="#f5b63f"/>
               </svg>
               <span className="font-serif text-[22px] text-[#fff0cb] tracking-[-0.4px]">
-                Morocco Trip Mate
+                Tour Me Morocco
               </span>
             </Link>
             <p className="text-[13px] text-white/50 max-w-[380px] leading-relaxed">

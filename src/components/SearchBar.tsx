@@ -4,6 +4,9 @@ import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/i18n/I18nProvider";
 import { transfers, findTransferByRoute } from "@/data/transfers";
+import { excursions } from "@/data/excursions";
+
+type L = "fr" | "en" | "ar" | "it";
 
 type Mode = "circuit" | "transfert" | "excursion";
 
@@ -18,11 +21,6 @@ const CIRCUIT_FROM_PRICES: Record<typeof CIRCUIT_SLUGS[number], string> = {
   moyen: "€350",
   long:  "€980",
 };
-const EXCURSION_DURATIONS_FR = ["Journée complète", "Demi-journée"];
-const EXCURSION_DURATIONS_EN = ["Full day", "Half day"];
-const EXCURSION_DURATIONS_AR = ["يوم كامل", "نصف يوم"];
-const EXCURSION_DURATIONS_IT = ["Giornata intera", "Mezza giornata"];
-const EXCURSION_TYPE_SLUGS   = ["journee", "demijournee"] as const;
 
 /* ─── Calendar helpers ───────────────────────────────── */
 const CAL_MONTHS: Record<string, string[]> = {
@@ -366,21 +364,19 @@ function FieldDate({
 /* ─── SearchBar ──────────────────────────────────── */
 export function SearchBar() {
   const { t, locale } = useI18n();
+  const loc = locale as L;
   const sb = t.searchBar;
-  const circuitLengths    = locale === "en" ? CIRCUIT_LENGTHS_EN    : locale === "ar" ? CIRCUIT_LENGTHS_AR    : locale === "it" ? CIRCUIT_LENGTHS_IT    : CIRCUIT_LENGTHS_FR;
-  const excursionDurations = locale === "en" ? EXCURSION_DURATIONS_EN : locale === "ar" ? EXCURSION_DURATIONS_AR : locale === "it" ? EXCURSION_DURATIONS_IT : EXCURSION_DURATIONS_FR;
+  const circuitLengths = locale === "en" ? CIRCUIT_LENGTHS_EN : locale === "ar" ? CIRCUIT_LENGTHS_AR : locale === "it" ? CIRCUIT_LENGTHS_IT : CIRCUIT_LENGTHS_FR;
+
+  const excursionNames = excursions.map(e => e.title[loc]);
+  const excursionPh    = locale === "en" ? "Choose an excursion" : locale === "ar" ? "اختر رحلة" : locale === "it" ? "Scegli un'escursione" : "Choisir une excursion";
+  const viewDetails    = locale === "en" ? "View Details" : locale === "ar" ? "عرض التفاصيل" : locale === "it" ? "Vedi dettagli" : "Voir détails";
 
   const TABS = [
     { id: "transfert" as Mode, Icon: IconTransfert, label: sb.tabs.transfert.label, sub: sb.tabs.transfert.sub },
     { id: "circuit"   as Mode, Icon: IconCircuit,   label: sb.tabs.circuit.label,   sub: sb.tabs.circuit.sub   },
     { id: "excursion" as Mode, Icon: IconExcursion, label: sb.tabs.excursion.label, sub: sb.tabs.excursion.sub },
   ];
-  const BUTTON_LABEL: Record<Mode, string> = {
-    circuit:   sb.buttons.circuit,
-    transfert: sb.buttons.transfert,
-    excursion: sb.buttons.excursion,
-  };
-
   const datePlaceholder = locale === "en" ? "Choose a date" : locale === "ar" ? "اختر التاريخ" : locale === "it" ? "Scegli una data" : "Choisir une date";
 
   const router = useRouter();
@@ -435,9 +431,8 @@ export function SearchBar() {
       const found = arrivee ? findTransferByRoute(depart, arrivee, locale) : null;
       router.push(found ? `/transfers/${found.slug}` : "/transfers");
     } else {
-      const idx  = excursionDurations.indexOf(depart);
-      const slug = idx >= 0 ? EXCURSION_TYPE_SLUGS[idx] : null;
-      router.push(slug ? `/excursions?type=${slug}` : "/excursions");
+      const found = excursions.find(e => e.title[loc] === depart);
+      router.push(found ? `/excursions/${found.slug}` : "/excursions");
     }
   }
 
@@ -539,11 +534,12 @@ export function SearchBar() {
         {mode === "excursion" && (
           <>
             <Field
-              IconComponent={IconClock}
-              placeholder={sb.placeholders.allDurations}
+              IconComponent={IconExcursion}
+              placeholder={excursionPh}
               value={depart}
               onValue={setDepart}
-              options={excursionDurations}
+              options={excursionNames}
+              searchable
             />
             <FieldDate
               placeholder={datePlaceholder}
@@ -563,8 +559,10 @@ export function SearchBar() {
             shadow-[0_4px_18px_rgba(218,151,24,.38)] hover:shadow-[0_6px_24px_rgba(218,151,24,.48)]
             hover:-translate-y-[1px] whitespace-nowrap sm:col-auto col-span-full"
         >
-          <IconSearch />
-          {BUTTON_LABEL[mode]}
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+          {viewDetails}
         </button>
       </form>
 

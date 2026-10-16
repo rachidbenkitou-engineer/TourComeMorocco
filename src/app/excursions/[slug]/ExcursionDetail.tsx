@@ -199,6 +199,38 @@ export default function ExcursionDetail({ slug }: { slug: string }) {
             {/* ── Left column ── */}
             <div className="space-y-16 min-w-0">
 
+              {/* Back link + Book button */}
+              <div className="flex items-center justify-between gap-3">
+                <Link
+                  href="/excursions"
+                  className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-[#3a6568] hover:text-[#062f35] transition-colors group min-w-0"
+                >
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                    className="flex-shrink-0 group-hover:-translate-x-0.5 transition-transform">
+                    <path d="M19 12H5M12 5l-7 7 7 7"/>
+                  </svg>
+                  <span className="truncate">{locale === "ar" ? "رجوع" : locale === "en" ? "Back" : locale === "it" ? "Indietro" : "Retour"}</span>
+                </Link>
+
+                <button
+                  type="button"
+                  onClick={bookFn}
+                  className="flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-full
+                    bg-gradient-to-r from-[#f5b63f] to-[#e8921e]
+                    text-[#062f35] text-[12.5px] font-bold
+                    shadow-[0_4px_18px_rgba(245,182,63,.45)]
+                    hover:shadow-[0_6px_24px_rgba(245,182,63,.65)]
+                    hover:from-[#ffc84d] hover:to-[#f5b235]
+                    transition-all duration-200 cursor-pointer
+                    animate-[float-btn_2s_ease-in-out_infinite]"
+                >
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
+                    <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>
+                  </svg>
+                  {dt.bookExcursion}
+                </button>
+              </div>
+
               {/* Overview */}
               <section id="overview" className="scroll-mt-[140px]">
                 <h2 className="font-serif text-[24px] font-semibold text-[#062f35] mb-5">{dt.overview}</h2>

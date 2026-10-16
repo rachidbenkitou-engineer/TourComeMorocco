@@ -40,4 +40,10 @@ export const galleryImages: GalleryImage[] = [
   { src: "/gallery/g24.jpg", alt: "Balade à dos de chameau – Merzouga",         category: "places" },
   { src: "/gallery/g25.jpg", alt: "Restaurant au bord de l'Ourika",            category: "places" },
   { src: "/gallery/g26.jpg", alt: "Savoy Le Grand Hôtel – Marrakech",          category: "road"   },
+  { src: "/gallery/g27.jpg", alt: "Nos clients dans le désert de Merzouga",    category: "guests" },
+  { src: "/gallery/g28.jpg", alt: "Aventure dans les dunes du Sahara",         category: "guests" },
+  { src: "/gallery/g29.jpg", alt: "Balade en 4x4 dans les gorges",             category: "guests" },
+  { src: "/gallery/g30.jpg", alt: "Coucher de soleil sur l'Atlas",             category: "places" },
+  { src: "/gallery/g31.jpg", alt: "Rencontre au coeur de la médina",           category: "guests" },
+  { src: "/gallery/g32.jpg", alt: "Route panoramique vers les kasbahs",        category: "road"   },
 ];

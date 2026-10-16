@@ -66,7 +66,7 @@ export function PopularTransfers() {
   }).filter(Boolean) as { name: string; price: string; duration: string; img: string; slug: string }[];
 
   return (
-    <section className="pt-2 pb-20 bg-[#fff8f0]">
+    <section className="pt-5 sm:pt-2 pb-20 bg-[#fff8f0]">
       <div className="max-w-[1280px] mx-auto px-[clamp(16px,4.5vw,56px)]">
 
         {/* Header — per-element stagger */}

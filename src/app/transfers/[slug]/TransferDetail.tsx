@@ -154,22 +154,22 @@ export default function TransferDetail({ slug }: { slug: string }) {
         <div className="space-y-12">
 
           {/* Back link + Book button */}
-          <div className="flex items-center justify-between gap-3 flex-wrap">
+          <div className="flex items-center justify-between gap-3">
             <Link
               href="/transfers"
-              className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-[#3a6568] hover:text-[#062f35] transition-colors group"
+              className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-[#3a6568] hover:text-[#062f35] transition-colors group min-w-0"
             >
               <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-                className="group-hover:-translate-x-0.5 transition-transform">
+                className="flex-shrink-0 group-hover:-translate-x-0.5 transition-transform">
                 <path d="M19 12H5M12 5l-7 7 7 7"/>
               </svg>
-              {locale === "ar" ? "العودة إلى النقلات" : locale === "en" ? "Back to transfers" : locale === "it" ? "Torna ai trasferimenti" : "Retour aux transferts"}
+              <span className="truncate">{locale === "ar" ? "رجوع" : locale === "en" ? "Back" : locale === "it" ? "Indietro" : "Retour"}</span>
             </Link>
 
             <button
               type="button"
               onClick={() => document.getElementById("booking-form")?.scrollIntoView({ behavior: "smooth", block: "start" })}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full
+              className="flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-full
                 bg-gradient-to-r from-[#f5b63f] to-[#e8921e]
                 text-[#062f35] text-[12.5px] font-bold
                 shadow-[0_4px_18px_rgba(245,182,63,.45)]
