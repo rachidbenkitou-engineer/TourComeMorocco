@@ -530,12 +530,14 @@ function BookingModal({ service, price: _price, onClose }: { service: string; pr
         {/* ── Header ── */}
         <div className="bg-[#062f35] px-5 pt-4 pb-4">
           <button onClick={onClose}
-            className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-colors">
+            className={`absolute top-3 ${locale === "ar" ? "left-3" : "right-3"} w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-colors`}>
             <IcoX />
           </button>
-          <p className="text-[9.5px] font-bold tracking-[0.18em] uppercase text-[#f5b63f]/70 mb-0.5">Transfer Maroc</p>
-          <h2 className="font-serif text-white text-[15px] sm:text-[17px] leading-snug pr-8">
-            {locale === "ar" ? "احجز رحلتك" : locale === "en" ? "Book your trip" : "Réservez votre voyage"}
+          <p className={`text-[9.5px] font-bold tracking-[0.18em] uppercase text-[#f5b63f]/70 mb-0.5 ${locale === "ar" ? "pl-10" : "pr-8"}`}>
+            Transfer Maroc
+          </p>
+          <h2 className={`font-serif text-white text-[15px] sm:text-[17px] leading-snug ${locale === "ar" ? "pl-10" : "pr-8"}`}>
+            {locale === "ar" ? "احجز رحلتك" : locale === "en" ? "Book your trip" : locale === "it" ? "Prenota il tuo viaggio" : "Réservez votre voyage"}
           </h2>
         </div>
 

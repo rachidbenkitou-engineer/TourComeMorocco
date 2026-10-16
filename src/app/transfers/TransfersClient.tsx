@@ -93,25 +93,25 @@ function DestinationSearch({
   const ref      = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const loc = locale as "fr" | "en" | "ar";
-
   const placeholder =
     locale === "en" ? "Search a destination…" :
     locale === "ar" ? "ابحث عن وجهة…" :
+    locale === "it" ? "Cerca una destinazione…" :
     "Rechercher une destination…";
 
   const resultsLabel =
     locale === "en" ? count === 1 ? "transfer" : "transfers" :
     locale === "ar" ? "وجهة" :
+    locale === "it" ? count === 1 ? "trasferimento" : "trasferimenti" :
     count === 1 ? "transfert" : "transferts";
 
   /* Suggestions: all when empty+focused, filtered when typing */
-  const q = query.trim().toLowerCase();
+  const q = (query ?? "").trim().toLowerCase();
   const suggestions = transfers.filter(tr =>
     !q ||
     tr.to.fr.toLowerCase().includes(q) ||
     tr.to.en.toLowerCase().includes(q) ||
-    tr.to.ar.includes(query.trim())
+    (tr.to.ar ?? "").toLowerCase().includes(q)
   );
 
   useEffect(() => {
@@ -124,7 +124,7 @@ function DestinationSearch({
   }, [open]);
 
   function pick(tr: Transfer) {
-    onQuery(tr.to[loc]);
+    onQuery((tr.to as Record<string, string | undefined>)[locale] ?? tr.to.en);
     setOpen(false);
     inputRef.current?.blur();
   }
@@ -185,12 +185,12 @@ function DestinationSearch({
             {/* Section header when empty */}
             {!q && (
               <p className="px-4 pt-1 pb-2 text-[10px] font-bold tracking-[0.14em] text-[#adbfc0] uppercase">
-                {locale === "en" ? "All destinations" : locale === "ar" ? "جميع الوجهات" : "Toutes les destinations"}
+                {locale === "en" ? "All destinations" : locale === "ar" ? "جميع الوجهات" : locale === "it" ? "Tutte le destinazioni" : "Toutes les destinations"}
               </p>
             )}
 
             {suggestions.map(tr => {
-              const name    = tr.to[loc];
+              const name    = (tr.to as Record<string, string | undefined>)[locale] ?? tr.to.en;
               const isMatch = q && name.toLowerCase().includes(q);
               return (
                 <button key={tr.slug} type="button" onClick={() => pick(tr)}
@@ -238,7 +238,7 @@ function TransferCard({ transfer }: { transfer: Transfer }) {
   const pg = t.pages.transfers;
   const dest   = (transfer.to as Record<string, string | undefined>)[locale] ?? transfer.to.fr;
   const mktName = locale === "ar" ? "مراكش" : "Marrakech";
-  const discoverLabel = locale === "ar" ? "اكتشف" : locale === "en" ? "Discover" : "Découvrir";
+  const discoverLabel = locale === "ar" ? "اكتشف" : locale === "en" ? "Discover" : locale === "it" ? "Scopri" : "Découvrir";
 
   return (
     <div className="bg-white rounded-2xl border border-[#e4eaeb] p-5 flex flex-col hover:border-[#f5b63f] hover:shadow-[0_8px_28px_rgba(6,47,53,.10)] transition-all duration-200 group">
@@ -299,14 +299,13 @@ export default function TransfersClient() {
 
   const [query, setQuery] = useState("");
 
-  const loc = locale as "fr" | "en" | "ar";
-  const q   = query.trim().toLowerCase();
+  const q = (query ?? "").trim().toLowerCase();
 
   const filtered = q
     ? transfers.filter(tr =>
         tr.to.fr.toLowerCase().includes(q) ||
         tr.to.en.toLowerCase().includes(q) ||
-        tr.to.ar.includes(query.trim())
+        (tr.to.ar ?? "").toLowerCase().includes(q)
       )
     : transfers;
 

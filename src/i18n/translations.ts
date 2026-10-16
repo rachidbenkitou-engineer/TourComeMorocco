@@ -1,5 +1,5 @@
 export type Locale = "fr" | "en" | "ar" | "it";
-export const LOCALES: Locale[] = ["fr", "en", "it", "ar"];
+export const LOCALES: Locale[] = ["en", "fr", "it", "ar"];
 export const LOCALE_NAMES: Record<Locale, string> = { fr: "Français", en: "English", ar: "العربية", it: "Italiano" };
 export const LOCALE_LABELS: Record<Locale, string> = { fr: "FR", en: "EN", ar: "AR", it: "IT" };
 
