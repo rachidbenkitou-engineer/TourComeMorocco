@@ -56,7 +56,7 @@ export function Destinations() {
           </div>
           <Reveal from="right" delay={0.14}>
             <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }} transition={SPRING}>
-              <Link href="/transfers"
+              <Link href={`/${locale}/transfers`}
                 className="flex items-center gap-2 text-[12.5px] font-semibold text-[#062f35] border border-[#062f35] hover:bg-[#062f35] hover:text-white px-5 py-2.5 rounded-full transition-colors duration-200 whitespace-nowrap self-start sm:self-auto">
                 {tr.viewAll}
                 <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -117,7 +117,7 @@ export function Destinations() {
         <Reveal delay={0.3} className="mt-8 flex justify-center">
           <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }} transition={SPRING}>
             <Link
-              href="/transfers"
+              href={`/${locale}/transfers`}
               className="flex items-center gap-3 rounded-full hover:shadow-[0_12px_28px_rgba(245,182,63,.4)] transition-all duration-300 whitespace-nowrap"
               style={{
                 background: "linear-gradient(135deg,#f5c842 0%,#e8921e 100%)",

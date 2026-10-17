@@ -10,7 +10,7 @@ type Review = { name: string; text: string };
 export type T = {
   dir: "ltr" | "rtl";
   nav: {
-    transfers: string; tours: string; excursions: string; fleet: string;
+    transfers: string; tours: string; excursions: string;
     gallery: string; contact: string; bookNow: string; whatsapp: string; language: string;
   };
   hero: {
@@ -64,7 +64,7 @@ export type T = {
     tagline: string; popularTransfers: string; excursionsTitle: string; toursTitle: string;
     helpTitle: string; viewAll: string; instagram: string; whatsapp: string;
     available: string; rights: string;
-    helpLinks: { fleet: string; gallery: string; contact: string; bookNow: string };
+    helpLinks: { gallery: string; contact: string; bookNow: string };
     transferLinks: string[]; excursionLinks: string[]; tourLinks: string[];
   };
   pages: {
@@ -90,6 +90,7 @@ export type T = {
         bookTour: string; backToTours: string;
         itinerary: string; highlights: string; gallery: string; faq: string;
         ctaTitle: string; ctaDesc: string;
+        similarTours: string;
       };
     };
     excursions: {
@@ -121,12 +122,6 @@ export type T = {
       ctaScript: string; ctaSubtitle: string; ctaBtn: string;
       homeScript: string; homeTitle: string; homeSubtitle: string; viewAll: string;
     };
-    fleet: {
-      heroScript: string; heroTitle: string; heroSubtitle: string;
-      guarantees: [string, string, string, string];
-      plateLabel: string; expandBtn: string; bookVehicle: string;
-      ctaScript: string; ctaSubtitle: string; ctaBtn: string;
-    };
   };
 };
 
@@ -134,7 +129,7 @@ export type T = {
 const FR: T = {
   dir: "ltr",
   nav: {
-    transfers: "Transferts", tours: "Tours", excursions: "Excursions", fleet: "Flotte",
+    transfers: "Transferts", tours: "Tours", excursions: "Excursions",
     gallery: "Galerie", contact: "Contact", bookNow: "Réserver", whatsapp: "WhatsApp", language: "Langue",
   },
   hero: {
@@ -214,7 +209,7 @@ const FR: T = {
     popularTransfers: "Transferts Populaires", excursionsTitle: "Nos Excursions", toursTitle: "Tours Privés",
     helpTitle: "Informations", viewAll: "Voir tout →", instagram: "Instagram", whatsapp: "WhatsApp",
     available: "Disponible 24h/24 · 7j/7", rights: "Tour Me Morocco. Tous droits réservés.",
-    helpLinks: { fleet: "Notre Flotte", gallery: "Galerie Photos", contact: "Nous Contacter", bookNow: "Réserver" },
+    helpLinks: { gallery: "Galerie Photos", contact: "Nous Contacter", bookNow: "Réserver" },
     transferLinks: ["Marrakech → Casablanca","Marrakech → Essaouira","Marrakech → Agadir","Marrakech → Ouarzazate","Marrakech → Aéroport RAK","Marrakech → Fès"],
     excursionLinks: ["Vallée de l'Ourika","Cascades d'Ouzoud","Désert d'Agafay","Imlil & Toubkal"],
     tourLinks: ["Marrakech → Essaouira","Chefchaouen Day Trip","Fès & Chefchaouen","Circuit Sahara 9 Jours"],
@@ -256,6 +251,7 @@ const FR: T = {
         itinerary: "Programme", highlights: "Points forts du tour",
         gallery: "Galerie", faq: "Questions fréquentes",
         ctaTitle: "Prêt à explorer ?", ctaDesc: "Contactez-nous pour obtenir un devis personnalisé pour ce tour.",
+        similarTours: "Tours similaires",
       },
     },
     excursions: {
@@ -298,16 +294,6 @@ const FR: T = {
       homeSubtitle: "Chaque photo raconte une aventure vécue par nos clients au cœur du Maroc.",
       viewAll: "Voir toute la galerie",
     },
-    fleet: {
-      heroScript: "Nos véhicules",
-      heroTitle: "Notre Flotte Privée",
-      heroSubtitle: "Véhicules récents, climatisés et parfaitement entretenus. Chaque trajet est assuré par un chauffeur professionnel diplômé.",
-      guarantees: ["Véhicules récents", "Chauffeurs certifiés", "A/C & Wi-Fi", "Assurance incluse"],
-      plateLabel: "Immatriculation", expandBtn: "Agrandir", bookVehicle: "Réserver ce véhicule",
-      ctaScript: "Prêt à partir ?",
-      ctaSubtitle: "Tous nos véhicules sont disponibles avec chauffeur privé dédié — contactez-nous pour un devis.",
-      ctaBtn: "Demander un devis",
-    },
   },
 };
 
@@ -315,7 +301,7 @@ const FR: T = {
 const EN: T = {
   dir: "ltr",
   nav: {
-    transfers: "Transfers", tours: "Tours", excursions: "Excursions", fleet: "Fleet",
+    transfers: "Transfers", tours: "Tours", excursions: "Excursions",
     gallery: "Gallery", contact: "Contact", bookNow: "Book Now", whatsapp: "WhatsApp", language: "Language",
   },
   hero: {
@@ -395,7 +381,7 @@ const EN: T = {
     popularTransfers: "Popular Transfers", excursionsTitle: "Our Excursions", toursTitle: "Private Tours",
     helpTitle: "Information", viewAll: "View All →", instagram: "Instagram", whatsapp: "WhatsApp",
     available: "Available 24/7", rights: "Tour Me Morocco. All rights reserved.",
-    helpLinks: { fleet: "Our Fleet", gallery: "Photo Gallery", contact: "Contact Us", bookNow: "Book Now" },
+    helpLinks: { gallery: "Photo Gallery", contact: "Contact Us", bookNow: "Book Now" },
     transferLinks: ["Marrakech → Casablanca","Marrakech → Essaouira","Marrakech → Agadir","Marrakech → Ouarzazate","Marrakech Airport Transfer","Marrakech → Fes"],
     excursionLinks: ["Ourika Valley","Ouzoud Waterfalls","Agafay Desert","Imlil & Toubkal"],
     tourLinks: ["Marrakech → Essaouira","Chefchaouen Day Trip","Fes & Chefchaouen","9-Day Sahara Tour"],
@@ -437,6 +423,7 @@ const EN: T = {
         itinerary: "Itinerary", highlights: "Tour Highlights",
         gallery: "Gallery", faq: "Frequently Asked Questions",
         ctaTitle: "Ready to explore?", ctaDesc: "Contact us now to get a personalised quote for this tour.",
+        similarTours: "Similar Tours",
       },
     },
     excursions: {
@@ -479,16 +466,6 @@ const EN: T = {
       homeSubtitle: "Every photo tells an adventure lived by our clients across the heart of Morocco.",
       viewAll: "View full gallery",
     },
-    fleet: {
-      heroScript: "Our vehicles",
-      heroTitle: "Our Private Fleet",
-      heroSubtitle: "Recent, air-conditioned and perfectly maintained vehicles. Every journey is handled by a certified professional driver.",
-      guarantees: ["Recent vehicles", "Certified drivers", "A/C & Wi-Fi", "Insurance included"],
-      plateLabel: "Registration", expandBtn: "Expand", bookVehicle: "Book this vehicle",
-      ctaScript: "Ready to go?",
-      ctaSubtitle: "All our vehicles are available with a dedicated private driver — contact us for a quote.",
-      ctaBtn: "Get a quote",
-    },
   },
 };
 
@@ -496,7 +473,7 @@ const EN: T = {
 const AR: T = {
   dir: "rtl",
   nav: {
-    transfers: "التنقلات", tours: "الجولات", excursions: "الرحلات", fleet: "الأسطول",
+    transfers: "التنقلات", tours: "الجولات", excursions: "الرحلات",
     gallery: "المعرض", contact: "اتصل بنا", bookNow: "احجز الآن", whatsapp: "واتساب", language: "اللغة",
   },
   hero: {
@@ -576,7 +553,7 @@ const AR: T = {
     popularTransfers: "التنقلات الشائعة", excursionsTitle: "رحلاتنا اليومية", toursTitle: "الجولات الخاصة",
     helpTitle: "معلومات", viewAll: "← عرض الكل", instagram: "إنستغرام", whatsapp: "واتساب",
     available: "متاح 24/7", rights: "تور كم موروكو. جميع الحقوق محفوظة.",
-    helpLinks: { fleet: "أسطولنا", gallery: "معرض الصور", contact: "اتصل بنا", bookNow: "احجز الآن" },
+    helpLinks: { gallery: "معرض الصور", contact: "اتصل بنا", bookNow: "احجز الآن" },
     transferLinks: ["مراكش ← الدار البيضاء","مراكش ← الصويرة","مراكش ← أكادير","مراكش ← ورزازات","مراكش ← المطار","مراكش ← فاس"],
     excursionLinks: ["وادي أوريكا","شلالات أوزود","صحراء أكافاي","إملي وتوبقال"],
     tourLinks: ["مراكش ← الصويرة","رحلة شفشاون","فاس وشفشاون","جولة الصحراء 9 أيام"],
@@ -618,6 +595,7 @@ const AR: T = {
         itinerary: "البرنامج", highlights: "أبرز معالم الجولة",
         gallery: "معرض الصور", faq: "الأسئلة الشائعة",
         ctaTitle: "مستعد للاستكشاف؟", ctaDesc: "تواصل معنا الآن للحصول على عرض سعر مخصص لهذه الجولة.",
+        similarTours: "جولات مشابهة",
       },
     },
     excursions: {
@@ -660,16 +638,6 @@ const AR: T = {
       homeSubtitle: "كل صورة تحكي مغامرة عاشها عملاؤنا في أرجاء المغرب.",
       viewAll: "عرض المعرض كاملاً",
     },
-    fleet: {
-      heroScript: "سياراتنا",
-      heroTitle: "أسطولنا الخاص",
-      heroSubtitle: "مركبات حديثة، مكيفة ومصانة بشكل مثالي. كل رحلة يديرها سائق محترف معتمد.",
-      guarantees: ["مركبات حديثة", "سائقون معتمدون", "تكييف وواي فاي", "تأمين شامل"],
-      plateLabel: "رقم اللوحة", expandBtn: "تكبير", bookVehicle: "احجز هذه السيارة",
-      ctaScript: "مستعد للانطلاق؟",
-      ctaSubtitle: "جميع مركباتنا متاحة مع سائق خاص مخصص — اتصل بنا للحصول على عرض سعر.",
-      ctaBtn: "طلب عرض سعر",
-    },
   },
 };
 
@@ -677,7 +645,7 @@ const AR: T = {
 const IT: T = {
   dir: "ltr",
   nav: {
-    transfers: "Trasferimenti", tours: "Tour", excursions: "Escursioni", fleet: "Flotta",
+    transfers: "Trasferimenti", tours: "Tour", excursions: "Escursioni",
     gallery: "Galleria", contact: "Contatti", bookNow: "Prenota ora", whatsapp: "WhatsApp", language: "Lingua",
   },
   hero: {
@@ -757,7 +725,7 @@ const IT: T = {
     popularTransfers: "Trasferimenti Popolari", excursionsTitle: "Le Nostre Escursioni", toursTitle: "Tour Privati",
     helpTitle: "Informazioni", viewAll: "Vedi tutto →", instagram: "Instagram", whatsapp: "WhatsApp",
     available: "Disponibile 24h/24 · 7g/7", rights: "Tour Me Morocco. Tutti i diritti riservati.",
-    helpLinks: { fleet: "La Nostra Flotta", gallery: "Galleria Foto", contact: "Contattaci", bookNow: "Prenota" },
+    helpLinks: { gallery: "Galleria Foto", contact: "Contattaci", bookNow: "Prenota" },
     transferLinks: ["Marrakech → Casablanca","Marrakech → Essaouira","Marrakech → Agadir","Marrakech → Ouarzazate","Marrakech → Aeroporto RAK","Marrakech → Fès"],
     excursionLinks: ["Valle dell'Ourika","Cascate di Ouzoud","Deserto di Agafay","Imlil & Toubkal"],
     tourLinks: ["Marrakech → Essaouira","Escursione a Chefchaouen","Fès e Chefchaouen","Circuito Sahara 9 giorni"],
@@ -799,6 +767,7 @@ const IT: T = {
         itinerary: "Programma", highlights: "Punti salienti del tour",
         gallery: "Galleria", faq: "Domande frequenti",
         ctaTitle: "Pronto ad esplorare?", ctaDesc: "Contattaci ora per un preventivo personalizzato per questo tour.",
+        similarTours: "Tour simili",
       },
     },
     excursions: {
@@ -840,16 +809,6 @@ const IT: T = {
       homeTitle: "Momenti condivisi",
       homeSubtitle: "Ogni foto racconta un'avventura vissuta dai nostri clienti nel cuore del Marocco.",
       viewAll: "Vedi tutta la galleria",
-    },
-    fleet: {
-      heroScript: "I nostri veicoli",
-      heroTitle: "La Nostra Flotta Privata",
-      heroSubtitle: "Veicoli recenti, climatizzati e perfettamente mantenuti. Ogni viaggio è gestito da un autista professionista certificato.",
-      guarantees: ["Veicoli recenti", "Autisti certificati", "A/C & Wi-Fi", "Assicurazione inclusa"],
-      plateLabel: "Targa", expandBtn: "Ingrandisci", bookVehicle: "Prenota questo veicolo",
-      ctaScript: "Pronto a partire?",
-      ctaSubtitle: "Tutti i nostri veicoli sono disponibili con autista privato dedicato — contattaci per un preventivo.",
-      ctaBtn: "Richiedi un preventivo",
     },
   },
 };

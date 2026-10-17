@@ -162,11 +162,10 @@ export function Navbar() {
   const { t, locale, setLocale } = useI18n();
 
   const navLinks = [
-    { label: t.nav.transfers,  href: "/transfers"  },
-    { label: t.nav.tours,      href: "/tours"      },
-    { label: t.nav.excursions, href: "/excursions" },
-    { label: t.nav.fleet,      href: "/fleet"      },
-    { label: t.nav.gallery,    href: "/gallery"    },
+    { label: t.nav.transfers,  href: `/${locale}/transfers`  },
+    { label: t.nav.tours,      href: `/${locale}/tours`      },
+    { label: t.nav.excursions, href: `/${locale}/excursions` },
+    { label: t.nav.gallery,    href: `/${locale}/gallery`    },
     { label: t.nav.contact,    href: "https://wa.me/212709274114", external: true },
   ];
 
@@ -191,7 +190,7 @@ export function Navbar() {
       <div className="max-w-[1280px] mx-auto px-[clamp(16px,4.5vw,56px)] h-[78px] flex items-center justify-between gap-5">
 
         {/* ── Logo ── */}
-        <Link href="/#top" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
+        <Link href={`/${locale}`} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
           <svg width="26" height="29" viewBox="0 0 38 42" fill="none" className="sm:w-[34px] sm:h-[38px] flex-shrink-0">
             <path d="M2 41L2 19C2 9.06 9.61 1 19 1C28.39 1 36 9.06 36 19L36 41"
               stroke="#f5b63f" strokeWidth="2.5" strokeLinecap="round"/>
@@ -302,7 +301,7 @@ export function Navbar() {
           />
 
           <div className="border-t border-white/10 pt-2 px-2 pb-1 flex gap-2">
-            <Link href="/#contact" onClick={() => setOpen(false)}
+            <Link href={`/${locale}#contact`} onClick={() => setOpen(false)}
               className="flex-1 flex items-center justify-center gap-2 bg-[#f5b63f] text-[#162c2c] text-[12px] font-bold py-2.5 rounded-xl">
               <CalendarCheck size={14} /> {t.nav.bookNow}
             </Link>

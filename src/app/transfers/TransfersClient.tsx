@@ -289,7 +289,7 @@ function TransferCard({ transfer }: { transfer: Transfer }) {
           </p>
         </div>
         <Link
-          href={`/transfers/${transfer.slug}`}
+          href={`/${locale}/transfers/${transfer.slug}`}
           className="flex items-center gap-1.5 text-[11px] font-bold px-4 py-2.5 rounded-full bg-[#062f35] text-white hover:bg-[#0a4a51] transition-colors whitespace-nowrap"
         >
           {discoverLabel} <IconArrow />
@@ -383,7 +383,7 @@ export default function TransfersClient() {
               </p>
               <p className="text-white/65 text-[13.5px] max-w-[420px]">{pg.ctaSubtitle}</p>
             </div>
-            <Link href="/#contact"
+            <Link href={`/${locale}#contact`}
               className="flex items-center gap-3 rounded-full transition-all duration-300 hover:-translate-y-[2px] hover:shadow-[0_12px_28px_rgba(245,182,63,.4)] whitespace-nowrap flex-shrink-0"
               style={{
                 background: "linear-gradient(135deg,#f5c842 0%,#e8921e 100%)",

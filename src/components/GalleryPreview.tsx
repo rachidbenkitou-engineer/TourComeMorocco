@@ -158,7 +158,7 @@ export function GalleryPreview() {
             <Reveal from="right" delay={0.14}>
               <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }} transition={SPRING}>
                 <Link
-                  href="/gallery"
+                  href={`/${locale}/gallery`}
                   className="flex items-center gap-2 text-[12.5px] font-semibold text-[#062f35] border border-[#062f35] hover:bg-[#062f35] hover:text-white px-5 py-2.5 rounded-full transition-colors duration-200 whitespace-nowrap"
                 >
                   {pg.viewAll}
@@ -210,7 +210,7 @@ export function GalleryPreview() {
           <Reveal delay={0.3} className="mt-8 flex justify-center">
             <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }} transition={SPRING}>
               <Link
-                href="/gallery"
+                href={`/${locale}/gallery`}
                 className="flex items-center gap-3 rounded-full transition-all duration-300 hover:shadow-[0_12px_28px_rgba(245,182,63,.4)] whitespace-nowrap cursor-pointer"
                 style={{
                   background: "linear-gradient(135deg,#f5c842 0%,#e8921e 100%)",

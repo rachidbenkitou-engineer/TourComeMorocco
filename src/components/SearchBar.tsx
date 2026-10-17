@@ -22,35 +22,6 @@ const CIRCUIT_FROM_PRICES: Record<typeof CIRCUIT_SLUGS[number], string> = {
   long:  "€980",
 };
 
-/* ─── Calendar helpers ───────────────────────────────── */
-const CAL_MONTHS: Record<string, string[]> = {
-  fr: ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"],
-  en: ["January","February","March","April","May","June","July","August","September","October","November","December"],
-  ar: ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"],
-  it: ["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"],
-};
-const CAL_DAYS: Record<string, string[]> = {
-  fr: ["Lu","Ma","Me","Je","Ve","Sa","Di"],
-  en: ["Mo","Tu","We","Th","Fr","Sa","Su"],
-  ar: ["إث","ثل","أر","خم","جم","سب","أح"],
-  it: ["Lu","Ma","Me","Gi","Ve","Sa","Do"],
-};
-function calGrid(year: number, month: number): (number | null)[] {
-  const offset = (new Date(year, month, 1).getDay() + 6) % 7;
-  const total  = new Date(year, month + 1, 0).getDate();
-  const cells: (number | null)[] = Array(offset).fill(null);
-  for (let d = 1; d <= total; d++) cells.push(d);
-  while (cells.length % 7 !== 0) cells.push(null);
-  return cells;
-}
-function toYMD(y: number, m: number, d: number) {
-  return `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
-}
-function fmtDate(str: string, locale: string) {
-  if (!str) return "";
-  const [y, m, d] = str.split("-").map(Number);
-  return `${d} ${(CAL_MONTHS[locale] ?? CAL_MONTHS.fr)[m - 1]} ${y}`;
-}
 
 /* ─── SVG icons ─────────────────────────────────── */
 const IconCircuit = () => (
@@ -246,120 +217,6 @@ function Field({
   );
 }
 
-/* ─── FieldDate — custom calendar (absolute pos) ─── */
-function FieldDate({
-  placeholder, value, onChange,
-}: {
-  placeholder: string;
-  value: string;
-  onChange: (v: string) => void;
-}) {
-  const { locale } = useI18n();
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  const [now] = useState(() => new Date());
-  const init = value ? new Date(value + "T12:00:00") : now;
-  const [vy, setVy] = useState(init.getFullYear());
-  const [vm, setVm] = useState(init.getMonth());
-
-  useEffect(() => {
-    if (!open) return;
-    const h = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
-    };
-    document.addEventListener("mousedown", h);
-    return () => document.removeEventListener("mousedown", h);
-  }, [open]);
-
-  const cells    = calGrid(vy, vm);
-  const months   = CAL_MONTHS[locale] ?? CAL_MONTHS.fr;
-  const weekDays = CAL_DAYS[locale]   ?? CAL_DAYS.fr;
-  const todayStr = toYMD(now.getFullYear(), now.getMonth(), now.getDate());
-  const minStr   = todayStr;
-
-  const displayValue = value ? fmtDate(value, locale) : "";
-
-  function prevMonth() {
-    if (vm === 0) { setVy(y => y - 1); setVm(11); } else { setVm(m => m - 1); }
-  }
-  function nextMonth() {
-    if (vm === 11) { setVy(y => y + 1); setVm(0); } else { setVm(m => m + 1); }
-  }
-
-  return (
-    <div ref={ref} className="relative">
-      <button
-        type="button"
-        onClick={() => setOpen(v => !v)}
-        className={cn(
-          "flex items-center gap-2.5 h-[50px] px-3 rounded-xl bg-white border w-full cursor-pointer transition-all duration-150",
-          open
-            ? "border-[#f5b63f] shadow-[0_0_0_3px_rgba(245,182,63,.16)]"
-            : "border-[#ddd8ce] hover:border-[#c9d8d9] hover:shadow-[0_2px_10px_rgba(6,47,53,.09)]",
-        )}
-      >
-        <FieldIcon open={open} filled={!!value}><IconCalendar /></FieldIcon>
-        <FieldText placeholder={placeholder} value={displayValue} />
-        <IconChevron open={open} />
-      </button>
-
-      {open && (
-        <div
-          className="absolute top-[calc(100%+6px)] left-0 bg-white rounded-2xl shadow-[0_14px_44px_rgba(6,47,53,.2)] border border-[#e8e3da] p-3.5 select-none z-[9999]"
-          style={{ width: 276 }}
-        >
-          {/* Month nav */}
-          <div className="flex items-center justify-between mb-3 px-0.5">
-            <button type="button" onClick={prevMonth}
-              className="w-7 h-7 rounded-full flex items-center justify-center hover:bg-[#f0f5f5] text-[#3a6568] transition-colors">
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-            </button>
-            <span className="text-[12.5px] font-bold text-[#062f35] tracking-wide">{months[vm]} {vy}</span>
-            <button type="button" onClick={nextMonth}
-              className="w-7 h-7 rounded-full flex items-center justify-center hover:bg-[#f0f5f5] text-[#3a6568] transition-colors">
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-            </button>
-          </div>
-
-          {/* Divider */}
-          <div className="h-px bg-[#f0ebe3] mb-2.5" />
-
-          {/* Day names */}
-          <div className="grid grid-cols-7 mb-1">
-            {weekDays.map(d => (
-              <div key={d} className="text-center text-[9.5px] font-bold text-[#b0c4c5] py-1 uppercase tracking-wide">{d}</div>
-            ))}
-          </div>
-
-          {/* Days */}
-          <div className="grid grid-cols-7 gap-y-0.5">
-            {cells.map((day, i) => {
-              if (!day) return <div key={i} />;
-              const str     = toYMD(vy, vm, day);
-              const isSel   = str === value;
-              const isToday = str === todayStr;
-              const isDisab = str < minStr;
-              return (
-                <button key={i} type="button" disabled={isDisab}
-                  onClick={() => { onChange(str); setOpen(false); }}
-                  className={cn(
-                    "h-8 w-full rounded-lg text-[12px] font-medium transition-all duration-100",
-                    isDisab  ? "text-[#d0d8d8] cursor-not-allowed" :
-                    isSel    ? "bg-[#f5b63f] text-white font-bold shadow-[0_3px_10px_rgba(245,182,63,.4)]" :
-                    isToday  ? "border border-[#f5b63f] text-[#b87a06] font-bold hover:bg-[#fff8ee]" :
-                               "text-[#1a3a3c] hover:bg-[#f0f5f5]",
-                  )}>
-                  {day}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
 
 /* ─── SearchBar ──────────────────────────────────── */
 export function SearchBar() {
@@ -377,7 +234,6 @@ export function SearchBar() {
     { id: "circuit"   as Mode, Icon: IconCircuit,   label: sb.tabs.circuit.label,   sub: sb.tabs.circuit.sub   },
     { id: "excursion" as Mode, Icon: IconExcursion, label: sb.tabs.excursion.label, sub: sb.tabs.excursion.sub },
   ];
-  const datePlaceholder = locale === "en" ? "Choose a date" : locale === "ar" ? "اختر التاريخ" : locale === "it" ? "Scegli una data" : "Choisir une date";
 
   const router = useRouter();
 
@@ -399,7 +255,6 @@ export function SearchBar() {
   const [mode,    setMode]   = useState<Mode>("transfert");
   const [depart,  setDepart] = useState(mktName);
   const [arrivee, setArrivee] = useState("");
-  const [date,    setDate]   = useState("");
 
   const filteredDests = transfers
     .filter(t => {
@@ -419,20 +274,20 @@ export function SearchBar() {
 
   useEffect(() => { if (mode === "transfert") setArrivee(""); }, [depart]);
 
-  function reset(newMode: Mode = mode) { setDepart(newMode === "transfert" ? mktName : ""); setArrivee(""); setDate(""); }
+  function reset(newMode: Mode = mode) { setDepart(newMode === "transfert" ? mktName : ""); setArrivee(""); }
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
     if (mode === "circuit") {
       const idx  = circuitLengths.indexOf(depart);
       const slug = idx >= 0 ? CIRCUIT_SLUGS[idx] : null;
-      router.push(slug ? `/tours?duree=${slug}` : "/tours");
+      router.push(slug ? `/${locale}/tours?duree=${slug}` : `/${locale}/tours`);
     } else if (mode === "transfert") {
       const found = arrivee ? findTransferByRoute(depart, arrivee, locale) : null;
-      router.push(found ? `/transfers/${found.slug}` : "/transfers");
+      router.push(found ? `/${locale}/transfers/${found.slug}` : `/${locale}/transfers`);
     } else {
       const found = excursions.find(e => e.title[loc] === depart);
-      router.push(found ? `/excursions/${found.slug}` : "/excursions");
+      router.push(found ? `/${locale}/excursions/${found.slug}` : `/${locale}/excursions`);
     }
   }
 
@@ -485,8 +340,8 @@ export function SearchBar() {
         className={cn(
           "grid gap-2.5 p-3 bg-[#f4f0e8] rounded-b-2xl",
           mode === "transfert"
-            ? "grid-cols-1 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_auto]"
-            : "grid-cols-1 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto]",
+            ? "grid-cols-1 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto]"
+            : "grid-cols-1 sm:grid-cols-[minmax(0,1fr)_auto]",
         )}
       >
         {mode === "circuit" && (
@@ -497,11 +352,6 @@ export function SearchBar() {
               value={depart}
               onValue={setDepart}
               options={circuitLengths}
-            />
-            <FieldDate
-              placeholder={datePlaceholder}
-              value={date}
-              onChange={setDate}
             />
           </>
         )}
@@ -523,11 +373,6 @@ export function SearchBar() {
               options={filteredDests}
               searchable
             />
-            <FieldDate
-              placeholder={datePlaceholder}
-              value={date}
-              onChange={setDate}
-            />
           </>
         )}
 
@@ -540,11 +385,6 @@ export function SearchBar() {
               onValue={setDepart}
               options={excursionNames}
               searchable
-            />
-            <FieldDate
-              placeholder={datePlaceholder}
-              value={date}
-              onChange={setDate}
             />
           </>
         )}

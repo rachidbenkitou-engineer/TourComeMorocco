@@ -100,7 +100,7 @@ export function PopularTransfers() {
                 transition={SPRING}
                 className="h-full"
               >
-                <Link href={`/transfers/${route.slug}`}
+                <Link href={`/${locale}/transfers/${route.slug}`}
                   className="group relative h-[160px] sm:h-[190px] md:h-[210px] overflow-hidden rounded-2xl cursor-pointer shadow-[0_4px_20px_rgba(6,47,53,.12)] hover:shadow-[0_16px_40px_rgba(6,47,53,.25)] transition-shadow duration-300 block"
                 >
                   <Image src={route.img} alt={route.name} fill
@@ -140,7 +140,7 @@ export function PopularTransfers() {
         {/* CTA */}
         <Reveal delay={0.12} className="mt-10 flex justify-center">
           <motion.div whileHover={{ scale: 1.06, y: -3 }} whileTap={{ scale: 0.97 }} transition={SPRING}>
-            <Link href="/transfers"
+            <Link href={`/${locale}/transfers`}
               className="flex items-center gap-2 text-[12px] font-bold text-[#062f35] border-2 border-[#062f35] px-8 py-3 rounded-full hover:bg-[#062f35] hover:text-white transition-colors duration-200">
               {tr.seeAll} <IconArrowRight />
             </Link>

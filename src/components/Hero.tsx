@@ -114,7 +114,7 @@ export function Hero() {
           <div className="flex flex-wrap items-center justify-center gap-4">
             <motion.div whileHover={{ y: -5, scale: 1.04 }} whileTap={{ scale: 0.96 }} transition={SPRING}>
               <Link
-                href="/tours"
+                href={`/${locale}/tours`}
                 className="group inline-flex items-center gap-3 rounded-full hover:shadow-[0_14px_36px_rgba(245,182,63,.5)] transition-shadow duration-300"
                 style={{
                   background: "linear-gradient(135deg,#f5c842 0%,#e8921e 100%)",

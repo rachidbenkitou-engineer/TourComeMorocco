@@ -96,11 +96,11 @@ export default function TransferDetail({ slug }: { slug: string }) {
         <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 pb-12 pt-28">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-[11px] text-white/50 mb-5 font-medium tracking-wide uppercase">
-            <Link href="/" className="hover:text-white/80 transition-colors">
+            <Link href={`/${locale}`} className="hover:text-white/80 transition-colors">
               {locale === "ar" ? "الرئيسية" : locale === "en" ? "Home" : locale === "it" ? "Home" : "Accueil"}
             </Link>
             <span>/</span>
-            <Link href="/transfers" className="hover:text-white/80 transition-colors">{t.nav.transfers}</Link>
+            <Link href={`/${locale}/transfers`} className="hover:text-white/80 transition-colors">{t.nav.transfers}</Link>
             <span>/</span>
             <span className="text-[#f5b63f]">{dest}</span>
           </nav>
@@ -156,7 +156,7 @@ export default function TransferDetail({ slug }: { slug: string }) {
           {/* Back link + Book button */}
           <div className="flex items-center justify-between gap-3">
             <Link
-              href="/transfers"
+              href={`/${locale}/transfers`}
               className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-[#3a6568] hover:text-[#062f35] transition-colors group min-w-0"
             >
               <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
@@ -253,7 +253,7 @@ export default function TransferDetail({ slug }: { slug: string }) {
                 {related.map(rel => (
                   <Link
                     key={rel.slug}
-                    href={`/transfers/${rel.slug}`}
+                    href={`/${locale}/transfers/${rel.slug}`}
                     className="group block rounded-2xl border border-[#e8e3da] bg-white p-5 hover:shadow-[0_4px_20px_rgba(6,47,53,.12)] transition-all duration-200 hover:-translate-y-1"
                   >
                     <div className="flex items-start justify-between gap-2 mb-3">

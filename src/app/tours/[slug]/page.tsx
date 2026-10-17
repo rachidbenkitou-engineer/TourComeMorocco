@@ -1,6 +1,5 @@
-import TourDetail from "./TourDetail";
-
+import { redirect } from "next/navigation";
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  return <TourDetail slug={slug} />;
+  redirect(`/fr/tours/${slug}`);
 }

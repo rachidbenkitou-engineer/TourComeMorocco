@@ -136,7 +136,7 @@ export default function ExcursionsClient() {
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.22 }}
                 >
-                <Link href={`/excursions/${excursion.slug}`}
+                <Link href={`/${locale}/excursions/${excursion.slug}`}
                   className="group bg-white rounded-2xl overflow-hidden shadow-card hover:shadow-lift transition-all duration-300 hover:-translate-y-1.5 flex flex-col"
                 >
                   <div className="relative h-[220px] overflow-hidden flex-shrink-0">

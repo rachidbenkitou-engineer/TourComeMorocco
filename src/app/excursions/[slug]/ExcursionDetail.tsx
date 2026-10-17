@@ -139,9 +139,9 @@ export default function ExcursionDetail({ slug }: { slug: string }) {
             style={{ paddingTop: "78px" }}>
             {/* Breadcrumb */}
             <div className="flex items-center gap-1.5 text-white/45 text-[11px] mb-5">
-              <Link href="/" className="hover:text-white/75 transition-colors">{dt.home}</Link>
+              <Link href={`/${locale}`} className="hover:text-white/75 transition-colors">{dt.home}</Link>
               <span>/</span>
-              <Link href="/excursions" className="hover:text-white/75 transition-colors">{t.nav.excursions}</Link>
+              <Link href={`/${locale}/excursions`} className="hover:text-white/75 transition-colors">{t.nav.excursions}</Link>
               <span>/</span>
               <span className="text-white/65 line-clamp-1">{excursion.title[locale]}</span>
             </div>
@@ -202,7 +202,7 @@ export default function ExcursionDetail({ slug }: { slug: string }) {
               {/* Back link + Book button */}
               <div className="flex items-center justify-between gap-3">
                 <Link
-                  href="/excursions"
+                  href={`/${locale}/excursions`}
                   className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-[#3a6568] hover:text-[#062f35] transition-colors group min-w-0"
                 >
                   <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
@@ -372,7 +372,7 @@ export default function ExcursionDetail({ slug }: { slug: string }) {
                     ))}
                   </div>
 
-                  <Link href="/excursions"
+                  <Link href={`/${locale}/excursions`}
                     className="mt-1 flex items-center justify-center text-[12px] text-[#8a9ea0] hover:text-[#062f35] transition-colors">
                     {dt.backToExcursions}
                   </Link>
@@ -398,7 +398,7 @@ export default function ExcursionDetail({ slug }: { slug: string }) {
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {related.map(rel => (
-                <Link key={rel.slug} href={`/excursions/${rel.slug}`}
+                <Link key={rel.slug} href={`/${locale}/excursions/${rel.slug}`}
                   className="group bg-[#fff8f0] rounded-2xl overflow-hidden shadow-card hover:shadow-lift transition-all duration-300 hover:-translate-y-1.5 flex flex-col">
                   <div className="relative h-[180px] overflow-hidden flex-shrink-0">
                     <Image src={rel.image} alt={rel.title[locale]} fill
@@ -422,7 +422,7 @@ export default function ExcursionDetail({ slug }: { slug: string }) {
               ))}
             </div>
             <div className="text-center mt-10">
-              <Link href="/excursions"
+              <Link href={`/${locale}/excursions`}
                 className="inline-flex items-center gap-2 border border-[#062f35] text-[#062f35] hover:bg-[#062f35] hover:text-white text-[12.5px] font-semibold px-6 py-2.5 rounded-full transition-all duration-200">
                 {t.excursions.seeAll} <IconArrow />
               </Link>

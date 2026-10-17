@@ -67,32 +67,31 @@ function FooterSection({ title, links }: {
 }
 
 export function Footer() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
 
   const transferLinks = t.footer.transferLinks.map(label => ({
-    href: "/transfers",
+    href: `/${locale}/transfers`,
     label,
   }));
 
   const excursionLinks = [
     ...t.footer.excursionLinks.map((label, i) => ({
-      href: `/excursions/${EXCURSION_SLUGS[i]}`,
+      href: `/${locale}/excursions/${EXCURSION_SLUGS[i]}`,
       label,
     })),
-    { href: "/excursions", label: t.footer.viewAll },
+    { href: `/${locale}/excursions`, label: t.footer.viewAll },
   ];
 
   const tourLinks = [
     ...t.footer.tourLinks.map((label, i) => ({
-      href: `/tours/${TOUR_SLUGS[i]}`,
+      href: `/${locale}/tours/${TOUR_SLUGS[i]}`,
       label,
     })),
-    { href: "/tours", label: t.footer.viewAll },
+    { href: `/${locale}/tours`, label: t.footer.viewAll },
   ];
 
   const helpLinks = [
-    { href: "/fleet",    label: t.footer.helpLinks.fleet   },
-    { href: "/gallery",  label: t.footer.helpLinks.gallery },
+    { href: `/${locale}/gallery`,  label: t.footer.helpLinks.gallery },
     { href: "https://wa.me/212709274114", label: t.footer.helpLinks.contact, external: true },
     { href: "https://wa.me/212709274114", label: t.footer.helpLinks.bookNow, external: true },
   ];
@@ -104,7 +103,7 @@ export function Footer() {
         {/* ── Top: brand + socials ── */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 py-12 border-b border-white/10">
           <div>
-            <Link href="/#top" className="flex items-center gap-3 mb-3">
+            <Link href={`/${locale}`} className="flex items-center gap-3 mb-3">
               <svg width="30" height="34" viewBox="0 0 38 42" fill="none" className="flex-shrink-0">
                 <path d="M2 41L2 19C2 9.06 9.61 1 19 1C28.39 1 36 9.06 36 19L36 41"
                   stroke="#f5b63f" strokeWidth="2.5" strokeLinecap="round"/>

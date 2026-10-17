@@ -60,7 +60,7 @@ export function Tours() {
           </div>
           <Reveal from="right" delay={0.14}>
             <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }} transition={SPRING}>
-              <Link href="/tours"
+              <Link href={`/${locale}/tours`}
                 className="flex items-center gap-2 text-[12.5px] font-semibold text-[#062f35] border border-[#062f35] hover:bg-[#062f35] hover:text-white px-5 py-2.5 rounded-full transition-colors duration-200 whitespace-nowrap self-start sm:self-auto">
                 {tr.seeAll} <IconArrow rtl={locale === "ar"} />
               </Link>
@@ -78,7 +78,7 @@ export function Tours() {
                 transition={SPRING}
                 className="h-full"
               >
-                <Link href={`/tours/${tour.slug}`}
+                <Link href={`/${locale}/tours/${tour.slug}`}
                   className="group bg-white rounded-2xl overflow-hidden shadow-card hover:shadow-lift transition-shadow duration-300 flex flex-col h-full"
                 >
                   <div className="relative h-[220px] overflow-hidden flex-shrink-0">
@@ -121,7 +121,7 @@ export function Tours() {
         {/* CTA */}
         <Reveal delay={0.15} className="mt-10 flex justify-center">
           <motion.div whileHover={{ scale: 1.06, y: -3 }} whileTap={{ scale: 0.97 }} transition={SPRING}>
-            <Link href="/tours"
+            <Link href={`/${locale}/tours`}
               className="flex items-center gap-2 text-[12px] font-bold text-[#062f35] border-2 border-[#062f35] px-8 py-3 rounded-full hover:bg-[#062f35] hover:text-white transition-colors duration-200">
               {tr.seeAll} <IconArrow rtl={locale === "ar"} />
             </Link>

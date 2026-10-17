@@ -4,9 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-import { getTour } from "@/data/tours";
+import { getTour, tours } from "@/data/tours";
 import { useBooking } from "@/components/BookingModal";
 import { useI18n } from "@/i18n/I18nProvider";
+import { TourBookingForm } from "@/components/TourBookingForm";
 
 function IconCheck() {
   return (
@@ -49,10 +50,16 @@ export default function TourDetail({ slug }: { slug: string }) {
   const { open: openBooking } = useBooking();
   const { t, locale } = useI18n();
   const dt  = t.pages.tours.detail;
-  const loc = locale as "fr" | "en" | "ar";
+  const loc = locale as "fr" | "en" | "ar" | "it";
 
   const title = tour.title[loc];
   const bookTour = () => openBooking(`${dt.privateTour} : ${title} (${tour.days[loc]})`);
+  const scrollToForm = () => document.getElementById("tour-booking-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
+
+  const similar = tours
+    .filter(t => t.slug !== slug)
+    .sort((a, b) => Math.abs(a.daysNum - tour.daysNum) - Math.abs(b.daysNum - tour.daysNum))
+    .slice(0, 3);
 
   return (
     <main className="min-h-screen bg-[#fff8f0]">
@@ -64,7 +71,7 @@ export default function TourDetail({ slug }: { slug: string }) {
 
           <div className="absolute inset-0 flex flex-col justify-end pb-10 px-[clamp(16px,4.5vw,56px)] max-w-[1280px] mx-auto">
             <div className="flex items-center gap-2 text-white/50 text-[11px] mb-4">
-              <Link href="/tours" className="hover:text-white/80 transition-colors">
+              <Link href={`/${locale}/tours`} className="hover:text-white/80 transition-colors">
                 {t.nav.tours}
               </Link>
               <span>/</span>
@@ -86,6 +93,32 @@ export default function TourDetail({ slug }: { slug: string }) {
 
             {/* ── Left column ── */}
             <div className="space-y-12">
+
+              {/* Back + Book CTA */}
+              <div className="flex items-center justify-between gap-3">
+                <Link href={`/${locale}/tours`}
+                  className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-[#3a6568] hover:text-[#062f35] transition-colors group min-w-0">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                    className="flex-shrink-0 group-hover:-translate-x-0.5 transition-transform">
+                    <path d="M19 12H5M12 5l-7 7 7 7"/>
+                  </svg>
+                  <span className="truncate">{locale === "ar" ? "رجوع" : locale === "en" ? "Back" : locale === "it" ? "Indietro" : "Retour"}</span>
+                </Link>
+                <button type="button" onClick={scrollToForm}
+                  className="flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-full
+                    bg-gradient-to-r from-[#f5b63f] to-[#e8921e]
+                    text-[#062f35] text-[12.5px] font-bold
+                    shadow-[0_4px_18px_rgba(245,182,63,.45)]
+                    hover:shadow-[0_6px_24px_rgba(245,182,63,.65)]
+                    hover:from-[#ffc84d] hover:to-[#f5b235]
+                    transition-all duration-200 cursor-pointer
+                    animate-[float-btn_2s_ease-in-out_infinite]">
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>
+                  </svg>
+                  {dt.bookTour}
+                </button>
+              </div>
 
               {/* Intro */}
               <p className="text-[15px] text-[#3a5a5e] leading-[1.75]">{tour.intro[loc]}</p>
@@ -137,23 +170,9 @@ export default function TourDetail({ slug }: { slug: string }) {
               )}
             </div>
 
-            {/* ── Right column — sticky sidebar ── */}
-            <aside className="lg:sticky lg:top-28 lg:self-start">
-              <div className="rounded-2xl border border-[#f5b63f]/30 bg-white shadow-[0_4px_24px_rgba(6,47,53,.08)] p-6">
-                <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#a87627]">{dt.privateTour}</span>
-                <p className="font-serif text-[24px] text-[#f5b63f] mt-1 mb-3">{dt.getQuote}</p>
-                <p className="text-[13px] text-[#5a7578] leading-relaxed mb-6">{dt.quoteDesc}</p>
-                <button type="button" onClick={bookTour}
-                  className="flex items-center justify-center gap-2.5 w-full rounded-full text-[11.5px] font-bold uppercase tracking-[0.1em] py-3.5 transition-all duration-200 hover:-translate-y-[2px] hover:shadow-[0_8px_20px_rgba(245,182,63,.35)] cursor-pointer"
-                  style={{ background: "linear-gradient(135deg,#f5c842 0%,#e8921e 100%)", color: "#1c2e2e" }}
-                >
-                  {dt.bookTour}
-                </button>
-                <Link href="/tours"
-                  className="mt-4 flex items-center justify-center text-[12px] text-[#5a7578] hover:text-[#062f35] transition-colors">
-                  {dt.backToTours}
-                </Link>
-              </div>
+            {/* ── Right column — sticky booking form ── */}
+            <aside id="tour-booking-form" className="lg:sticky lg:top-[80px] lg:self-start">
+              <TourBookingForm tour={tour} />
             </aside>
           </div>
         </div>
@@ -174,6 +193,48 @@ export default function TourDetail({ slug }: { slug: string }) {
           </div>
         )}
 
+        {/* ── Similar Tours ── */}
+        {similar.length > 0 && (
+          <div className="border-t border-[#e8efef] bg-[#fff8f0]">
+            <div className="max-w-[1280px] mx-auto px-[clamp(16px,4.5vw,56px)] py-14">
+              <h2 className="font-serif text-[22px] font-semibold text-[#062f35] mb-8">{dt.similarTours}</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {similar.map(s => (
+                  <Link key={s.slug} href={`/${locale}/tours/${s.slug}`}
+                    className="group bg-white rounded-2xl overflow-hidden shadow-[0_2px_16px_rgba(6,47,53,.07)] hover:shadow-[0_6px_28px_rgba(6,47,53,.13)] transition-all duration-300 hover:-translate-y-1.5 flex flex-col"
+                  >
+                    <div className="relative h-[190px] overflow-hidden flex-shrink-0">
+                      <Image src={s.image} alt={s.title[loc]} fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#031e22]/75 via-transparent to-transparent" />
+                      <span className="absolute top-3 left-3 flex items-center gap-1.5 bg-[#062f35]/85 backdrop-blur-sm text-[#f5b63f] text-[10px] font-bold px-2.5 py-1 rounded-full">
+                        <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>
+                        </svg>
+                        {s.days[loc]}
+                      </span>
+                    </div>
+                    <div className="flex flex-col flex-1 p-5">
+                      <h3 className="font-serif text-[15px] font-semibold text-[#062f35] leading-tight mb-2">{s.title[loc]}</h3>
+                      <p className="text-[12px] text-[#5a7578] leading-relaxed flex-1 mb-4 line-clamp-2">{s.short[loc]}</p>
+                      <div className="flex items-center justify-end border-t border-[#f0ebe3] pt-3 mt-auto">
+                        <span className="inline-flex items-center gap-1.5 bg-[#062f35] group-hover:bg-[#0a3d45] text-white text-[10.5px] font-semibold px-3.5 py-2 rounded-full transition-colors">
+                          {locale === "ar" ? "عرض" : locale === "en" ? "View" : locale === "it" ? "Vedi" : "Voir"}
+                          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                          </svg>
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* ── CTA ── */}
         <div className="bg-[#062f35]">
           <div className="max-w-[1280px] mx-auto px-[clamp(16px,4.5vw,56px)] py-12 flex flex-col sm:flex-row items-center justify-between gap-6">
@@ -184,7 +245,7 @@ export default function TourDetail({ slug }: { slug: string }) {
               </p>
               <p className="text-white/65 text-[13.5px] max-w-[380px]">{dt.ctaDesc}</p>
             </div>
-            <button type="button" onClick={bookTour}
+            <button type="button" onClick={scrollToForm}
               className="flex items-center gap-3 rounded-full transition-all duration-300 hover:-translate-y-[2px] hover:shadow-[0_12px_28px_rgba(245,182,63,.4)] whitespace-nowrap flex-shrink-0 cursor-pointer"
               style={{
                 background: "linear-gradient(135deg,#f5c842 0%,#e8921e 100%)",

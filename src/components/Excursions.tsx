@@ -61,7 +61,7 @@ export function Excursions() {
           </div>
           <Reveal from="right" delay={0.14}>
             <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }} transition={SPRING}>
-              <Link href="/excursions"
+              <Link href={`/${loc}/excursions`}
                 className="flex items-center gap-2 text-[12.5px] font-semibold text-[#062f35] border border-[#062f35] hover:bg-[#062f35] hover:text-white px-5 py-2.5 rounded-full transition-colors duration-200 whitespace-nowrap self-start sm:self-auto">
                 {tr.seeAll} <IconArrow rtl={loc === "ar"} />
               </Link>
@@ -79,7 +79,7 @@ export function Excursions() {
                 transition={SPRING}
                 className="h-full"
               >
-                <Link href={`/excursions/${excursion.slug}`}
+                <Link href={`/${loc}/excursions/${excursion.slug}`}
                   className="group bg-white rounded-2xl overflow-hidden shadow-card hover:shadow-lift transition-shadow duration-300 flex flex-col h-full"
                 >
                   <div className="relative h-[190px] overflow-hidden flex-shrink-0">
@@ -122,7 +122,7 @@ export function Excursions() {
         {/* Bottom CTA */}
         <Reveal delay={0.15} className="mt-10 flex justify-center">
           <motion.div whileHover={{ scale: 1.06, y: -3 }} whileTap={{ scale: 0.97 }} transition={SPRING}>
-            <Link href="/excursions"
+            <Link href={`/${loc}/excursions`}
               className="inline-flex items-center gap-3 rounded-full transition-shadow duration-300 hover:shadow-[0_12px_28px_rgba(245,182,63,.4)]"
               style={{
                 background: "linear-gradient(135deg,#f5c842 0%,#e8921e 100%)",
