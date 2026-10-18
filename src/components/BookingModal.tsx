@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { useI18n } from "@/i18n/I18nProvider";
 import { transfers } from "@/data/transfers";
 import { excursions } from "@/data/excursions";
+import { tours } from "@/data/tours";
 
 /* ─── WhatsApp ──────────────────────────────────────── */
 const WA_NUMBER = "212709274114";
@@ -437,6 +438,7 @@ function BookingModal({ service, price: _price, excursionSlug: initExcSlug, onCl
   const [departure, setDeparture] = useState(locale === "ar" ? "مراكش" : "Marrakech");
   const [dest, setDest]           = useState("");
   const [duration, setDuration]   = useState("");
+  const [tourName, setTourName]   = useState("");
   const [excursionName, setExcursionName] = useState("");
   const [date, setDate]           = useState("");
   const [name, setName]           = useState("");
@@ -455,7 +457,7 @@ function BookingModal({ service, price: _price, excursionSlug: initExcSlug, onCl
   /* reset service fields on mode change */
   function switchMode(m: Mode) {
     setMode(m); setDeparture(locale === "ar" ? "مراكش" : "Marrakech");
-    setDest(""); setDuration(""); setExcursionName(""); setDate(""); setErr(null);
+    setDest(""); setDuration(""); setTourName(""); setExcursionName(""); setDate(""); setErr(null);
   }
 
   useEffect(() => {
@@ -491,8 +493,12 @@ function BookingModal({ service, price: _price, excursionSlug: initExcSlug, onCl
     excursionLabel: locale === "ar" ? "الرحلة"           : locale === "en" ? "Excursion"                 : "Excursion",
     excursionPh:   locale === "ar" ? "اختر رحلة"        : locale === "en" ? "Choose an excursion"       : "Choisir une excursion",
     errExcursion:  locale === "ar" ? "الرحلة مطلوبة"    : locale === "en" ? "Excursion required"        : "Excursion requise",
+    tourLabel:     locale === "ar" ? "الجولة"            : locale === "en" ? "Tour"                      : locale === "it" ? "Tour" : "Circuit",
+    tourPh:        locale === "ar" ? "اختر جولة"         : locale === "en" ? "Choose a tour"             : locale === "it" ? "Scegli un tour" : "Choisir un circuit",
+    errTour:       locale === "ar" ? "الجولة مطلوبة"     : locale === "en" ? "Tour required"             : locale === "it" ? "Tour obbligatorio" : "Circuit requis",
   };
 
+  const toursList      = tours.map(t => t.title[locale as "fr" | "en" | "ar" | "it"]);
   const excursionsList = excursions.map(e => e.title[locale]);
 
   const fromCities: string[] = (() => {
@@ -527,6 +533,7 @@ function BookingModal({ service, price: _price, excursionSlug: initExcSlug, onCl
     e.preventDefault();
     if (!name.trim())  { setErr(labels.errName);     return; }
     if (mode === "transfer" && !dest) { setErr(labels.errDest); return; }
+    if (mode === "tour" && !tourName) { setErr(labels.errTour); return; }
     if (mode === "excursion" && !excursionName) { setErr(labels.errExcursion); return; }
     if (mode !== "transfer" && !duration) { setErr(labels.errDuration); return; }
     if (!date) { setErr(labels.errDate); return; }
@@ -537,7 +544,8 @@ function BookingModal({ service, price: _price, excursionSlug: initExcSlug, onCl
     if (mode === "transfer") {
       lines.push(`🚗 ${departure} → ${dest}`);
     } else if (mode === "tour") {
-      lines.push(`🗺 Circuit : ${duration}`);
+      lines.push(`🗺 ${labels.tourLabel} : ${tourName}`);
+      lines.push(`⏱ ${labels.duration} : ${duration}`);
     } else {
       lines.push(`🌄 ${labels.excursionLabel} : ${excursionName}`);
       lines.push(`⏱ ${labels.duration} : ${duration}`);
@@ -648,15 +656,33 @@ function BookingModal({ service, price: _price, excursionSlug: initExcSlug, onCl
 
           {/* ── Tour fields ── */}
           {mode === "tour" && (
-            <div>
-              <label className={lbl}>{labels.duration}</label>
-              <SBField
-                IconComp={IcoClock}
-                placeholder={labels.durationPh}
-                value={duration}
-                onValue={v => { setDuration(v); setErr(null); }}
-                options={tourDurations}
-              />
+            <div className="space-y-2.5">
+              <div>
+                <label className={lbl}>{labels.tourLabel}</label>
+                <SBField
+                  IconComp={IcoTour}
+                  placeholder={labels.tourPh}
+                  value={tourName}
+                  onValue={v => {
+                    setTourName(v);
+                    const found = tours.find(t => t.title[locale as "fr" | "en" | "ar" | "it"] === v);
+                    if (found) setDuration(found.days[locale as "fr" | "en" | "ar" | "it"]);
+                    setErr(null);
+                  }}
+                  options={toursList}
+                  searchable
+                />
+              </div>
+              <div>
+                <label className={lbl}>{labels.duration}</label>
+                <SBField
+                  IconComp={IcoClock}
+                  placeholder={labels.durationPh}
+                  value={duration}
+                  onValue={v => { setDuration(v); setErr(null); }}
+                  options={tourDurations}
+                />
+              </div>
             </div>
           )}
 
