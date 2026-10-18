@@ -118,9 +118,8 @@ export default function ExcursionDetail({ slug }: { slug: string }) {
 
   const facts = [
     { icon: <IconClock />, label: dt.factDuration,  value: excursion.duration[locale] },
-    { icon: <IconPin />,   label: dt.factDeparture, value: "Marrakech" },
+    { icon: <IconPin />,   label: dt.factDeparture, value: locale === "ar" ? "مراكش" : "Marrakech" },
     { icon: <IconUsers />, label: dt.factGroup,     value: dt.factGroupValue },
-    { icon: <IconGlobe />, label: dt.factLanguage,  value: dt.factLanguageValue },
   ];
 
   const sidebarIcons = [<IconShield key="s" />, <IconZap key="z" />, <IconUsers key="u" />];
