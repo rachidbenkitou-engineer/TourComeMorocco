@@ -557,25 +557,6 @@ export function TransferBookingForm({ transfer }: { transfer: Transfer }) {
         <p className="text-white font-playfair text-lg leading-snug">{mktName} {arrow} {dest}</p>
       </div>
 
-      {/* Price table */}
-      <div className="bg-[#fafaf7] border-b border-[#e8e3da] px-5 py-4">
-        <p className={lbl}>{l("priceTable", locale)}</p>
-        <div className="rounded-xl overflow-hidden border border-[#e8e3da]">
-          {VEHICLES.map((v, i) => (
-            <div
-              key={v.value}
-              className={`flex items-center justify-between gap-3 px-4 py-3 text-[12.5px] ${i % 2 === 0 ? "bg-white" : "bg-[#f9f6f0]"}`}
-            >
-              <span className="text-[#3a5c5e]">
-                {locale === "ar" ? v.ar : locale === "en" ? v.en : v.fr}
-              </span>
-              <span className="font-bold text-[#f5b63f] shrink-0">€{transfer.prices[v.priceKey]}</span>
-            </div>
-          ))}
-        </div>
-        <p className="text-[10px] text-[#aabcbd] mt-2">{l("priceNote", locale)}</p>
-      </div>
-
       {/* Form */}
       <form onSubmit={handleSubmit} className="px-5 py-5 space-y-3.5 bg-white">
 

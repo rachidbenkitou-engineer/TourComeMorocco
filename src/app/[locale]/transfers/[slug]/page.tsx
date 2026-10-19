@@ -6,14 +6,26 @@ import { JsonLd } from "@/components/JsonLd";
 import TransferDetail from "@/app/transfers/[slug]/TransferDetail";
 import type { Locale } from "@/i18n/translations";
 
-const BASE    = process.env.NEXT_PUBLIC_SITE_URL ?? "https://tourmemorocco.com";
+const BASE     = process.env.NEXT_PUBLIC_SITE_URL ?? "https://tourmemorocco.com";
 const LOCALES: Locale[] = ["fr", "en", "ar", "it"];
+const WHATSAPP = "https://wa.me/212709274114";
+
+const OG_LOCALE: Record<Locale, string> = {
+  fr: "fr_FR", en: "en_US", ar: "ar_MA", it: "it_IT",
+};
 
 const BREADCRUMB_LABELS: Record<Locale, { home: string; transfers: string }> = {
-  fr: { home: "Accueil",    transfers: "Transferts"  },
-  en: { home: "Home",       transfers: "Transfers"   },
-  ar: { home: "الرئيسية",   transfers: "التحويلات"   },
+  fr: { home: "Accueil",    transfers: "Transferts"    },
+  en: { home: "Home",       transfers: "Transfers"     },
+  ar: { home: "الرئيسية",   transfers: "التحويلات"     },
   it: { home: "Home",       transfers: "Trasferimenti" },
+};
+
+const BOOK_LABEL: Record<Locale, string> = {
+  fr: "Réserver par WhatsApp",
+  en: "Book via WhatsApp",
+  ar: "احجز عبر واتساب",
+  it: "Prenota via WhatsApp",
 };
 
 const truncate = (s: string, n = 155) =>
@@ -33,21 +45,33 @@ export async function generateMetadata(
   const transfer = getTransferBySlug(slug);
   if (!transfer) return {};
 
-  const c   = getTransferContent(transfer, l);
-  const url = `${BASE}/${l}/transfers/${slug}`;
+  const c    = getTransferContent(transfer, l);
+  const url  = `${BASE}/${l}/transfers/${slug}`;
+  const desc = truncate(c.intro[0]);
+  const img  = `${BASE}/images/${transfer.image}`;
 
   return {
-    title: `${c.h1} — ${c.labels.from} €${transfer.prices.sedan}`,
-    description: truncate(c.intro[0]),
+    title:       `${c.h1} — ${c.labels.from} €${transfer.prices.sedan}`,
+    description: desc,
+    keywords:    `${c.h1}, transfert privé Marrakech, chauffeur privé Maroc`,
     alternates: {
       canonical: url,
       languages: Object.fromEntries(LOCALES.map(loc => [loc, `${BASE}/${loc}/transfers/${slug}`])),
     },
     openGraph: {
-      title: `${c.h1} | Transfer Maroc`,
-      description: truncate(c.intro[0], 200),
+      title:           `${c.h1} | Tour Me Morocco`,
+      description:     truncate(c.intro[0], 200),
       url,
-      type: "website",
+      type:            "website",
+      locale:          OG_LOCALE[l],
+      alternateLocale: LOCALES.filter(loc => loc !== l).map(loc => OG_LOCALE[loc]),
+      images:          [{ url: img, width: 1200, height: 630, alt: c.h1 }],
+    },
+    twitter: {
+      card:        "summary_large_image",
+      title:       `${c.h1} | Tour Me Morocco`,
+      description: desc,
+      images:      [img],
     },
   };
 }
@@ -76,16 +100,25 @@ export default async function Page({
       "url": url,
       "inLanguage": l,
       "image": `${BASE}/images/${transfer!.image}`,
+      "potentialAction": {
+        "@type":  "ReserveAction",
+        "target": WHATSAPP,
+        "name":   BOOK_LABEL[l],
+        "result": { "@type": "Reservation", "name": c.h1 },
+      },
+
       "provider": {
-        "@type": "TravelAgency",
-        "name": "Tour Me Morocco",
-        "url": BASE,
+        "@type":     "TravelAgency",
+        "name":      "Tour Me Morocco",
+        "url":       BASE,
         "telephone": "+212709274114",
+        "sameAs":    ["https://www.instagram.com/tourmemorocco", "https://www.facebook.com/tourmemorocco"],
         "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Marrakech",
-          "addressCountry": "MA",
+          "@type":           "PostalAddress",
+          "addressLocality": l === "ar" ? "مراكش" : "Marrakech",
+          "addressCountry":  "MA",
         },
+        "geo": { "@type": "GeoCoordinates", "latitude": 31.6295, "longitude": -7.9811 },
       },
       "areaServed": [
         { "@type": "City", "name": l === "ar" ? "مراكش" : "Marrakech" },

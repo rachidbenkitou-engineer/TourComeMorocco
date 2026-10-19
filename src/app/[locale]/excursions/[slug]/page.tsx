@@ -5,26 +5,45 @@ import { JsonLd } from "@/components/JsonLd";
 import ExcursionDetail from "@/app/excursions/[slug]/ExcursionDetail";
 import type { Locale } from "@/i18n/translations";
 
-const BASE    = process.env.NEXT_PUBLIC_SITE_URL ?? "https://tourmemorocco.com";
+const BASE     = process.env.NEXT_PUBLIC_SITE_URL ?? "https://tourmemorocco.com";
 const LOCALES: Locale[] = ["fr", "en", "ar", "it"];
+const WHATSAPP = "https://wa.me/212709274114";
 
-const BREADCRUMB_LABELS: Record<Locale, { home: string; excursions: string }> = {
-  fr: { home: "Accueil",    excursions: "Excursions" },
-  en: { home: "Home",       excursions: "Excursions" },
-  ar: { home: "الرئيسية",   excursions: "الرحلات"    },
-  it: { home: "Home",       excursions: "Escursioni" },
+const OG_LOCALE: Record<Locale, string> = {
+  fr: "fr_FR", en: "en_US", ar: "ar_MA", it: "it_IT",
 };
 
-const FROM_LABELS: Record<Locale, string> = {
-  fr: "Dès",  en: "From",  ar: "من",  it: "Da",
+const LBL: Record<Locale, {
+  home: string; excursions: string; book: string; vehicle: string; from: string;
+}> = {
+  fr: { home: "Accueil",   excursions: "Excursions", book: "Réserver par WhatsApp", vehicle: "par véhicule", from: "Dès"  },
+  en: { home: "Home",      excursions: "Excursions", book: "Book via WhatsApp",      vehicle: "per vehicle",  from: "From" },
+  ar: { home: "الرئيسية",  excursions: "الرحلات",    book: "احجز عبر واتساب",        vehicle: "للسيارة",      from: "من"   },
+  it: { home: "Home",      excursions: "Escursioni", book: "Prenota via WhatsApp",    vehicle: "a veicolo",    from: "Da"   },
 };
+
+const TOURIST_TYPE: Record<Locale, string> = {
+  fr: "Voyageurs privés",
+  en: "Private travellers",
+  ar: "مسافرون خاصون",
+  it: "Turisti privati",
+};
+
+const MARRAKECH_PLACE = {
+  "@type": "Place",
+  "name": "Marrakech",
+  "address": { "@type": "PostalAddress", "addressLocality": "Marrakech", "addressCountry": "MA" },
+  "geo": { "@type": "GeoCoordinates", "latitude": 31.6295, "longitude": -7.9811 },
+};
+
+function isoDuration(durationKey: "journee" | "demijournee"): string {
+  return durationKey === "demijournee" ? "PT4H" : "PT8H";
+}
 
 const truncate = (s: string, n = 155) =>
   s.length > n ? s.slice(0, n - 1) + "…" : s;
 
-function gl<T>(obj: Record<string, T>, l: string, fallback = "fr"): T {
-  return (obj[l] as T) ?? (obj[fallback] as T);
-}
+/* ════════════════════════════════════════════ */
 
 export function generateStaticParams() {
   return LOCALES.flatMap(locale =>
@@ -40,30 +59,42 @@ export async function generateMetadata(
   const e = getExcursion(slug);
   if (!e) return {};
 
-  const title    = gl(e.title as Record<string, string>, l);
-  const short    = gl(e.short as Record<string, string>, l);
-  const duration = gl(e.duration as Record<string, string>, l);
+  const lb       = LBL[l];
+  const title    = e.title[l];
+  const duration = e.duration[l];
   const price    = e.fromPrice ?? "€80";
   const url      = `${BASE}/${l}/excursions/${slug}`;
 
-  const desc = truncate(`${short}. ${duration} ${FROM_LABELS[l]} Marrakech. ${FROM_LABELS[l]} ${price} ${l === "ar" ? "للسيارة" : l === "en" ? "per vehicle" : l === "it" ? "a veicolo" : "par véhicule"}.`);
+  const desc = truncate(`${e.short[l]}. ${duration} ${lb.from} Marrakech. ${lb.from} ${price} ${lb.vehicle}.`);
+  const kw   = e.highlights[l].slice(0, 7).join(", ");
 
   return {
-    title: `${title} — ${duration}`,
+    title:       `${title} — ${duration}`,
     description: desc,
+    keywords:    kw,
     alternates: {
       canonical: url,
       languages: Object.fromEntries(LOCALES.map(loc => [loc, `${BASE}/${loc}/excursions/${slug}`])),
     },
     openGraph: {
-      title: `${title} | Transfer Maroc`,
-      description: desc,
+      title:           `${title} | Tour Me Morocco`,
+      description:     desc,
       url,
-      type: "website",
-      images: e.image ? [{ url: `${BASE}${e.image}`, width: 1200, height: 630 }] : undefined,
+      type:            "website",
+      locale:          OG_LOCALE[l],
+      alternateLocale: LOCALES.filter(loc => loc !== l).map(loc => OG_LOCALE[loc]),
+      images: [{ url: `${BASE}${e.image}`, width: 1200, height: 630, alt: title }],
+    },
+    twitter: {
+      card:        "summary_large_image",
+      title:       `${title} | Tour Me Morocco`,
+      description: desc,
+      images:      [`${BASE}${e.image}`],
     },
   };
 }
+
+/* ════════════════════════════════════════════ */
 
 export default async function Page({
   params,
@@ -75,87 +106,100 @@ export default async function Page({
   const e = getExcursion(slug);
   if (!e) notFound();
 
-  const title    = gl(e!.title    as Record<string, string>, l);
-  const intro    = gl(e!.intro    as Record<string, string>, l);
-  const url      = `${BASE}/${l}/excursions/${slug}`;
-  const bc       = BREADCRUMB_LABELS[l];
+  const lb    = LBL[l];
+  const title = e!.title[l];
+  const url   = `${BASE}/${l}/excursions/${slug}`;
 
   const schemas = [
     /* ── TouristTrip ── */
     {
-      "@context": "https://schema.org",
-      "@type": "TouristTrip",
-      "name": title,
-      "description": intro,
-      "url": url,
-      "inLanguage": l,
-      "image": `${BASE}${e!.image}`,
+      "@context":      "https://schema.org",
+      "@type":         "TouristTrip",
+      "name":          title,
+      "description":   e!.intro[l],
+      "url":           url,
+      "inLanguage":    l,
+      "image":         `${BASE}${e!.image}`,
+      "duration":      isoDuration(e!.durationKey),
+
+      "startLocation": MARRAKECH_PLACE,
+      "endLocation":   MARRAKECH_PLACE,
+
+      "about": e!.highlights[l].map(h => ({ "@type": "Thing", "name": h })),
+
       "itinerary": e!.itinerary.map(day => ({
-        "@type": "TouristAttraction",
-        "name": gl(day.title as Record<string, string>, l),
-        "description": gl(day.description as Record<string, string>, l),
+        "@type":       "TouristAttraction",
+        "name":        day.title[l],
+        "description": day.description[l],
+        "address":     { "@type": "PostalAddress", "addressCountry": "MA" },
       })),
-      "touristType": [
-        l === "ar" ? "مسافرون خاصون" :
-        l === "en" ? "Private travellers" :
-        l === "it" ? "Turisti privati" :
-        "Voyageurs privés",
-      ],
+
+      "touristType": [TOURIST_TYPE[l]],
+
       "offers": {
-        "@type": "Offer",
-        "price": e!.fromPrice?.replace(/[^0-9]/g, "") ?? "80",
+        "@type":         "Offer",
+        "availability":  "https://schema.org/InStock",
+        "url":           WHATSAPP,
+        "description":   lb.book,
+        "price":         e!.fromPrice?.replace(/[^0-9]/g, "") ?? "80",
         "priceCurrency": "EUR",
-        "availability": "https://schema.org/InStock",
         "priceSpecification": {
-          "@type": "UnitPriceSpecification",
-          "price": e!.fromPrice?.replace(/[^0-9]/g, "") ?? "80",
+          "@type":         "UnitPriceSpecification",
+          "price":         e!.fromPrice?.replace(/[^0-9]/g, "") ?? "80",
           "priceCurrency": "EUR",
           "referenceQuantity": {
-            "@type": "QuantitativeValue",
-            "value": 1,
+            "@type":    "QuantitativeValue",
+            "value":    1,
             "unitCode": "C62",
-            "unitText": l === "ar" ? "سيارة" : l === "en" ? "vehicle" : l === "it" ? "veicolo" : "véhicule",
+            "unitText": lb.vehicle,
           },
         },
       },
+
+      "potentialAction": {
+        "@type":  "ReserveAction",
+        "target": WHATSAPP,
+        "name":   lb.book,
+        "result": { "@type": "Reservation", "name": title },
+      },
+
       "provider": {
-        "@type": "TravelAgency",
-        "name": "Tour Me Morocco",
-        "url": BASE,
+        "@type":     "TravelAgency",
+        "name":      "Tour Me Morocco",
+        "url":       BASE,
         "telephone": "+212709274114",
+        "sameAs":    ["https://www.instagram.com/tourmemorocco", "https://www.facebook.com/tourmemorocco"],
         "address": {
-          "@type": "PostalAddress",
+          "@type":           "PostalAddress",
           "addressLocality": l === "ar" ? "مراكش" : "Marrakech",
-          "addressCountry": "MA",
+          "addressCountry":  "MA",
         },
+        "geo": { "@type": "GeoCoordinates", "latitude": 31.6295, "longitude": -7.9811 },
       },
     },
 
     /* ── BreadcrumbList ── */
     {
       "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
+      "@type":    "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": bc.home,       "item": `${BASE}/${l}` },
-        { "@type": "ListItem", "position": 2, "name": bc.excursions, "item": `${BASE}/${l}/excursions` },
-        { "@type": "ListItem", "position": 3, "name": title,         "item": url },
+        { "@type": "ListItem", "position": 1, "name": lb.home,        "item": `${BASE}/${l}` },
+        { "@type": "ListItem", "position": 2, "name": lb.excursions,  "item": `${BASE}/${l}/excursions` },
+        { "@type": "ListItem", "position": 3, "name": title,          "item": url },
       ],
     },
 
     /* ── FAQPage ── */
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
+    ...(e!.faqs.length > 0 ? [{
+      "@context":   "https://schema.org",
+      "@type":      "FAQPage",
       "inLanguage": l,
       "mainEntity": e!.faqs.map(faq => ({
         "@type": "Question",
-        "name": gl(faq.question as Record<string, string>, l),
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": gl(faq.answer as Record<string, string>, l),
-        },
+        "name":  faq.question[l],
+        "acceptedAnswer": { "@type": "Answer", "text": faq.answer[l] },
       })),
-    },
+    }] : []),
   ];
 
   return (

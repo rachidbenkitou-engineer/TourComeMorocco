@@ -8,6 +8,12 @@ import type { Locale } from "@/i18n/translations";
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://tourmemorocco.com";
 const LOCALES = ["fr", "en", "ar", "it"] as const;
 
+const OG_LOCALE: Record<Locale, string> = {
+  fr: "fr_FR", en: "en_US", ar: "ar_MA", it: "it_IT",
+};
+
+const OG_IMAGE = "/images/road.jpg";
+
 const META: Record<Locale, { title: string; description: string; listName: string }> = {
   fr: {
     title: "Transferts Privés depuis Marrakech — Prix Fixe & Chauffeur Dédié",
@@ -48,7 +54,21 @@ export async function generateMetadata(
       canonical: `${BASE}/${l}/transfers`,
       languages: Object.fromEntries(LOCALES.map(loc => [loc, `${BASE}/${loc}/transfers`])),
     },
-    openGraph: { title: m.title, description: m.description, url: `${BASE}/${l}/transfers`, type: "website" },
+    openGraph: {
+      title:           m.title,
+      description:     m.description,
+      url:             `${BASE}/${l}/transfers`,
+      type:            "website",
+      locale:          OG_LOCALE[l],
+      alternateLocale: LOCALES.filter(loc => loc !== l).map(loc => OG_LOCALE[loc]),
+      images:          [{ url: `${BASE}${OG_IMAGE}`, width: 1200, height: 630, alt: m.title }],
+    },
+    twitter: {
+      card:        "summary_large_image",
+      title:       m.title,
+      description: m.description,
+      images:      [`${BASE}${OG_IMAGE}`],
+    },
   };
 }
 

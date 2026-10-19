@@ -312,7 +312,7 @@ export const excursions: Excursion[] = [
     image: "/images/aitBenHaddou.jpg",
     durationKey: "journee",
     duration: { fr: "Journée complète", en: "Full day", ar: "يوم كامل", it: "Giornata intera" },
-    fromPrice: "€70",
+    fromPrice: "€140",
     title: {
       fr: "Aït Ben Haddou et Ouarzazate depuis Marrakech",
       en: "Aït Ben Haddou and Ouarzazate from Marrakech",

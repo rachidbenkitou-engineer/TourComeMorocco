@@ -8,9 +8,11 @@ import type { Locale } from "@/i18n/translations";
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://tourmemorocco.com";
 const LOCALES = ["fr", "en", "ar", "it"] as const;
 
-function gl<T>(obj: Record<string, T>, l: string, fallback = "fr"): T {
-  return (obj[l] as T) ?? (obj[fallback] as T);
-}
+const OG_LOCALE: Record<Locale, string> = {
+  fr: "fr_FR", en: "en_US", ar: "ar_MA", it: "it_IT",
+};
+
+const OG_IMAGE = "/images/ourikaFalls.jpg";
 
 const META: Record<Locale, { title: string; description: string; listName: string }> = {
   fr: {
@@ -52,7 +54,21 @@ export async function generateMetadata(
       canonical: `${BASE}/${l}/excursions`,
       languages: Object.fromEntries(LOCALES.map(loc => [loc, `${BASE}/${loc}/excursions`])),
     },
-    openGraph: { title: m.title, description: m.description, url: `${BASE}/${l}/excursions`, type: "website" },
+    openGraph: {
+      title:           m.title,
+      description:     m.description,
+      url:             `${BASE}/${l}/excursions`,
+      type:            "website",
+      locale:          OG_LOCALE[l],
+      alternateLocale: LOCALES.filter(loc => loc !== l).map(loc => OG_LOCALE[loc]),
+      images:          [{ url: `${BASE}${OG_IMAGE}`, width: 1200, height: 630, alt: m.title }],
+    },
+    twitter: {
+      card:        "summary_large_image",
+      title:       m.title,
+      description: m.description,
+      images:      [`${BASE}${OG_IMAGE}`],
+    },
   };
 }
 
@@ -74,7 +90,8 @@ export default async function Page({
     "itemListElement": excursions.map((e, i) => ({
       "@type": "ListItem",
       "position": i + 1,
-      "name": gl(e.title as Record<string, string>, l),
+      "name": e.title[l],
+      "description": e.short[l],
       "url": `${BASE}/${l}/excursions/${e.slug}`,
     })),
   };

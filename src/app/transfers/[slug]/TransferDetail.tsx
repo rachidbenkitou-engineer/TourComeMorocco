@@ -71,12 +71,6 @@ export default function TransferDetail({ slug }: { slug: string }) {
     .filter(tr => tr.slug !== slug && tr.category === transfer.category)
     .slice(0, 3);
 
-  const priceRows = [
-    { label: c.labels.sedan,      price: transfer.prices.sedan      },
-    { label: c.labels.van,        price: transfer.prices.van        },
-    { label: c.labels.luxuryVan,  price: transfer.prices.luxuryVan  },
-  ];
-
   return (
     <>
       {/* ── Hero ──────────────────────────────────────────── */}
@@ -213,26 +207,6 @@ export default function TransferDetail({ slug }: { slug: string }) {
                 </li>
               ))}
             </ul>
-          </div>
-
-          {/* Price table */}
-          <div>
-            <h2 className="font-playfair text-2xl text-[#062f35] mb-5">{c.priceTitle}</h2>
-            <div className="overflow-hidden rounded-2xl border border-[#e8e3da]">
-              {priceRows.map((row, i) => (
-                <div
-                  key={row.label}
-                  className={`flex items-center justify-between gap-4 px-5 py-4 ${i % 2 ? "bg-[#f9f6f0]" : "bg-white"}`}
-                >
-                  <span className="text-[13px] text-[#062f35]">{row.label}</span>
-                  <span className="font-playfair text-lg text-[#f5b63f] shrink-0">
-                    €{row.price}
-                    <span className="ms-1 text-[11px] text-[#8aabae] font-normal"> {c.labels.perVehicle}</span>
-                  </span>
-                </div>
-              ))}
-            </div>
-            <p className="mt-3 text-[11px] text-[#8aabae]">{c.priceNote}</p>
           </div>
 
           {/* FAQ */}

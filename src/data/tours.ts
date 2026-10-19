@@ -1628,6 +1628,212 @@ export const tours: Tour[] = [
       },
     ],
   },
+
+  /* ── Grand Tour 8 Jours — Essaouira · Agadir · Sahara · Kasbahs ── */
+  {
+    slug:     "8-day-grand-tour-marrakech-essaouira-agadir-sahara",
+    image:    "/images/aitBenHaddouKasbah.jpg",
+    gallery:  ["/images/essaouira.jpg", "/images/agadirBeach.jpg", "/images/ouarzazate.jpg", "/images/dunes.jpg"],
+    featured: true,
+    days:    { fr: "8 Jours", en: "8 Days", ar: "8 أيام", it: "8 Giorni" },
+    daysNum: 8,
+    title: {
+      fr: "Grand Tour du Maroc en 8 Jours — Essaouira, Agadir, Sahara & Kasbahs depuis Marrakech",
+      en: "8-Day Grand Morocco Tour from Marrakech — Essaouira, Agadir, Sahara & Kasbahs",
+      ar: "جولة المغرب الكبرى 8 أيام — الصويرة وأكادير والصحراء والقصبات من مراكش",
+      it: "Grand Tour del Marocco in 8 Giorni da Marrakech — Essaouira, Agadir, Sahara e Kasbah",
+    },
+    short: {
+      fr: "Boucle complète Atlantique–Désert–Kasbahs avec safran de Taliouine, poterie de Zagora et ksar d'Aït Ben Haddou",
+      en: "Complete Atlantic–Desert–Kasbahs loop with Taliouine saffron, Zagora pottery and the Aït Ben Haddou UNESCO ksar",
+      ar: "حلقة كاملة أطلسي–صحراء–قصبات مع زعفران تاليوين وفخار زاكورة وقصر أيت بنحدو يونسكو",
+      it: "Loop completo Atlantico–Deserto–Kasbah con zafferano di Taliouine, ceramica di Zagora e ksar UNESCO di Aït Ben Haddou",
+    },
+    intro: {
+      fr: "Huit jours pour traverser en boucle le Maroc le plus authentique depuis Marrakech. Ce grand circuit longe la côte atlantique jusqu'à Agadir, plonge dans les coopératives de safran de Taliouine et les ateliers de tapis berbères de Taznakht, remonte le Draa jusqu'au désert de Zagora, frôle les dunes d'Erfoud et les gorges de granit du Todra, avant de remonter par les kasbahs millénaires d'Ouarzazate et le ksar classé UNESCO d'Aït Ben Haddou. Un voyage qui conjugue Atlantique, désert, montagne et artisanat berbère — sans jamais précipiter les étapes.",
+      en: "Eight days circling the most authentic Morocco from Marrakech. This grand loop follows the Atlantic coast to Agadir, dives into Taliouine's saffron cooperatives and Taznakht's Berber carpet workshops, traces the Draa Valley down to Zagora's pre-Saharan desert, brushes past Erfoud's dunes and the Todra granite gorge, before rising back through Ouarzazate's ancient kasbahs and the UNESCO-listed ksar of Aït Ben Haddou. A journey that weaves together ocean, desert, mountain and Berber craft — without rushing any of it.",
+      ar: "ثمانية أيام في رحلة دائرية عبر أكثر المغرب أصالة انطلاقاً من مراكش. تتبع هذه الجولة الكبرى الساحل الأطلسي حتى أكادير، وتغوص في تعاونيات زعفران تاليوين وورش السجاد البربري في تازناخت، وتتتبع وادي درعة حتى صحراء زاكورة، وتمر قرب كثبان أرفود ووادي تودرة الغرانيتي، قبل الصعود مجدداً عبر قصبات ورزازات العريقة وقصر أيت بنحدو المدرج في اليونسكو. رحلة تجمع بين المحيط والصحراء والجبل والحرف البربرية — دون تسرع في أي محطة.",
+      it: "Otto giorni in un grand tour circolare del Marocco più autentico da Marrakech. Questo grande loop segue la costa atlantica fino ad Agadir, si immerge nelle cooperative di zafferano di Taliouine e nei laboratori di tappeti berberi di Taznakht, percorre la Valle del Draa fino al deserto pre-sahariano di Zagora, sfiora le dune di Erfoud e la gola di granito del Todra, prima di risalire attraverso le antiche kasbah di Ouarzazate e il ksar patrimonio UNESCO di Aït Ben Haddou. Un viaggio che intreccia oceano, deserto, montagna e artigianato berbero — senza fretta.",
+    },
+    highlights: {
+      fr: [
+        "Médina d'Essaouira classée UNESCO et coopérative d'huile d'argan",
+        "Safran de Taliouine — la meilleure épice du Maroc",
+        "Tapis berbères artisanaux de Taznakht",
+        "Bibliothèque coranique de Tamegroute (XIIIe s.) et poterie verte de Zagora",
+        "Souk de Rissani et dattes Majhoul d'Erfoud avec fossiles marins",
+        "Gorges du Todra (300 m) et palmeraie de Skoura",
+        "Kasbahs d'Ouarzazate et ksar d'Aït Ben Haddou (UNESCO)",
+      ],
+      en: [
+        "Essaouira UNESCO medina and argan oil cooperative",
+        "Taliouine saffron — Morocco's finest spice",
+        "Handmade Berber carpets at Taznakht workshops",
+        "Tamegroute Koranic library (13th c.) and Zagora green pottery",
+        "Rissani desert souk and Erfoud Medjoul dates with marine fossils",
+        "Todra Gorge (300 m) and Skoura palmery",
+        "Ouarzazate kasbahs and Aït Ben Haddou UNESCO ksar",
+      ],
+      ar: [
+        "مدينة الصويرة العتيقة المدرجة في اليونسكو وتعاونية زيت أركان",
+        "زعفران تاليوين — أفضل بهارات المغرب",
+        "السجاد البربري اليدوي في ورش تازناخت",
+        "المكتبة القرآنية بتامكروت (ق 13) والفخار الأخضر بزاكورة",
+        "سوق الرسانة التقليدي وتمور مجهول وأحافير بحرية بأرفود",
+        "وادي تودرة (300 م) ونخيل سكورة",
+        "قصبات ورزازات وقصر أيت بنحدو (اليونسكو)",
+      ],
+      it: [
+        "Medina UNESCO di Essaouira e cooperativa di olio d'argan",
+        "Zafferano di Taliouine — la migliore spezia del Marocco",
+        "Tappeti berberi artigianali nei laboratori di Taznakht",
+        "Biblioteca coranica di Tamegroute (XIII sec.) e ceramica verde di Zagora",
+        "Souk tradizionale di Rissani e datteri Medjoul con fossili marini di Erfoud",
+        "Gola del Todra (300 m) e palmeraie di Skoura",
+        "Kasbah di Ouarzazate e ksar UNESCO di Aït Ben Haddou",
+      ],
+    },
+    itinerary: [
+      {
+        day:   { fr: "Jour 1", en: "Day 1", ar: "اليوم 1", it: "Giorno 1" },
+        title: { fr: "Marrakech → Essaouira", en: "Marrakech → Essaouira", ar: "مراكش ← الصويرة", it: "Marrakech → Essaouira" },
+        description: {
+          fr: "Départ de Marrakech tôt le matin en direction de la côte Atlantique (~2 h 30 à travers la plaine du Haouz et les collines couvertes d'arganiers). Arrivée à Essaouira en fin de matinée. Visite d'une coopérative féminine d'huile d'argan, puis exploration à pied de la médina blanche classée à l'UNESCO : remparts sur l'Atlantique, port de pêche actif, galeries d'art et souks odorants. Dîner de poissons grillés face au port.",
+          en: "Early departure from Marrakech towards the Atlantic coast (~2.5 h through the Haouz plain and argan tree-covered hills). Arrive in Essaouira late morning. Visit a women's argan oil cooperative, then explore the UNESCO-listed white medina on foot: Atlantic ramparts, working fishing port, art galleries and fragrant souks. Grilled-fish dinner by the port.",
+          ar: "مغادرة مبكرة من مراكش نحو الساحل الأطلسي (~2.5 ساعة عبر سهل الحوز والتلال المكسوة بأشجار الأركان). الوصول إلى الصويرة في أواخر الصباح. زيارة تعاونية نسائية لزيت الأركان، ثم استكشاف المدينة العتيقة البيضاء المدرجة في اليونسكو سيراً على الأقدام: الأسوار الأطلسية، ميناء الصيد النشط، المعارض الفنية والأسواق العطرة. عشاء سمك مشوي أمام الميناء.",
+          it: "Partenza anticipata da Marrakech verso la costa atlantica (~2,5 h attraverso la pianura dello Haouz e le colline di argan). Arrivo a Essaouira a fine mattina. Visita a una cooperativa femminile di olio d'argan, poi esplorazione a piedi della medina bianca UNESCO: mura atlantiche, porto dei pescatori attivo, gallerie d'arte e souk profumati. Cena a base di pesce grigliato al porto.",
+        },
+      },
+      {
+        day:   { fr: "Jour 2", en: "Day 2", ar: "اليوم 2", it: "Giorno 2" },
+        title: { fr: "Essaouira → Agadir", en: "Essaouira → Agadir", ar: "الصويرة ← أكادير", it: "Essaouira → Agadir" },
+        description: {
+          fr: "Matinée libre à Essaouira pour acheter de l'huile d'argan pure, des épices ou flâner dans les ruelles bleues et blanches. Départ après le déjeuner vers Agadir (~2 h 30 le long du littoral atlantique). Promenade en soirée sur la grande plage et la corniche d'Agadir. Découverte des spécialités du Souss : miel de thym, amlou (pâte d'amandes et argan) et cuisine amazigh.",
+          en: "Free morning in Essaouira to buy pure argan oil, spices or stroll the blue-and-white lanes. Depart after lunch for Agadir (~2.5 h along the Atlantic coast). Evening walk along Agadir's long beach and corniche. Taste the Souss specialties: thyme honey, amlou (almond and argan paste) and Amazigh cuisine.",
+          ar: "صباح حر في الصويرة لشراء زيت الأركان النقي والبهارات أو التجول في الأزقة الزرقاء والبيضاء. مغادرة بعد الغداء نحو أكادير (~2.5 ساعة بمحاذاة الساحل الأطلسي). مساء: التمشي على شاطئ أكادير الطويل والكورنيش. تذوق منتجات سوس: عسل الزعتر، أملو (معجون اللوز والأركان) والمطبخ الأمازيغي.",
+          it: "Mattinata libera a Essaouira per acquistare olio d'argan puro, spezie o passeggiare tra i vicoli bianchi e blu. Partenza dopo pranzo per Agadir (~2,5 h lungo la costa atlantica). Passeggiata serale sulla lunga spiaggia e la corniche di Agadir. Degustazione delle specialità del Souss: miele di timo, amlou (pasta di mandorle e argan) e cucina amazigh.",
+        },
+      },
+      {
+        day:   { fr: "Jour 3", en: "Day 3", ar: "اليوم 3", it: "Giorno 3" },
+        title: { fr: "Agadir → Taliouine → Taznakht", en: "Agadir → Taliouine → Taznakht", ar: "أكادير ← تاليوين ← تازناخت", it: "Agadir → Taliouine → Taznakht" },
+        description: {
+          fr: "Départ d'Agadir en direction de l'Anti-Atlas. La route serpente entre amandiers et genévriers, avec des vues saisissantes sur les gorges. Arrêt à Taliouine, capitale mondiale du safran marocain : visite de la coopérative Souktana du Safran, explication du cycle de la fleur Crocus sativus (floraison en octobre–novembre), dégustation de thé au safran. Déjeuner berbère en altitude. Poursuite vers Taznakht, réputé pour ses tapis aux motifs géométriques : visite d'un atelier de tissage familial où les femmes perpétuent l'art ancestral sur des métiers en bois. Nuit à Zagora.",
+          en: "Depart Agadir into the Anti-Atlas mountains. The road winds through almond and juniper trees with dramatic gorge views. Stop in Taliouine, the world capital of Moroccan saffron: visit the Souktana Saffron Cooperative, learn the Crocus sativus flower cycle (bloom: October–November), taste saffron tea. Berber lunch at altitude. Continue to Taznakht, famed for geometric Berber carpets: visit a family weaving workshop where women keep the ancestral art alive on wooden looms. Night in Zagora.",
+          ar: "مغادرة أكادير نحو جبال الأطلس الصغير. الطريق يلتوي بين أشجار اللوز والعرعر مع مشاهد رائعة للأودية. توقف في تاليوين، عاصمة الزعفران المغربي في العالم: زيارة تعاونية سوكتانا للزعفران، التعرف على دورة زهرة Crocus sativus (تزهر في أكتوبر–نوفمبر)، تذوق شاي الزعفران. غداء بربري على الارتفاع. الاستمرار نحو تازناخت، المشهورة بسجادها البربري ذي النقوش الهندسية: زيارة ورشة نسيج عائلية حيث تواصل النساء الفن الأصيل على أنوال خشبية. ليلة في زاكورة.",
+          it: "Partenza da Agadir verso le montagne dell'Anti-Atlante. La strada serpeggia tra mandorli e ginepri con viste spettacolari sulle gole. Tappa a Taliouine, capitale mondiale dello zafferano marocchino: visita alla Cooperativa Souktana dello Zafferano, ciclo del fiore Crocus sativus (fioritura: ottobre–novembre), degustazione del tè allo zafferano. Pranzo berbero in quota. Continuazione verso Taznakht, famosa per i tappeti berberi a motivi geometrici: visita a un laboratorio di tessitura familiare dove le donne mantengono viva l'arte ancestrale su telai in legno. Notte a Zagora.",
+        },
+      },
+      {
+        day:   { fr: "Jour 4", en: "Day 4", ar: "اليوم 4", it: "Giorno 4" },
+        title: { fr: "Zagora → Tamegroute → Palmeraies du Draa", en: "Zagora → Tamegroute → Draa Palmeries", ar: "زاكورة ← تامكروت ← نخيل درعة", it: "Zagora → Tamegroute → Palmerie del Draa" },
+        description: {
+          fr: "Matinée à Zagora. Excursion de 20 km vers Tamegroute : la zaouia Nassiriya abrite une bibliothèque coranique fondée au XIIIe siècle, conservant plus de 4 000 manuscrits enluminés sur parchemin. En face, des potiers perpétuent la tradition de la céramique verte à glaçure plombée, unique au Maroc — vous pouvez acheter directement à l'atelier. Déjeuner dans une maison berbère. Exploration des palmeraies du Draa en fin d'après-midi — la plus longue oasis du Maroc s'étire sur 200 km entre Agdez et M'Hamid. Retour à Zagora pour la nuit.",
+          en: "Morning in Zagora. Short drive 20 km south to Tamegroute: the Nassiriya Zaouia houses a Koranic library founded in the 13th century, preserving over 4,000 illuminated manuscripts on parchment. Opposite, potters continue the tradition of green lead-glazed pottery, unique to Morocco — buy directly from the workshop. Berber lunch. Afternoon exploration of the Draa palmeries — Morocco's longest oasis stretches 200 km from Agdez to M'Hamid. Return to Zagora for the night.",
+          ar: "صباح في زاكورة. رحلة قصيرة 20 كم جنوباً إلى تامكروت: تضم زاوية الناصرية مكتبة قرآنية أُسست في القرن الثالث عشر، تحتضن أكثر من 4000 مخطوطة مزخرفة على رق. أمامها يواصل الفخارون تقليد الخزف الأخضر ذي الطلاء الرصاصي الفريد في المغرب — يمكن الشراء مباشرة من الورشة. غداء بربري. استكشاف نخيل درعة بعد الظهر — أطول واحة في المغرب تمتد 200 كم من أكدز إلى مامد. العودة إلى زاكورة للمبيت.",
+          it: "Mattinata a Zagora. Breve trasferimento di 20 km a sud verso Tamegroute: la Zaouia Nassiriya ospita una biblioteca coranica fondata nel XIII secolo con oltre 4.000 manoscritti miniati su pergamena. Di fronte, i vasai continuano la tradizione della ceramica verde piombata, unica in Marocco — acquisto diretto in laboratorio. Pranzo berbero. Esplorazione pomeridiana delle palmerie del Draa — la più lunga oasi del Marocco si estende per 200 km da Agdez a M'Hamid. Rientro a Zagora per la notte.",
+        },
+      },
+      {
+        day:   { fr: "Jour 5", en: "Day 5", ar: "اليوم 5", it: "Giorno 5" },
+        title: { fr: "Zagora → Rissani → Erfoud", en: "Zagora → Rissani → Erfoud", ar: "زاكورة ← الرسانة ← أرفود", it: "Zagora → Rissani → Erfoud" },
+        description: {
+          fr: "Longue et belle journée à travers le Jbel Sarhro et le Tafilalet. Arrêt à Rissani, berceau de la dynastie alaouite régnante : visite du souk traditionnel — l'un des plus authentiques du Maroc, avec ses ânes chargés, ses marchands de dattes, de henné et de poteries. Le mausolée de Moulay Ali Cherif marque l'origine de la famille royale. Poursuite vers Erfoud, capitale des dattes Majhoul (Medjool) : dégustation de cette variété reine, visite d'un artisan spécialisé dans la sculpture de trilobites et fossiles marins vieux de 350 millions d'années. Nuit à Erfoud.",
+          en: "A long, beautiful day through Jbel Sarhro and the Tafilalet. Stop in Rissani, cradle of the ruling Alaouite dynasty: visit the traditional souk — one of Morocco's most authentic, with loaded donkeys, date and henna vendors and pottery stalls. The mausoleum of Moulay Ali Cherif marks the royal family's origin. Continue to Erfoud, capital of Medjoul dates: taste this queen variety, visit a craftsman specialising in trilobite and marine fossil carving, 350 million years old. Night in Erfoud.",
+          ar: "يوم طويل وجميل عبر جبل صرهرو والتافيلالت. توقف في الرسانة، مهد الأسرة العلوية الحاكمة: زيارة السوق التقليدي — أحد أكثر أسواق المغرب أصالة، مع الحمير المحملة وباعة التمور والحناء والفخار. ضريح مولاي علي الشريف يمثل أصل الأسرة الملكية. الاستمرار نحو أرفود، عاصمة تمور مجهول: تذوق هذا الصنف الملكي، زيارة حرفي متخصص في نحت ثلاثيات الفصوص والأحافير البحرية عمرها 350 مليون سنة. ليلة في أرفود.",
+          it: "Una lunga e bellissima giornata attraverso Jbel Sarhro e il Tafilalet. Tappa a Rissani, culla della dinastia Alaouite regnante: visita al souk tradizionale — uno dei più autentici del Marocco, con asini carichi, venditori di datteri, henné e ceramiche. Il mausoleo di Moulay Ali Cherif segna l'origine della famiglia reale. Continuazione verso Erfoud, capitale dei datteri Medjoul: degustazione di questa varietà regina, visita a un artigiano specializzato nella scultura di trilobiti e fossili marini di 350 milioni di anni fa. Notte a Erfoud.",
+        },
+      },
+      {
+        day:   { fr: "Jour 6", en: "Day 6", ar: "اليوم 6", it: "Giorno 6" },
+        title: { fr: "Erfoud → Gorges du Todra → Tinghir", en: "Erfoud → Todra Gorge → Tinghir", ar: "أرفود ← وادي تودرة ← تينغير", it: "Erfoud → Gola del Todra → Tinghir" },
+        description: {
+          fr: "Cap vers les gorges du Todra. La route traverse Tinejdad et les palmeraies de la vallée du Ghéris. Arrivée aux gorges : deux parois de granit rose s'élèvent à 300 mètres au-dessus du lit de la rivière Todra sur une largeur de 10 mètres à peine — l'un des sites d'escalade les plus réputés d'Afrique. Marche dans la gorge, pause dans un café berbère au pied des rochers. L'après-midi, exploration de Tinghir et de son immense palmeraie en terrasses — une des oasis les plus spectaculaires du Maroc. Nuit à Tinghir.",
+          en: "Head for the Todra Gorge. The road crosses Tinejdad and the palm groves of the Ghéris valley. Arrive at the gorge: two pink granite walls rise 300 m above the Todra riverbed, barely 10 m wide in places — one of Africa's most renowned climbing sites. Walk through the gorge, pause at a Berber café at the cliff base. Afternoon: explore Tinghir and its vast terraced palmery — one of Morocco's most spectacular oases. Night in Tinghir.",
+          ar: "التوجه نحو وادي تودرة. يعبر الطريق تينجداد ونخيل وادي الغريس. الوصول إلى الوادي: جدارا غرانيت وردي يرتفعان 300 م فوق مجرى نهر تودرة بعرض 10 أمتار فحسب في بعض الأماكن — من أشهر مواقع التسلق في أفريقيا. تمشٍّ في الوادي، استراحة في مقهى بربري عند قاعدة الصخور. بعد الظهر: استكشاف تينغير ونخيلها المدرج الشاسع — من أروع الواحات في المغرب. ليلة في تينغير.",
+          it: "Direzione Gola del Todra. La strada attraversa Tinejdad e le palmerie della valle del Ghéris. Arrivo alla gola: due pareti di granito rosa si alzano per 300 m sopra il letto del fiume Todra, larghezza appena 10 m in certi punti — uno dei siti di arrampicata più rinomati d'Africa. Camminata nella gola, pausa in un caffè berbero alla base delle rocce. Nel pomeriggio, esplorazione di Tinghir e della sua vasta palmeria a terrazze — una delle oasi più spettacolari del Marocco. Notte a Tinghir.",
+        },
+      },
+      {
+        day:   { fr: "Jour 7", en: "Day 7", ar: "اليوم 7", it: "Giorno 7" },
+        title: { fr: "Tinghir → Skoura → Ouarzazate", en: "Tinghir → Skoura → Ouarzazate", ar: "تينغير ← سكورة ← ورزازات", it: "Tinghir → Skoura → Ouarzazate" },
+        description: {
+          fr: "Traversée de la vallée du Dadès avec ses kasbahs de pisé rose qui se reflètent dans la rivière. Arrêt à Skoura, palmeraie sauvage où la kasbah Amerhidil restaurée se dresse parmi les palmiers. Skoura est aussi la Vallée des Roses : en avril les damaskinas (roses de Damas) parfument toute la région. Visite d'une distillerie d'eau de rose artisanale. Arrivée à Ouarzazate en début d'après-midi. Visite de la kasbah de Taourirt (ancienne résidence des Glaoui), puis exploration des Atlas Studios — les plus grands studios de cinéma d'Afrique, décors de Lawrence d'Arabie, Gladiator et Game of Thrones. Nuit à Ouarzazate.",
+          en: "Cross the Dades Valley with its pink earthen kasbahs reflected in the river. Stop at Skoura, a wild palmery where the restored Amerhidil kasbah stands among the palms. Skoura is also the Valley of Roses: in April, Damask roses perfume the entire region. Visit an artisanal rose water distillery. Arrive in Ouarzazate early afternoon. Visit the Taourirt Kasbah (former Glaoui residence), then explore the Atlas Studios — Africa's largest film studios, sets for Lawrence of Arabia, Gladiator and Game of Thrones. Night in Ouarzazate.",
+          ar: "عبور وادي دادس بقصباته الطينية الوردية المنعكسة على النهر. توقف في سكورة، نخيل بري تنتصب فيه قصبة أمريهدل المرممة وسط النخيل. سكورة معروفة أيضاً بوادي الورود: في أبريل تعطر أزهار الدردار الدمشقي المنطقة بأسرها. زيارة معمل تقطير ماء الورد الحرفي. الوصول إلى ورزازات في مطلع بعد الظهر. زيارة قصبة تاوريرت (إقامة الكلاوي السابقة)، ثم استكشاف استوديوهات أطلس — أكبر استوديوهات السينما في أفريقيا، مواقع لورانس العرب وغلاديتور وغيم أوف ثرونز. ليلة في ورزازات.",
+          it: "Attraversamento della Valle del Dades con le sue kasbah di terra rosa riflesse nel fiume. Sosta a Skoura, palmeria selvatica dove la kasbah Amerhidil restaurata si erge tra le palme. Skoura è anche la Valle delle Rose: in aprile, le rose di Damasco profumano tutta la regione. Visita a una distilleria artigianale di acqua di rose. Arrivo a Ouarzazate nel primo pomeriggio. Visita alla Kasbah Taourirt (ex residenza dei Glaoui), poi esplorazione degli Atlas Studios — i più grandi studi cinematografici d'Africa, set di Lawrence d'Arabia, Gladiatore e Game of Thrones. Notte a Ouarzazate.",
+        },
+      },
+      {
+        day:   { fr: "Jour 8", en: "Day 8", ar: "اليوم 8", it: "Giorno 8" },
+        title: { fr: "Ouarzazate → Aït Ben Haddou → Marrakech", en: "Ouarzazate → Aït Ben Haddou → Marrakech", ar: "ورزازات ← أيت بنحدو ← مراكش", it: "Ouarzazate → Aït Ben Haddou → Marrakech" },
+        description: {
+          fr: "Dernière matinée consacrée à une visite approfondie d'Aït Ben Haddou, à 30 minutes d'Ouarzazate. Ce ksar de terre inscrit au patrimoine mondial de l'UNESCO est l'une des architectures en pisé les mieux préservées au monde et le décor de tournage le plus célèbre du Maroc (Game of Thrones, Gladiator, Lawrence d'Arabie, Babel…). Traversée de la rivière à pied, montée jusqu'au grenier au sommet de la colline, panorama à 360° sur la vallée de l'Ounila. Déjeuner sur place. Remontée par le spectaculaire col du Tizi n'Tichka (2 260 m) à travers le Haut Atlas enneigé. Retour à Marrakech en soirée.",
+          en: "Final morning dedicated to an in-depth visit to Aït Ben Haddou, 30 minutes from Ouarzazate. This earthen ksar, inscribed on the UNESCO World Heritage List, is one of the world's best-preserved pisé architectures and Morocco's most famous film set (Game of Thrones, Gladiator, Lawrence of Arabia, Babel…). Wade across the river, climb to the granary at the hill's summit, 360° panorama over the Ounila valley. Lunch on site. Return via the spectacular Tizi n'Tichka pass (2,260 m) through the snow-capped High Atlas. Back in Marrakech by evening.",
+          ar: "صباح أخير مخصص لزيارة معمقة لأيت بنحدو على بعد 30 دقيقة من ورزازات. هذا القصر الطيني المدرج في قائمة التراث العالمي لليونسكو من أفضل عمارات الطابية المحفوظة في العالم وأشهر مواقع التصوير في المغرب (غيم أوف ثرونز، غلاديتور، لورانس العرب، بابل...). عبور النهر سيراً، الصعود إلى المخزن على قمة التل، بانوراما 360 درجة على وادي الونيلة. غداء في الموقع. العودة عبر ممر تيزي نتيشكا المذهل (2260 م) عبر الأطلس الكبير المكسو بالثلج. العودة إلى مراكش مساءً.",
+          it: "Mattinata finale dedicata a una visita approfondita ad Aït Ben Haddou, a 30 minuti da Ouarzazate. Questo ksar di terra, iscritto nella Lista del Patrimonio Mondiale UNESCO, è una delle architetture in pisé meglio conservate al mondo e il set cinematografico più famoso del Marocco (Game of Thrones, Gladiatore, Lawrence d'Arabia, Babel…). Attraversamento del fiume a piedi, salita al granaio in cima alla collina, panorama a 360° sulla valle dell'Ounila. Pranzo sul posto. Ritorno via il spettacolare Passo Tizi n'Tichka (2.260 m) attraverso l'Alto Atlante innevato. Rientro a Marrakech in serata.",
+        },
+      },
+    ],
+    faqs: [
+      {
+        question: {
+          fr: "Ce circuit est-il accessible toute l'année ?",
+          en: "Is this tour available year-round?",
+          ar: "هل هذه الجولة متاحة طوال العام؟",
+          it: "Questo tour è disponibile tutto l'anno?",
+        },
+        answer: {
+          fr: "Oui, mais les meilleures périodes sont le printemps (mars–mai) et l'automne (septembre–novembre). En été, les températures dans le désert peuvent dépasser 45 °C ; en hiver, le col du Tizi n'Tichka peut être enneigé mais reste généralement praticable.",
+          en: "Yes, but the best periods are spring (March–May) and autumn (September–November). In summer, desert temperatures can exceed 45 °C; in winter, the Tizi n'Tichka pass may be snowy but is generally passable.",
+          ar: "نعم، لكن أفضل الفترات هي الربيع (مارس–مايو) والخريف (سبتمبر–نوفمبر). في الصيف قد تتجاوز درجات الحرارة في الصحراء 45 درجة مئوية؛ في الشتاء قد يكون ممر تيزي نتيشكا مكسواً بالثلج لكنه عادة سالك.",
+          it: "Sì, ma i periodi migliori sono la primavera (marzo–maggio) e l'autunno (settembre–novembre). In estate le temperature nel deserto possono superare i 45 °C; in inverno il passo Tizi n'Tichka può essere innevato ma è generalmente percorribile.",
+        },
+      },
+      {
+        question: {
+          fr: "Qu'est-ce qui est inclus dans le prix ?",
+          en: "What is included in the price?",
+          ar: "ما الذي يشمله السعر؟",
+          it: "Cosa è incluso nel prezzo?",
+        },
+        answer: {
+          fr: "Le prix comprend le véhicule privé climatisé avec chauffeur pour toute la durée, les transferts hôtel-à-hôtel et les entrées des coopératives mentionnées (safran, tapis, poterie). Les hébergements (7 nuits), les repas et les entrées payantes des monuments sont à votre charge.",
+          en: "The price includes the private air-conditioned vehicle with driver for the full duration, hotel-to-hotel transfers and entrance to the named cooperatives (saffron, carpets, pottery). Accommodation (7 nights), meals and paid monument admissions are not included.",
+          ar: "يشمل السعر السيارة الخاصة المكيفة مع السائق طوال المدة، ونقل من فندق إلى فندق، ودخول التعاونيات المذكورة (الزعفران، السجاد، الفخار). الإقامة (7 ليالٍ) والوجبات ورسوم دخول المعالم المدفوعة غير مشمولة.",
+          it: "Il prezzo include il veicolo privato con aria condizionata con autista per tutta la durata, i trasferimenti da hotel a hotel e l'ingresso alle cooperative menzionate (zafferano, tappeti, ceramica). Alloggio (7 notti), pasti e biglietti di ingresso a pagamento ai monumenti non sono inclusi.",
+        },
+      },
+      {
+        question: {
+          fr: "Peut-on prolonger ou modifier l'itinéraire ?",
+          en: "Can the itinerary be extended or modified?",
+          ar: "هل يمكن تمديد المسار أو تعديله؟",
+          it: "L'itinerario può essere esteso o modificato?",
+        },
+        answer: {
+          fr: "Oui — chaque circuit est entièrement personnalisable. Vous pouvez ajouter une nuit à Merzouga pour les dunes de l'Erg Chebbi, raccourcir à 6 ou 7 jours, ou intégrer Taroudant (la 'Petite Marrakech'). Contactez-nous sur WhatsApp pour un devis adapté.",
+          en: "Yes — every tour is fully customisable. You can add a night in Merzouga for the Erg Chebbi dunes, shorten to 6 or 7 days, or include Taroudant (the 'Little Marrakech'). Contact us on WhatsApp for a tailored quote.",
+          ar: "نعم — كل جولة قابلة للتخصيص الكامل. يمكنك إضافة ليلة في مرزوقة لكثبان إرق شبي أو تقليصها إلى 6 أو 7 أيام أو إدراج تارودانت ('مراكش الصغيرة'). تواصل معنا على واتساب للحصول على عرض مخصص.",
+          it: "Sì — ogni tour è completamente personalizzabile. Potete aggiungere una notte a Merzouga per le dune dell'Erg Chebbi, accorciare a 6 o 7 giorni, o includere Taroudant ('la Piccola Marrakech'). Contattateci su WhatsApp per un preventivo su misura.",
+        },
+      },
+      {
+        question: {
+          fr: "Combien de personnes par véhicule ?",
+          en: "How many people per vehicle?",
+          ar: "كم شخصاً في كل سيارة؟",
+          it: "Quante persone per veicolo?",
+        },
+        answer: {
+          fr: "Le tarif est par véhicule, pas par personne. Un SUV confort accueille 1 à 4 passagers ; un van Mercedes Sprinter peut emmener jusqu'à 7 personnes. Un groupe de 4 paie le même prix qu'un voyageur seul.",
+          en: "The price is per vehicle, not per person. A comfort SUV fits 1–4 passengers; a Mercedes Sprinter van can take up to 7 people. A group of 4 pays the same price as a solo traveller.",
+          ar: "السعر للسيارة وليس للشخص. يستوعب الـ SUV المريح من 1 إلى 4 ركاب؛ فان مرسيدس سبرينتر يستوعب حتى 7 أشخاص. مجموعة من 4 تدفع نفس سعر المسافر المنفرد.",
+          it: "Il prezzo è per veicolo, non per persona. Un SUV comfort accoglie 1-4 passeggeri; un van Mercedes Sprinter può portare fino a 7 persone. Un gruppo di 4 paga lo stesso prezzo di un viaggiatore singolo.",
+        },
+      },
+    ],
+  },
 ];
 
 export function getTour(slug: string): Tour | undefined {
