@@ -62,9 +62,6 @@ function BlogContent() {
                         <li className="d-flex align-items-center">
                           <i className="bi bi-clock" /> <a href="#"><time>{post.date}</time></a>
                         </li>
-                        <li className="d-flex align-items-center">
-                          <i className="bi bi-chat-dots" /> <a href="#">{post.comments} Comments</a>
-                        </li>
                       </ul>
                     </div>
                     <div className="entry-content">
