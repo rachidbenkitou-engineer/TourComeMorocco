@@ -16,6 +16,7 @@ export interface Post {
   authorLinkedin: string;
   authorWebsite: string;
   comments: number;
+  categoryKey: string;
   category: Record<Lang, string>;
   tags: string[];
   title: Record<Lang, string>;
@@ -37,6 +38,7 @@ const POSTS: Post[] = [
     authorLinkedin: "",
     authorWebsite: "https://www.rachidbenkitou.online/",
     comments: 8,
+    categoryKey: "ai-genai",
     category: { EN: "Artificial Intelligence", FR: "Intelligence Artificielle", AR: "الذكاء الاصطناعي" },
     tags: ["AI", "GenAI", "Software", "LLM", "Productivity"],
     title: {
@@ -136,6 +138,7 @@ const POSTS: Post[] = [
     authorLinkedin: "https://www.linkedin.com/in/elbahmadi/",
     authorWebsite: "",
     comments: 5,
+    categoryKey: "servicenow",
     category: { EN: "ServiceNow", FR: "ServiceNow", AR: "ServiceNow" },
     tags: ["ServiceNow", "ITSM", "Automation", "IT", "Workflows"],
     title: {
@@ -231,6 +234,7 @@ const POSTS: Post[] = [
     authorLinkedin: "",
     authorWebsite: "",
     comments: 11,
+    categoryKey: "web-seo",
     category: { EN: "Website & SEO", FR: "Site Web & SEO", AR: "مواقع الويب وتحسين محركات البحث" },
     tags: ["SEO", "Website", "Google", "Performance", "Content"],
     title: {
@@ -333,6 +337,7 @@ const POSTS: Post[] = [
     authorLinkedin: "",
     authorWebsite: "https://www.rachidbenkitou.online/",
     comments: 14,
+    categoryKey: "mobile-dev",
     category: { EN: "Mobile Development", FR: "Développement Mobile", AR: "تطوير التطبيقات الجوالة" },
     tags: ["Mobile", "React Native", "Flutter", "iOS", "Android"],
     title: {

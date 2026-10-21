@@ -23,14 +23,14 @@ const cardVariants = {
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.12, duration: 0.45, ease: "easeOut" },
+    transition: { delay: i * 0.12, duration: 0.45, ease: "easeOut" as const },
   }),
   exit: { opacity: 0, y: -20, transition: { duration: 0.25 } },
 };
 
 const sidebarVariants = {
   hidden: { opacity: 0, x: 30 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: "easeOut", delay: 0.15 } },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: "easeOut" as const, delay: 0.15 } },
 };
 
 function BlogContent() {
