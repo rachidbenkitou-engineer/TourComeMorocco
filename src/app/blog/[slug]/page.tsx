@@ -103,69 +103,6 @@ export default function BlogSinglePage() {
                 </div>
               </div>
 
-              {/* Comments placeholder */}
-              <div className="blog-comments">
-                <h4 className="comments-count">{post.comments} Comments</h4>
-
-                <div className="comment">
-                  <div className="d-flex">
-                    <div className="comment-img"><img src="/assets/img/blog/comments-1.jpg" alt="" /></div>
-                    <div>
-                      <h5><a href="">Georgia Reader</a> <a href="#" className="reply"><i className="bi bi-reply-fill" /> Reply</a></h5>
-                      <time dateTime="2024-01-01">01 Jan, 2024</time>
-                      <p>Great article! Very insightful and well-explained. This is exactly what our team needed to understand the topic better.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="comment">
-                  <div className="d-flex">
-                    <div className="comment-img"><img src="/assets/img/blog/comments-2.jpg" alt="" /></div>
-                    <div>
-                      <h5><a href="">Aron Alvarado</a> <a href="#" className="reply"><i className="bi bi-reply-fill" /> Reply</a></h5>
-                      <time dateTime="2024-01-01">01 Jan, 2024</time>
-                      <p>Thanks for sharing this. The practical examples make it much easier to understand how to apply these concepts in real projects.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="comment">
-                  <div className="d-flex">
-                    <div className="comment-img"><img src="/assets/img/blog/comments-3.jpg" alt="" /></div>
-                    <div>
-                      <h5><a href="">Lynda Small</a> <a href="#" className="reply"><i className="bi bi-reply-fill" /> Reply</a></h5>
-                      <time dateTime="2024-01-01">01 Jan, 2024</time>
-                      <p>We implemented some of these strategies and the results have been impressive. Highly recommend this approach to anyone looking to improve their workflow.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="reply-form">
-                  <h4>Leave a Reply</h4>
-                  <p>Your email address will not be published. Required fields are marked *</p>
-                  <form action="">
-                    <div className="row">
-                      <div className="col-md-6 form-group">
-                        <input name="name" type="text" className="form-control" placeholder="Your Name*" />
-                      </div>
-                      <div className="col-md-6 form-group">
-                        <input name="email" type="text" className="form-control" placeholder="Your Email*" />
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col form-group">
-                        <input name="website" type="text" className="form-control" placeholder="Your Website" />
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col form-group">
-                        <textarea name="comment" className="form-control" placeholder="Your Comment*" />
-                      </div>
-                    </div>
-                    <button type="submit" className="btn btn-primary">Post Comment</button>
-                  </form>
-                </div>
-              </div>
             </div>
 
             {/* Sidebar */}
