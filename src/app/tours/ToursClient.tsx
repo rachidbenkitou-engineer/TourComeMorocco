@@ -9,6 +9,7 @@ import { tours } from "@/data/tours";
 import { useBooking } from "@/components/BookingModal";
 import { useI18n } from "@/i18n/I18nProvider";
 import { cn } from "@/lib/utils";
+import { Reveal } from "@/components/Reveal";
 
 type DureeFilter = "all" | "court" | "moyen" | "long";
 
@@ -68,17 +69,23 @@ export default function ToursClient() {
         {/* ── Hero header ── */}
         <div className="bg-[#062f35]" style={{ paddingTop: "78px" }}>
           <div className="max-w-[1280px] mx-auto px-[clamp(16px,4.5vw,56px)] py-14">
-            <p className="font-script text-[#f5b63f] mb-2"
-              style={{ fontSize: "clamp(22px,2.8vw,34px)", transform: "rotate(-1.5deg)" }}>
-              {tr.script}
-            </p>
-            <h1 className="font-serif font-semibold text-white mb-4 leading-tight"
-              style={{ fontSize: "clamp(28px,4vw,52px)" }}>
-              {pg.heroTitle}
-            </h1>
-            <p className="text-white/65 max-w-[500px] leading-relaxed" style={{ fontSize: "clamp(13px,1.15vw,15px)" }}>
-              {pg.heroSubtitle}
-            </p>
+            <Reveal from="up" delay={0}>
+              <p className="font-script text-[#f5b63f] mb-2"
+                style={{ fontSize: "clamp(22px,2.8vw,34px)", transform: "rotate(-1.5deg)" }}>
+                {tr.script}
+              </p>
+            </Reveal>
+            <Reveal from="up" delay={0.1}>
+              <h1 className="font-serif font-semibold text-white mb-4 leading-tight"
+                style={{ fontSize: "clamp(28px,4vw,52px)" }}>
+                {pg.heroTitle}
+              </h1>
+            </Reveal>
+            <Reveal from="up" delay={0.18}>
+              <p className="text-white/65 max-w-[500px] leading-relaxed" style={{ fontSize: "clamp(13px,1.15vw,15px)" }}>
+                {pg.heroSubtitle}
+              </p>
+            </Reveal>
           </div>
         </div>
 
@@ -122,12 +129,13 @@ export default function ToursClient() {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               <AnimatePresence mode="popLayout">
-              {filteredTours.map(tour => (
+              {filteredTours.map((tour, i) => (
                 <motion.div key={tour.slug} layout
-                  initial={{ opacity: 0, y: 20, scale: 0.97 }}
-                  animate={{ opacity: 1, y: 0,  scale: 1    }}
+                  initial={{ opacity: 0, y: 32, scale: 0.96 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.22 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.38, delay: Math.min(i * 0.07, 0.35), ease: [0.16, 1, 0.3, 1] }}
                 >
                 <Link href={`/${locale}/tours/${tour.slug}`}
                   className="group bg-white rounded-2xl overflow-hidden shadow-card hover:shadow-lift transition-all duration-300 hover:-translate-y-1.5 flex flex-col"

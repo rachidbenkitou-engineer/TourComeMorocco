@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useI18n } from "@/i18n/I18nProvider";
 import { cn } from "@/lib/utils";
 import { transfers, type Transfer, type TransferCategory } from "@/data/transfers";
+import { Reveal } from "@/components/Reveal";
 
 function IconClock() {
   return (
@@ -324,25 +325,33 @@ export default function TransfersClient() {
         {/* ── Hero header ── */}
         <div className="bg-[#062f35]" style={{ paddingTop: "78px" }}>
           <div className="max-w-[1280px] mx-auto px-[clamp(16px,4.5vw,56px)] py-14">
-            <p className="font-script text-[#f5b63f] mb-2"
-              style={{ fontSize: "clamp(22px,2.8vw,34px)", transform: "rotate(-1.5deg)" }}>
-              {t.transfers.script}
-            </p>
-            <h1 className="font-serif font-semibold text-white mb-4 leading-tight"
-              style={{ fontSize: "clamp(28px,4vw,52px)" }}>
-              {pg.heroTitle}
-            </h1>
-            <p className="text-white/65 max-w-[520px] leading-relaxed" style={{ fontSize: "clamp(13px,1.15vw,15px)" }}>
-              {pg.heroSubtitle}
-            </p>
-            <div className="flex flex-wrap gap-3 mt-7">
-              {pg.guarantees.map(item => (
-                <div key={item} className="flex items-center gap-1.5 bg-white/8 border border-white/12 rounded-full px-3 py-1.5 text-[11.5px] font-medium text-white/85">
-                  <span className="text-[#f5b63f]"><IconCheck /></span>
-                  {item}
-                </div>
-              ))}
-            </div>
+            <Reveal from="up" delay={0}>
+              <p className="font-script text-[#f5b63f] mb-2"
+                style={{ fontSize: "clamp(22px,2.8vw,34px)", transform: "rotate(-1.5deg)" }}>
+                {t.transfers.script}
+              </p>
+            </Reveal>
+            <Reveal from="up" delay={0.1}>
+              <h1 className="font-serif font-semibold text-white mb-4 leading-tight"
+                style={{ fontSize: "clamp(28px,4vw,52px)" }}>
+                {pg.heroTitle}
+              </h1>
+            </Reveal>
+            <Reveal from="up" delay={0.18}>
+              <p className="text-white/65 max-w-[520px] leading-relaxed" style={{ fontSize: "clamp(13px,1.15vw,15px)" }}>
+                {pg.heroSubtitle}
+              </p>
+            </Reveal>
+            <Reveal from="up" delay={0.26}>
+              <div className="flex flex-wrap gap-3 mt-7">
+                {pg.guarantees.map(item => (
+                  <div key={item} className="flex items-center gap-1.5 bg-white/8 border border-white/12 rounded-full px-3 py-1.5 text-[11.5px] font-medium text-white/85">
+                    <span className="text-[#f5b63f]"><IconCheck /></span>
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </Reveal>
           </div>
         </div>
 
@@ -361,10 +370,11 @@ export default function TransfersClient() {
             <AnimatePresence mode="popLayout">
               {filtered.map((tr, i) => (
                 <motion.div key={`${tr.to.fr}-${i}`} layout
-                  initial={{ opacity: 0, y: 16, scale: 0.97 }}
-                  animate={{ opacity: 1, y: 0,  scale: 1    }}
+                  initial={{ opacity: 0, y: 32, scale: 0.96 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.2 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.38, delay: Math.min(i * 0.06, 0.36), ease: [0.16, 1, 0.3, 1] }}
                 >
                   <TransferCard transfer={tr} />
                 </motion.div>
@@ -376,13 +386,16 @@ export default function TransfersClient() {
         {/* ── CTA band ── */}
         <div className="bg-[#062f35] mt-2">
           <div className="max-w-[1280px] mx-auto px-[clamp(16px,4.5vw,56px)] py-12 flex flex-col sm:flex-row items-center justify-between gap-6">
-            <div className="text-white text-center sm:text-left">
-              <p className="font-script text-[#f5b63f] mb-1"
-                style={{ fontSize: "clamp(20px,2.2vw,28px)", transform: "rotate(-1deg)" }}>
-                {pg.ctaScript}
-              </p>
-              <p className="text-white/65 text-[13.5px] max-w-[420px]">{pg.ctaSubtitle}</p>
-            </div>
+            <Reveal from="left" delay={0.05}>
+              <div className="text-white text-center sm:text-left">
+                <p className="font-script text-[#f5b63f] mb-1"
+                  style={{ fontSize: "clamp(20px,2.2vw,28px)", transform: "rotate(-1deg)" }}>
+                  {pg.ctaScript}
+                </p>
+                <p className="text-white/65 text-[13.5px] max-w-[420px]">{pg.ctaSubtitle}</p>
+              </div>
+            </Reveal>
+            <Reveal from="right" delay={0.15}>
             <Link href={`/${locale}#contact`}
               className="flex items-center gap-3 rounded-full transition-all duration-300 hover:-translate-y-[2px] hover:shadow-[0_12px_28px_rgba(245,182,63,.4)] whitespace-nowrap flex-shrink-0"
               style={{
@@ -394,6 +407,7 @@ export default function TransfersClient() {
               {pg.ctaBtn}
               <span className="w-7 h-7 rounded-full bg-[#1c2e2e]/15 flex items-center justify-center text-[15px]">→</span>
             </Link>
+            </Reveal>
           </div>
         </div>
 

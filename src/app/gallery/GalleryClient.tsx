@@ -1,11 +1,13 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
+import { motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
 
 import { useI18n } from "@/i18n/I18nProvider";
 import { cn } from "@/lib/utils";
 import { galleryImages, GALLERY_CATEGORIES, type GalleryCategory, type GalleryImage } from "@/data/gallery";
+import { Reveal } from "@/components/Reveal";
 
 function Lightbox({
   image, total, index, onClose, onPrev, onNext,
@@ -109,17 +111,24 @@ export default function GalleryClient() {
 
         <div className="bg-[#062f35]" style={{ paddingTop: "78px" }}>
           <div className="max-w-[1280px] mx-auto px-[clamp(16px,4.5vw,56px)] py-14">
-            <p className="font-script text-[#f5b63f] mb-2"
-              style={{ fontSize: "clamp(22px,2.8vw,34px)", transform: "rotate(-1.5deg)" }}>
-              {pg.heroScript}
-            </p>
-            <h1 className="font-serif font-semibold text-white mb-4 leading-tight"
-              style={{ fontSize: "clamp(28px,4vw,52px)" }}>
-              {pg.heroTitle}
-            </h1>
-            <p className="text-white/65 max-w-[500px] leading-relaxed" style={{ fontSize: "clamp(13px,1.15vw,15px)" }}>
-              {pg.heroSubtitle}
-            </p>
+            <Reveal from="up" delay={0}>
+              <p className="font-script text-[#f5b63f] mb-2"
+                style={{ fontSize: "clamp(22px,2.8vw,34px)", transform: "rotate(-1.5deg)" }}>
+                {pg.heroScript}
+              </p>
+            </Reveal>
+            <Reveal from="up" delay={0.1}>
+              <h1 className="font-serif font-semibold text-white mb-4 leading-tight"
+                style={{ fontSize: "clamp(28px,4vw,52px)" }}>
+                {pg.heroTitle}
+              </h1>
+            </Reveal>
+            <Reveal from="up" delay={0.18}>
+              <p className="text-white/65 max-w-[500px] leading-relaxed" style={{ fontSize: "clamp(13px,1.15vw,15px)" }}>
+                {pg.heroSubtitle}
+              </p>
+            </Reveal>
+            <Reveal from="up" delay={0.26}>
             <div className="flex items-center gap-6 mt-7">
               <div className="text-center">
                 <p className="text-[28px] font-bold text-[#f5b63f] leading-none">{galleryImages.length}</p>
@@ -140,6 +149,7 @@ export default function GalleryClient() {
                 <p className="text-[10px] text-white/50 uppercase tracking-widest mt-1">{pg.statsDest}</p>
               </div>
             </div>
+            </Reveal>
           </div>
         </div>
 
@@ -167,17 +177,14 @@ export default function GalleryClient() {
               );
             })}
           </div>
-          {/* keyframes for stagger entrance */}
-          <style>{`@keyframes gallFade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}`}</style>
-
           <div className="columns-2 md:columns-3 lg:columns-4 gap-3">
             {filtered.map((img, i) => (
-              <div key={img.src}
+              <motion.div key={img.src}
                 className="break-inside-avoid mb-3 relative overflow-hidden rounded-xl cursor-pointer group shadow-[0_2px_12px_rgba(6,47,53,.07)] hover:shadow-[0_8px_24px_rgba(6,47,53,.18)] transition-shadow duration-300"
-                style={{
-                  animation: "gallFade .45s cubic-bezier(.16,1,.3,1) both",
-                  animationDelay: `${Math.min(i * 0.04, 0.5)}s`,
-                }}
+                initial={{ opacity: 0, y: 20, scale: 0.97 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: "-30px" }}
+                transition={{ duration: 0.42, delay: Math.min(i * 0.04, 0.4), ease: [0.16, 1, 0.3, 1] }}
                 onClick={() => openLightbox(i)}
               >
                 <Image src={img.src} alt={img.alt} width={600} height={450}
@@ -200,7 +207,7 @@ export default function GalleryClient() {
                     <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
                   </svg>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
