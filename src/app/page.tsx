@@ -1,21 +1,24 @@
+"use client";
 import Image from "next/image";
 import CounterBox from "@/components/CounterBox";
 import ContactButton from "@/components/ContactButton";
 import HeroAnimated from "@/components/HeroAnimated";
 import { FadeInUp, StaggerGrid, StaggerItem } from "@/components/Animations";
+import { useLanguage } from "@/context/LanguageContext";
 
-const SERVICES = [
-  { icon: "bi-briefcase", color: "#ff689b", title: "Web Apps & CRM", text: "We build custom web applications and CRM systems to streamline your workflows and boost business productivity." },
-  { icon: "bi-phone", color: "#e9bf06", title: "Mobile Development", text: "We deliver high-performance iOS and Android apps with seamless user experiences across all devices and platforms." },
-  { icon: "bi-globe", color: "#3fcdc7", title: "Website & SEO", text: "We design responsive websites with on-page SEO optimization to grow your online visibility and attract more clients." },
-  { icon: "bi-card-checklist", color: "#41cf2e", title: "ServiceNow Apps", text: "We develop and configure ServiceNow applications to automate IT workflows and improve your service delivery efficiency." },
-  { icon: "bi-cpu", color: "#94c045", title: "Artificial Intelligence", text: "We integrate AI-powered features into your products to automate tasks, extract insights and enhance user interactions." },
-  { icon: "bi-cloud-arrow-up", color: "#4680ff", title: "Cloud & API Integration", text: "We build scalable APIs and cloud integrations to connect your systems, automate data flows and enable flexible modern architectures." },
+const SERVICE_META = [
+  { icon: "bi-briefcase", color: "#ff689b" },
+  { icon: "bi-phone", color: "#e9bf06" },
+  { icon: "bi-globe", color: "#3fcdc7" },
+  { icon: "bi-card-checklist", color: "#41cf2e" },
+  { icon: "bi-cpu", color: "#94c045" },
+  { icon: "bi-cloud-arrow-up", color: "#4680ff" },
 ];
 
 const TEAM = [
   { img: "/assets/img/team/team-1.jpg", name: "Rachid Benkitou", role: "Software & GenAI Engineer", text: "Specializing in building web and mobile applications with AI integration, SEO-optimized websites, and ServiceNow apps.", linkedin: "https://www.linkedin.com/in/rachidbenkitou/", website: "https://www.rachidbenkitou.online/" },
   { img: "/assets/img/team/team-2.jpg", name: "Abdelkabir Elbahmadi", role: "Software & AI Engineer", text: "Specializing in developing web and mobile applications with AI integration and high-performance SEO-optimized websites.", linkedin: "https://www.linkedin.com/in/elbahmadi/", website: null },
+  { img: "/assets/img/team/team-3.jpg", name: "Fatima Ezzahrae Benkitou", role: "Frontend Developer", text: "Specializing in building modern, responsive frontend applications with clean UI/UX and seamless user experiences across web platforms.", linkedin: null, website: null },
 ];
 
 const PORTFOLIO: { img: string; title: string; tech: string; link: string | null }[] = [
@@ -28,6 +31,7 @@ const PORTFOLIO: { img: string; title: string; tech: string; link: string | null
 ];
 
 export default function HomePage() {
+  const { tr } = useLanguage();
   return (
     <>
       {/* Hero */}
@@ -47,16 +51,16 @@ export default function HomePage() {
               <div className="col-lg-11">
                 <div className="row justify-content-end">
                   <StaggerItem className="col-lg-3 col-md-5 col-6 d-md-flex align-items-md-stretch">
-                    <CounterBox icon="bi bi-emoji-smile" end={65} label="Happy Clients" className="py-5" />
+                    <CounterBox icon="bi bi-emoji-smile" end={65} label={tr.about.happyClients} className="py-5" />
                   </StaggerItem>
                   <StaggerItem className="col-lg-3 col-md-5 col-6 d-md-flex align-items-md-stretch">
-                    <CounterBox icon="bi bi-journal-richtext" end={85} label="Projects" className="py-5" />
+                    <CounterBox icon="bi bi-journal-richtext" end={85} label={tr.about.projects} className="py-5" />
                   </StaggerItem>
                   <StaggerItem className="col-lg-3 col-md-5 col-6 d-md-flex align-items-md-stretch">
-                    <CounterBox icon="bi bi-clock" end={new Date().getFullYear() - 2021} label="Years of experience" className="pb-5 pt-0 pt-lg-5" />
+                    <CounterBox icon="bi bi-clock" end={new Date().getFullYear() - 2021} label={tr.about.experience} className="pb-5 pt-0 pt-lg-5" />
                   </StaggerItem>
                   <StaggerItem className="col-lg-3 col-md-5 col-6 d-md-flex align-items-md-stretch">
-                    <CounterBox icon="bi bi-award" end={22} label="Awards" className="pb-5 pt-0 pt-lg-5" />
+                    <CounterBox icon="bi bi-award" end={22} label={tr.about.awards} className="pb-5 pt-0 pt-lg-5" />
                   </StaggerItem>
                 </div>
               </div>
@@ -70,17 +74,12 @@ export default function HomePage() {
               </FadeInUp>
 
               <FadeInUp delay={0.15} className="col-lg-6 pt-3 pt-lg-0 content">
-                <p className="fst-italic">
-                  Noova Technology is a team of high-quality engineers with over 5 years of hands-on experience delivering projects for large companies. That background gives us the technical depth, the best practices, and the professional standards to take your idea from concept to a fully working product — built right, built to last.
-                  What sets us apart is our commitment beyond delivery — we stay close, communicate clearly, and support you at every stage, from the first line of code to long after go-live. Your success is our benchmark.
-                </p>
-                <p>Our services include:</p>
+                <p className="fst-italic">{tr.about.paragraph}</p>
+                <p>{tr.about.servicesInclude}</p>
                 <ul>
-                  <li><i className="bx bx-check-double"></i> Creating applications tailored to business needs.</li>
-                  <li><i className="bx bx-check-double"></i> Protecting sensitive data and ensuring smooth operations.</li>
-                  <li><i className="bx bx-check-double"></i> Integrating and managing cloud solutions for flexibility and scalability.</li>
-                  <li><i className="bx bx-check-double"></i> Providing strategic advice to optimize tech infrastructure and boost efficiency.</li>
-                  <li><i className="bx bx-check-double"></i> Integrating AI to automate tasks and enhance your products.</li>
+                  {tr.about.items.map((item, i) => (
+                    <li key={i}><i className="bx bx-check-double"></i> {item}</li>
+                  ))}
                 </ul>
               </FadeInUp>
 
@@ -94,9 +93,9 @@ export default function HomePage() {
           <FadeInUp>
             <div className="container">
               <div className="text-center">
-                <h3>Call To Action</h3>
-                <p>Have a project in mind or need expert advice on your next digital solution? Our team is ready to turn your ideas into powerful Web, Mobile, and AI-driven applications tailored to your business goals.</p>
-                <ContactButton className="cta-btn">Call To Action</ContactButton>
+                <h3>{tr.cta.title}</h3>
+                <p>{tr.cta.description}</p>
+                <ContactButton className="cta-btn">{tr.cta.button}</ContactButton>
               </div>
             </div>
           </FadeInUp>
@@ -107,17 +106,17 @@ export default function HomePage() {
           <div className="container">
 
             <FadeInUp className="section-title pt-5">
-              <h2>Our Services</h2>
+              <h2>{tr.services.title}</h2>
             </FadeInUp>
 
             <StaggerGrid className="row">
-              {SERVICES.map((s, i) => (
+              {SERVICE_META.map((s, i) => (
                 <StaggerItem key={i} className="col-md-6">
                   <div className="icon-box">
                     <div className="icon"><i className={`bi ${s.icon}`} style={{ color: s.color }}></i></div>
                     <div>
-                      <h4 className="title"><a href="#">{s.title}</a></h4>
-                      <p className="description">{s.text}</p>
+                      <h4 className="title"><a href="#">{tr.services.items[i].title}</a></h4>
+                      <p className="description">{tr.services.items[i].text}</p>
                     </div>
                   </div>
                 </StaggerItem>
@@ -126,7 +125,7 @@ export default function HomePage() {
 
             <FadeInUp delay={0.1}>
               <p className="text-center fst-italic mt-2 mb-4" style={{ color: "#646c55", fontSize: "15px" }}>
-                We don&apos;t just deliver — we stay by your side, from kickoff to long after go-live.
+                {tr.services.tagline}
               </p>
             </FadeInUp>
 
@@ -139,8 +138,8 @@ export default function HomePage() {
             <FadeInUp>
               <div className="container">
                 <div className="breadcrumb-hero">
-                  <h2>Portfolio</h2>
-                  <p>Noova Technology Team specializes in developing and deploying web and mobile applications, including artificial intelligence.<br /> Our goal is to transform your ideas into real-world projects with the highest quality.</p>
+                  <h2>{tr.portfolio.title}</h2>
+                  <p>{tr.portfolio.description}</p>
                 </div>
               </div>
             </FadeInUp>
@@ -151,40 +150,69 @@ export default function HomePage() {
         <section id="portfolio" className="portfolio">
           <div className="container pt-5 pb-0">
             <StaggerGrid className="row g-4">
-              {PORTFOLIO.map((item, i) => (
-                <StaggerItem key={i} className="col-lg-4 col-md-6 d-flex">
-                  {item.link ? (
-                    <a href={item.link} target="_blank" rel="noopener noreferrer" className="portfolio-card w-100">
-                      <div className="portfolio-card-img">
-                        <Image src={item.img} alt={item.title} width={400} height={210} style={{ objectFit: "cover", width: "100%", height: "100%" }} />
+              {PORTFOLIO.map((item, i) => {
+                const domain = item.link ? (() => {
+                  let d = item.link.replace("https://", "").replace("http://", "").replace(/\/en\/?$/, "").replace(/\/$/, "");
+                  if (!d.startsWith("www.")) d = "www." + d;
+                  return d;
+                })() : "";
+                const inner = (
+                  <div style={{
+                    borderRadius: "16px", overflow: "hidden", width: "100%",
+                    boxShadow: "0 4px 24px rgba(60,65,51,0.09)",
+                    border: "1px solid #eef1e8", background: "#fff",
+                    transition: "transform 0.2s, box-shadow 0.2s",
+                  }}>
+                    {/* Browser mockup header */}
+                    <div style={{ background: "#f4f6ef", padding: "10px 14px", display: "flex", alignItems: "center", gap: "8px", borderBottom: "1px solid #e8eddf" }}>
+                      <div style={{ display: "flex", gap: "5px" }}>
+                        <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#ff5f57", display: "inline-block" }} />
+                        <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#ffbd2e", display: "inline-block" }} />
+                        <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#28c840", display: "inline-block" }} />
                       </div>
-                      <div className="portfolio-card-body">
-                        <div>
-                          <h4>{item.title}</h4>
-                          {item.tech && <span className="portfolio-card-tech">{item.tech}</span>}
-                        </div>
-                        <div className="portfolio-card-arrow">
-                          <i className="bi bi-arrow-up-right" style={{ color: "#fff", fontSize: "16px" }}></i>
-                        </div>
-                      </div>
-                    </a>
-                  ) : (
-                    <div className="portfolio-card w-100" style={{ opacity: 0.5, cursor: "default" }}>
-                      <div className="portfolio-card-img">
-                        <Image src={item.img} alt={item.title} width={400} height={210} style={{ objectFit: "cover", width: "100%", height: "100%", filter: "grayscale(70%)" }} />
-                      </div>
-                      <div className="portfolio-card-body">
-                        <div>
-                          <h4 style={{ color: "#aaa" }}>{item.title}</h4>
-                        </div>
-                        <div className="portfolio-card-arrow" style={{ background: "#ccc" }}>
-                          <i className="bi bi-clock" style={{ color: "#fff", fontSize: "15px" }}></i>
-                        </div>
+                      <div style={{
+                        flex: 1, background: "#fff", borderRadius: "6px", padding: "4px 10px",
+                        fontSize: "11px", color: "#888", border: "1px solid #e0e5d8",
+                        overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
+                      }}>
+                        {domain || "coming soon"}
                       </div>
                     </div>
-                  )}
-                </StaggerItem>
-              ))}
+                    {/* Visual area */}
+                    <div style={{
+                      height: "110px", background: "linear-gradient(135deg, #2e3127 0%, #4a5040 100%)",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      position: "relative", overflow: "hidden",
+                    }}>
+                      <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle, rgba(148,192,69,0.15) 1px, transparent 1px)", backgroundSize: "20px 20px" }} />
+                      <span style={{ fontSize: "36px", fontWeight: 900, color: "rgba(148,192,69,0.25)", letterSpacing: "4px", userSelect: "none", zIndex: 1 }}>
+                        {item.title.split(" ").map((w) => w[0]).join("").slice(0, 3).toUpperCase()}
+                      </span>
+                    </div>
+                    {/* Card footer */}
+                    <div style={{ padding: "14px 18px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                      <div>
+                        <div style={{ fontSize: "15px", fontWeight: 700, color: "#3c4133" }}>{item.title}</div>
+                        {item.tech && <div style={{ fontSize: "11px", color: "#94c045", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.7px", marginTop: "2px" }}>{item.tech}</div>}
+                      </div>
+                      <div style={{
+                        width: "34px", height: "34px", borderRadius: "50%", flexShrink: 0,
+                        background: item.link ? "#94c045" : "#ddd",
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                      }}>
+                        <i className={`bi ${item.link ? "bi-arrow-up-right" : "bi-clock"}`} style={{ color: "#fff", fontSize: "15px" }} />
+                      </div>
+                    </div>
+                  </div>
+                );
+                return (
+                  <StaggerItem key={i} className="col-lg-4 col-md-6 d-flex">
+                    {item.link
+                      ? <a href={item.link} target="_blank" rel="noopener noreferrer" style={{ width: "100%", textDecoration: "none" }}>{inner}</a>
+                      : <div style={{ width: "100%" }}>{inner}</div>}
+                  </StaggerItem>
+                );
+              })}
             </StaggerGrid>
           </div>
         </section>
@@ -194,8 +222,8 @@ export default function HomePage() {
           <FadeInUp>
             <div className="container">
               <div className="text-center">
-                <h3>Ready to Meet the Team?</h3>
-                <p>Let&apos;s talk about your project and find the right people to bring your idea to life.</p>
+                <h3>{tr.cta2.title}</h3>
+                <p>{tr.cta2.description}</p>
               </div>
             </div>
           </FadeInUp>
@@ -203,26 +231,68 @@ export default function HomePage() {
 
         {/* Team */}
         <section id="team" className="team section-bg">
-          <div className="container pt-5 pb-0">
-            <StaggerGrid className="row justify-content-center">
-              {TEAM.map((m, i) => (
-                <StaggerItem key={i} className="col-lg-4 col-md-6 d-flex align-items-stretch">
-                  <div className="member">
-                    <div className="member-img">
-                      <img src={m.img} className="img-fluid" alt={m.name} />
-                      <div className="social">
-                        {m.linkedin && <a href={m.linkedin} target="_blank" rel="noopener noreferrer"><i className="bi bi-linkedin" /></a>}
-                        {m.website && <a href={m.website} target="_blank" rel="noopener noreferrer"><i className="bi bi-globe" /></a>}
+          <div className="container pt-5 pb-5">
+            <StaggerGrid className="row justify-content-center g-4">
+              {TEAM.map((m, i) => {
+                const initials = m.name.split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase();
+                return (
+                  <StaggerItem key={i} className="col-lg-4 col-md-6 d-flex">
+                    <div style={{
+                      background: "#fff", borderRadius: "20px", width: "100%",
+                      boxShadow: "0 4px 24px rgba(60,65,51,0.08)",
+                      overflow: "hidden", display: "flex", flexDirection: "column",
+                    }}>
+                      {/* Colored header strip */}
+                      <div style={{
+                        background: "linear-gradient(135deg, #3c4133 0%, #5a6350 100%)",
+                        padding: "28px 24px 20px", display: "flex", alignItems: "center", gap: "16px",
+                      }}>
+                        {/* Avatar initials */}
+                        <div style={{
+                          width: "58px", height: "58px", borderRadius: "50%", flexShrink: 0,
+                          background: "rgba(148,192,69,0.18)", border: "2.5px solid #94c045",
+                          display: "flex", alignItems: "center", justifyContent: "center",
+                          fontSize: "20px", fontWeight: 800, color: "#94c045", letterSpacing: "1px",
+                        }}>
+                          {initials}
+                        </div>
+                        <div>
+                          <h4 style={{ color: "#fff", fontSize: "16px", fontWeight: 700, margin: 0 }}>{m.name}</h4>
+                          <span style={{ fontSize: "12px", color: "#94c045", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.8px" }}>{m.role}</span>
+                        </div>
+                      </div>
+                      {/* Body */}
+                      <div style={{ padding: "20px 24px", flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                        <p style={{ fontSize: "14px", color: "#646c55", lineHeight: "1.7", margin: 0 }}>{tr.team.members[i].text}</p>
+                        {(m.linkedin || m.website) && (
+                          <div style={{ display: "flex", gap: "8px", marginTop: "18px" }}>
+                            {m.linkedin && (
+                              <a href={m.linkedin} target="_blank" rel="noopener noreferrer" style={{
+                                display: "flex", alignItems: "center", gap: "6px",
+                                padding: "7px 14px", borderRadius: "50px",
+                                background: "rgba(148,192,69,0.1)", border: "1.5px solid rgba(148,192,69,0.3)",
+                                color: "#94c045", fontSize: "13px", fontWeight: 600, textDecoration: "none",
+                              }}>
+                                <i className="bi bi-linkedin" style={{ fontSize: "14px" }} /> LinkedIn
+                              </a>
+                            )}
+                            {m.website && (
+                              <a href={m.website} target="_blank" rel="noopener noreferrer" style={{
+                                display: "flex", alignItems: "center", gap: "6px",
+                                padding: "7px 14px", borderRadius: "50px",
+                                background: "rgba(148,192,69,0.1)", border: "1.5px solid rgba(148,192,69,0.3)",
+                                color: "#94c045", fontSize: "13px", fontWeight: 600, textDecoration: "none",
+                              }}>
+                                <i className="bi bi-globe" style={{ fontSize: "14px" }} /> Website
+                              </a>
+                            )}
+                          </div>
+                        )}
                       </div>
                     </div>
-                    <div className="member-info">
-                      <h4>{m.name}</h4>
-                      <span>{m.role}</span>
-                      <p>{m.text}</p>
-                    </div>
-                  </div>
-                </StaggerItem>
-              ))}
+                  </StaggerItem>
+                );
+              })}
             </StaggerGrid>
           </div>
         </section>

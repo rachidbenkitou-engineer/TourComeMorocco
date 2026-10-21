@@ -3,10 +3,14 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import { LanguageProvider } from "@/context/LanguageContext";
 
 export const metadata: Metadata = {
-  title: "Serenity — Corporate Business Template",
-  description: "Professional corporate website built with Next.js and Bootstrap",
+  title: "Noova Technology — Web, Mobile & AI Solutions",
+  description: "Noova Technology is a team of Software Engineers building Web, Mobile, ServiceNow and AI solutions. We build your vision, we accompany you at every step.",
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -29,10 +33,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
-        <Header />
-        <main id="main">{children}</main>
-        <Footer />
-<WhatsAppButton />
+        <LanguageProvider>
+          <Header />
+          <main id="main">{children}</main>
+          <Footer />
+          <WhatsAppButton />
+        </LanguageProvider>
       </body>
     </html>
   );

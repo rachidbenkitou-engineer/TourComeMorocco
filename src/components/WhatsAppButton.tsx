@@ -4,6 +4,7 @@ import { Modal, Form, Button } from "react-bootstrap";
 import { FaWhatsapp } from "react-icons/fa";
 import { MdSend, MdErrorOutline } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
+import { useLanguage } from "@/context/LanguageContext";
 
 const PRIMARY = "#94c045";
 const PRIMARY_DARK = "#7aa336";
@@ -18,22 +19,23 @@ interface Errors {
   description?: string;
 }
 
-function validate(form: FormState): Errors {
-  const errors: Errors = {};
-  if (!form.nom.trim()) errors.nom = "Le nom complet est requis.";
-  if (!form.description.trim()) {
-    errors.description = "Veuillez décrire votre projet.";
-  } else if (form.description.trim().length < 10) {
-    errors.description = "Description trop courte (min. 10 caractères).";
-  }
-  return errors;
-}
-
 export default function WhatsAppButton() {
+  const { tr, lang } = useLanguage();
   const [show, setShow] = useState(false);
   const [form, setForm] = useState<FormState>({ nom: "", description: "" });
   const [errors, setErrors] = useState<Errors>({});
   const [submitted, setSubmitted] = useState(false);
+
+  const validate = (f: FormState): Errors => {
+    const errs: Errors = {};
+    if (!f.nom.trim()) errs.nom = tr.modal.nomRequired;
+    if (!f.description.trim()) {
+      errs.description = tr.modal.descRequired;
+    } else if (f.description.trim().length < 10) {
+      errs.description = tr.modal.descShort;
+    }
+    return errs;
+  };
 
   useEffect(() => {
     const handler = () => setShow(true);
@@ -64,10 +66,11 @@ export default function WhatsAppButton() {
     setErrors(errs);
     if (Object.keys(errs).length > 0) return;
 
+    const greeting = lang === "FR" ? "Bonjour" : lang === "AR" ? "مرحباً" : "Hello";
     const message =
-      `Bonjour Noova Technology\n\n` +
-      `Nom: ${form.nom}\n\n` +
-      `Description du projet:\n${form.description}`;
+      `${greeting} Noova Technology\n\n` +
+      `${tr.modal.nomLabel}: ${form.nom}\n\n` +
+      `${tr.modal.descLabel}:\n${form.description}`;
     window.open(`https://wa.me/212655407529?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
     handleClose();
   };
@@ -76,7 +79,7 @@ export default function WhatsAppButton() {
 
   return (
     <>
-      <a className="whatsapp-float" onClick={(e) => { e.preventDefault(); setShow(true); }} href="#" aria-label="Contactez-nous">
+      <a className="whatsapp-float" onClick={(e) => { e.preventDefault(); setShow(true); }} href="#" aria-label="Contact us">
         <FaWhatsapp size={28} />
         <span className="whatsapp-ripple" />
       </a>
@@ -85,24 +88,24 @@ export default function WhatsAppButton() {
         <Modal.Header closeButton style={{ background: PRIMARY, color: "#fff", borderBottom: "none" }}>
           <Modal.Title style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "18px" }}>
             <FaWhatsapp size={22} color="#fff" />
-            Discutons de votre projet
+            {tr.modal.title}
           </Modal.Title>
         </Modal.Header>
 
         <Modal.Body style={{ padding: "28px 32px" }}>
           <p style={{ color: "#646c55", marginBottom: "24px", fontSize: "14px" }}>
-            Remplissez ce formulaire et nous vous contacterons via WhatsApp.
+            {tr.modal.subtitle}
           </p>
           <Form noValidate onSubmit={handleSubmit}>
             <div className="d-flex flex-column gap-3">
 
               <Form.Group>
                 <Form.Label style={{ fontWeight: 600, fontSize: "13px", color: "#3c4133" }}>
-                  Nom complet <span style={{ color: PRIMARY }}>*</span>
+                  {tr.modal.nomLabel} <span style={{ color: PRIMARY }}>*</span>
                 </Form.Label>
                 <Form.Control
                   type="text" name="nom" value={form.nom} onChange={handleChange}
-                  placeholder="Votre nom complet" isInvalid={!!errors.nom}
+                  placeholder={tr.modal.nomPlaceholder} isInvalid={!!errors.nom}
                   style={{ ...inputStyle, border: `1.5px solid ${errors.nom ? "#d9534f" : "#dce4cc"}` }}
                 />
                 {errors.nom && (
@@ -114,11 +117,11 @@ export default function WhatsAppButton() {
 
               <Form.Group>
                 <Form.Label style={{ fontWeight: 600, fontSize: "13px", color: "#3c4133" }}>
-                  Description du projet <span style={{ color: PRIMARY }}>*</span>
+                  {tr.modal.descLabel} <span style={{ color: PRIMARY }}>*</span>
                 </Form.Label>
                 <Form.Control
                   as="textarea" rows={4} name="description" value={form.description} onChange={handleChange}
-                  placeholder="Décrivez votre projet, vos besoins, vos objectifs..." isInvalid={!!errors.description}
+                  placeholder={tr.modal.descPlaceholder} isInvalid={!!errors.description}
                   style={{ ...inputStyle, border: `1.5px solid ${errors.description ? "#d9534f" : "#dce4cc"}`, resize: "none" }}
                 />
                 {errors.description && (
@@ -141,7 +144,7 @@ export default function WhatsAppButton() {
                 }}
               >
                 <MdSend size={18} />
-                Envoyer via WhatsApp
+                {tr.modal.send}
               </Button>
               <Button
                 type="button" onClick={handleClose}
@@ -152,7 +155,7 @@ export default function WhatsAppButton() {
                 }}
               >
                 <IoClose size={18} />
-                Annuler
+                {tr.modal.cancel}
               </Button>
             </div>
           </Form>

@@ -1,7 +1,14 @@
+"use client";
 import Link from "next/link";
 import ContactButton from "./ContactButton";
+import { useLanguage } from "@/context/LanguageContext";
+
+const SERVICE_HREFS = ["/#services", "/#services", "/#services", "/#services", "/#services", "/#services"];
+const NAV_HREFS = ["/", "/#about", "/#services", "/#portfolio", "/#team"];
 
 export default function Footer() {
+  const { tr } = useLanguage();
+
   return (
     <footer id="footer">
       <div className="footer-top">
@@ -22,39 +29,34 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Useful Links */}
+            {/* Quick Links */}
             <div className="col-lg-2 col-md-6 footer-links">
-              <h4>Quick Links</h4>
+              <h4>{tr.footer.quickLinks}</h4>
               <ul>
-                <li><Link href="/">Home</Link></li>
-                <li><Link href="/#about">About us</Link></li>
-                <li><Link href="/#services">Services</Link></li>
-                <li><Link href="/#portfolio">Portfolio</Link></li>
-                <li><Link href="/#team">Team</Link></li>
+                <li><Link href={NAV_HREFS[0]}>{tr.footer.home}</Link></li>
+                <li><Link href={NAV_HREFS[1]}>{tr.footer.aboutUs}</Link></li>
+                <li><Link href={NAV_HREFS[2]}>{tr.nav.services}</Link></li>
+                <li><Link href={NAV_HREFS[3]}>{tr.nav.portfolio}</Link></li>
+                <li><Link href={NAV_HREFS[4]}>{tr.nav.team}</Link></li>
               </ul>
             </div>
 
             {/* Our Services */}
             <div className="col-lg-3 col-md-6 footer-links">
-              <h4>Our Services</h4>
+              <h4>{tr.footer.ourServices}</h4>
               <ul>
-                <li><a href="/#services">Web Apps & CRM</a></li>
-                <li><a href="/#services">Mobile Development</a></li>
-                <li><a href="/#services">Website & SEO</a></li>
-                <li><a href="/#services">ServiceNow Apps</a></li>
-                <li><a href="/#services">Artificial Intelligence</a></li>
-                <li><a href="/#services">Cloud & API Integration</a></li>
+                {tr.footer.services.map((s, i) => (
+                  <li key={i}><a href={SERVICE_HREFS[i]}>{s}</a></li>
+                ))}
               </ul>
             </div>
 
             {/* Contact CTA */}
             <div className="col-lg-3 col-md-6 footer-newsletter">
-              <h4>Start a Project</h4>
-              <p>Have an idea? Let&apos;s build it together. Reach out and we&apos;ll get back to you quickly.</p>
-              <ContactButton
-                className="footer-contact-btn"
-              >
-                Contact Us
+              <h4>{tr.footer.startProject}</h4>
+              <p>{tr.footer.ctaText}</p>
+              <ContactButton className="footer-contact-btn">
+                {tr.footer.contactUs}
               </ContactButton>
             </div>
 
@@ -64,7 +66,7 @@ export default function Footer() {
 
       <div className="container">
         <div className="copyright">
-          &copy; {new Date().getFullYear()} <strong><span>Noova Technology</span></strong>. All Rights Reserved.
+          &copy; {new Date().getFullYear()} <strong><span>Noova Technology</span></strong>. {tr.footer.rights}.
         </div>
       </div>
     </footer>

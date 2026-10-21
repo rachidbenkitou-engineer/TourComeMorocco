@@ -3,13 +3,15 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useLanguage } from "@/context/LanguageContext";
+import type { Lang } from "@/translations";
 
-const mainLinks = [
-  { href: "/#about", label: "About", section: "about" },
-  { href: "/#services", label: "Services", section: "services" },
-  { href: "/#portfolio", label: "Portfolio", section: "portfolio" },
-  { href: "/#team", label: "Team", section: "team" },
-  { href: "/blog", label: "Blog", section: null },
+const SECTIONS = [
+  { href: "/#about", key: "about" as const, section: "about" },
+  { href: "/#services", key: "services" as const, section: "services" },
+  { href: "/#portfolio", key: "portfolio" as const, section: "portfolio" },
+  { href: "/#team", key: "team" as const, section: "team" },
+  { href: "/blog", key: "blog" as const, section: null },
 ];
 
 const LANGUAGES = [
@@ -21,12 +23,12 @@ const LANGUAGES = [
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>(null);
-  const [lang, setLang] = useState("EN");
   const [langOpen, setLangOpen] = useState(false);
   const [mobileLangOpen, setMobileLangOpen] = useState(false);
   const langRef = useRef<HTMLDivElement>(null);
   const mobileLangRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const { lang, setLang, tr } = useLanguage();
 
   useEffect(() => {
     if (pathname !== "/") return;
@@ -56,7 +58,7 @@ export default function Header() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  const isActive = (link: typeof mainLinks[0]) => {
+  const isActive = (link: typeof SECTIONS[0]) => {
     if (link.section) return activeSection === link.section;
     if (link.href === "/") return pathname === "/" && activeSection === null;
     return pathname === link.href;
@@ -76,10 +78,10 @@ export default function Header() {
         {/* Nav */}
         <nav id="navbar" className={`navbar${mobileOpen ? " navbar-mobile" : ""}`}>
           <ul>
-            {mainLinks.map((link) => (
+            {SECTIONS.map((link) => (
               <li key={link.href}>
                 <Link href={link.href} className={isActive(link) ? "active" : ""} onClick={() => setMobileOpen(false)}>
-                  {link.label}
+                  {tr.nav[link.key]}
                 </Link>
               </li>
             ))}
@@ -111,7 +113,7 @@ export default function Header() {
                     }}>
                       {LANGUAGES.map((l) => (
                         <button key={l.code} type="button"
-                          onClick={() => { setLang(l.code); setMobileLangOpen(false); }}
+                          onClick={() => { setLang(l.code as Lang); setMobileLangOpen(false); }}
                           style={{
                             display: "flex", alignItems: "center", gap: "10px",
                             width: "100%", padding: "11px 16px",
@@ -134,17 +136,15 @@ export default function Header() {
           {/* Contact mobile — inside nav, before hamburger */}
           <button
             type="button"
-            className="d-flex d-lg-none align-items-center"
+            className="d-flex d-lg-none align-items-center justify-content-center"
             onClick={() => window.dispatchEvent(new CustomEvent("open-contact-modal"))}
             style={{
-              background: "#94c045", border: "none", borderRadius: "50px",
-              padding: "7px 16px", fontSize: "13px", fontWeight: 700,
+              background: "#94c045", border: "none", borderRadius: "50%",
+              width: "36px", height: "36px", fontSize: "16px",
               color: "#fff", cursor: "pointer", marginRight: "10px", flexShrink: 0,
-              gap: "6px",
             }}
           >
-            <i className="bi bi-chat-dots-fill" style={{ fontSize: "14px" }} />
-            Contact
+            <i className="bi bi-chat-dots-fill" />
           </button>
 
           <i className={`bi mobile-nav-toggle ${mobileOpen ? "bi-x" : "bi-list"}`} onClick={() => setMobileOpen((v) => !v)} />
@@ -177,7 +177,7 @@ export default function Header() {
               }}>
                 {LANGUAGES.map((l) => (
                   <button key={l.code} type="button"
-                    onClick={() => { setLang(l.code); setLangOpen(false); }}
+                    onClick={() => { setLang(l.code as Lang); setLangOpen(false); }}
                     style={{
                       display: "flex", alignItems: "center", gap: "10px",
                       width: "100%", padding: "10px 16px",
@@ -198,7 +198,7 @@ export default function Header() {
           <button type="button" className="getstarted" style={{ cursor: "pointer", border: "none", display: "flex", alignItems: "center", gap: "6px" }}
             onClick={() => window.dispatchEvent(new CustomEvent("open-contact-modal"))}>
             <i className="bi bi-chat-dots-fill" style={{ fontSize: "14px" }} />
-            Contact
+            {tr.nav.contact}
           </button>
         </div>
 
