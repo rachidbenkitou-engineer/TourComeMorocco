@@ -1,29 +1,38 @@
 "use client";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
+import POSTS, { Block } from "@/data/posts";
+import type { Lang } from "@/translations";
 
-const RECENT_POSTS = [
-  { img: "/assets/img/blog/blog-recent-1.jpg", title: "Nihil blanditiis at in nihil autem", date: "Jan 1, 2020" },
-  { img: "/assets/img/blog/blog-recent-2.jpg", title: "Quidem autem et impedit", date: "Jan 1, 2020" },
-  { img: "/assets/img/blog/blog-recent-3.jpg", title: "Id quia et et ut maxime similique occaecati ut", date: "Jan 1, 2020" },
-  { img: "/assets/img/blog/blog-recent-4.jpg", title: "Laborum corporis quo dara net para", date: "Jan 1, 2020" },
-  { img: "/assets/img/blog/blog-recent-5.jpg", title: "Et dolores corrupti quae illo quod dolor", date: "Jan 1, 2020" },
-];
-
-const TAGS = ["App", "IT", "Business", "Mac", "Design", "Office", "Creative", "Studio", "Smart", "Tips", "Marketing"];
-
-const CATEGORIES = [
-  { label: "General", count: 25 },
-  { label: "Lifestyle", count: 12 },
-  { label: "Travel", count: 5 },
-  { label: "Design", count: 22 },
-  { label: "Creative", count: 8 },
-  { label: "Education", count: 14 },
-];
+function renderBlock(block: Block, lang: Lang, i: number) {
+  switch (block.type) {
+    case "p":
+      return <p key={i}>{block.text[lang]}</p>;
+    case "h3":
+      return <h3 key={i}>{block.text[lang]}</h3>;
+    case "blockquote":
+      return <blockquote key={i}><p>{block.text[lang]}</p></blockquote>;
+    case "img":
+      return <img key={i} src={block.src} className="img-fluid" alt="" />;
+    case "ul":
+      return (
+        <ul key={i}>
+          {block.items[lang].map((item, j) => <li key={j}>{item}</li>)}
+        </ul>
+      );
+  }
+}
 
 export default function BlogSinglePage() {
-  const { tr } = useLanguage();
+  const { tr, lang } = useLanguage();
+  const params = useParams();
+  const slug = params?.slug as string;
+
+  const post = POSTS.find((p) => p.slug === slug) ?? POSTS[0];
+  const otherPosts = POSTS.filter((p) => p.slug !== post.slug).slice(0, 4);
+
   return (
     <>
       <Breadcrumbs
@@ -32,7 +41,7 @@ export default function BlogSinglePage() {
         crumbs={[
           { label: tr.footer.home, href: "/" },
           { label: tr.blog.title, href: "/blog" },
-          { label: "Dolorum optio tempore voluptas dignissimos cumque fuga qui quibusdam quia" },
+          { label: post.title[lang] },
         ]}
       />
 
@@ -45,160 +54,88 @@ export default function BlogSinglePage() {
               <article className="entry entry-single">
 
                 <div className="entry-img">
-                  <img src="/assets/img/blog/blog-1.jpg" alt="" className="img-fluid" />
+                  <img src={post.img} alt={post.title[lang]} className="img-fluid" />
                 </div>
 
                 <h2 className="entry-title">
-                  <a href="#">Dolorum optio tempore voluptas dignissimos cumque fuga qui quibusdam quia</a>
+                  <a href="#">{post.title[lang]}</a>
                 </h2>
 
                 <div className="entry-meta">
                   <ul>
-                    <li className="d-flex align-items-center"><i className="bi bi-person" /> <a href="#">John Doe</a></li>
-                    <li className="d-flex align-items-center"><i className="bi bi-clock" /> <a href="#"><time dateTime="2020-01-01">Jan 1, 2020</time></a></li>
-                    <li className="d-flex align-items-center"><i className="bi bi-chat-dots" /> <a href="#">12 Comments</a></li>
+                    <li className="d-flex align-items-center"><i className="bi bi-person" /> <a href="#">{post.author}</a></li>
+                    <li className="d-flex align-items-center"><i className="bi bi-clock" /> <a href="#"><time>{post.date}</time></a></li>
+                    <li className="d-flex align-items-center"><i className="bi bi-chat-dots" /> <a href="#">{post.comments} Comments</a></li>
                   </ul>
                 </div>
 
                 <div className="entry-content">
-                  <p>
-                    Similique neque nam consequuntur ad non maxime aliquam quas. Quibusdam animi praesentium. Aliquam et laboriosam eius aut nostrum quidem aliquid dicta.
-                    Et eveniet enim. Qui velit est ea dolorem doloremque deleniti aperiam unde soluta. Est cum et quod quos aut ut et sit sunt. Voluptate porro consequatur assumenda perferendis dolore.
-                  </p>
-                  <p>
-                    Sit repellat hic cupiditate hic ut nemo. Quis nihil sunt non reiciendis. Sequi in accusamus harum vel aspernatur. Excepturi numquam nihil cumque odio. Et voluptate cupiditate.
-                  </p>
-                  <blockquote>
-                    <p>
-                      Et vero doloremque tempore voluptatem ratione vel aut. Deleniti sunt animi aut. Aut eos aliquam doloribus minus autem quos.
-                    </p>
-                  </blockquote>
-                  <p>
-                    Sed quo laboriosam qui architecto. Occaecati repellendus omnis dicta inventore tempore provident voluptas mollitia aliquid. Id repellendus quia. Asperiores nihil magni dicta est suscipit perspiciatis. Voluptate ex rerum assumenda dolores nihil quaerat.
-                    Dolor porro tempora et quibusdam voluptas. Beatae aut at ad qui tempore corrupti velit quisquam rerum. Omnis dolorum exercitationem harum qui qui blanditiis neque.
-                    Iusto autem itaque. Repudiandae hic quae aspernatur ea neque qui. Architecto voluptatem magni. Vel magnam quod et tempora deleniti error rerum nihil tempora.
-                  </p>
-
-                  <h3>Et quae iure vel ut odit alias.</h3>
-                  <p>
-                    Officiis animi maxime nulla quo et harum eum quis a. Sit hic in qui quos fugit ut rerum atque. Optio provident dolores atque voluptatem rem excepturi molestiae qui. Voluptatem laborum omnis ullam quibusdam perspiciatis nulla nostrum. Voluptatum est libero eum nesciunt aliquid qui.
-                    Quia et suscipit non sequi. Maxime sed odit. Beatae nesciunt nesciunt accusamus quia aut ratione aspernatur dolor. Sint harum eveniet dicta exercitationem minima. Exercitationem omnis asperiores natus aperiam dolor consequatur id ex sed. Quibusdam rerum dolores sint consequatur quidem ea.
-                    Beatae minima sunt libero soluta sapiente in rem assumenda. Et qui odit voluptatem. Cum quibusdam voluptatem voluptatem accusamus mollitia aut atque aut.
-                  </p>
-
-                  <img src="/assets/img/blog/blog-inside-post.jpg" className="img-fluid" alt="" />
-
-                  <h3>Ut repellat blanditiis est dolore sunt dolorum quae.</h3>
-                  <p>
-                    Rerum ea est assumenda pariatur quasi et quam. Facilis nam porro amet nostrum. In assumenda quia quae a id praesentium. Quos deleniti libero sed occaecati aut porro autem. Consectetur sed excepturi sint non placeat quia repellat incidunt labore. Autem facilis hic dolorum dolores vel.
-                    Consectetur quasi id et optio praesentium aut asperiores eaque aut. Explicabo omnis quibusdam esse. Ex libero illum iusto totam et ut aut blanditiis. Veritatis numquam ut illum ut a quam vitae.
-                  </p>
-                  <p>
-                    Alias quia non aliquid. Eos et ea velit. Voluptatem maxime enim omnis ipsa voluptas incidunt. Nulla sit eaque mollitia nisi asperiores est veniam.
-                  </p>
+                  {post.content.map((block, i) => renderBlock(block, lang, i))}
                 </div>
 
                 <div className="entry-footer">
                   <i className="bi bi-folder" />
                   <ul className="cats">
-                    <li><a href="#">Business</a></li>
+                    <li><a href="#">{post.category[lang]}</a></li>
                   </ul>
                   <i className="bi bi-tags" />
                   <ul className="tags">
-                    <li><a href="#">Creative</a></li>
-                    <li><a href="#">Tips</a></li>
-                    <li><a href="#">Marketing</a></li>
+                    {post.tags.map((tag) => (
+                      <li key={tag}><a href="#">{tag}</a></li>
+                    ))}
                   </ul>
                 </div>
               </article>
 
               {/* Author bio */}
               <div className="blog-author d-flex align-items-center">
-                <img src="/assets/img/blog/blog-author.jpg" className="rounded-circle float-left" alt="" />
+                <img src={post.authorImg} className="rounded-circle float-left" alt={post.author} />
                 <div>
-                  <h4>Jane Smith</h4>
+                  <h4>{post.author}</h4>
                   <div className="social-links">
-                    <a href="#"><i className="bi bi-twitter" /></a>
-                    <a href="#"><i className="bi bi-facebook" /></a>
-                    <a href="#"><i className="bi bi-instagram" /></a>
+                    {post.authorLinkedin && (
+                      <a href={post.authorLinkedin} target="_blank" rel="noopener noreferrer">
+                        <i className="bi bi-linkedin" />
+                      </a>
+                    )}
                   </div>
-                  <p>
-                    Itaque quidem optio quia voluptatibus dolorem dolor. Modi eum sed possimus accusantium. Quas repellat voluptatem officia numquam sint aspernatur voluptas. Esse et accusantium ut unde voluptas.
-                  </p>
+                  <p>{post.authorRole[lang]}</p>
                 </div>
               </div>
 
-              {/* Comments */}
+              {/* Comments placeholder */}
               <div className="blog-comments">
-                <h4 className="comments-count">8 Comments</h4>
+                <h4 className="comments-count">{post.comments} Comments</h4>
 
-                <div id="comment-1" className="comment">
+                <div className="comment">
                   <div className="d-flex">
                     <div className="comment-img"><img src="/assets/img/blog/comments-1.jpg" alt="" /></div>
                     <div>
                       <h5><a href="">Georgia Reader</a> <a href="#" className="reply"><i className="bi bi-reply-fill" /> Reply</a></h5>
-                      <time dateTime="2020-01-01">01 Jan, 2020</time>
-                      <p>Et rerum totam nisi. Molestiae vel quam dolorum vel voluptatem et et. Est ad aut sapiente quis molestiae est qui cum soluta. Vero aut rerum vel. Rerum quos laboriosam placeat ex qui. Sint qui facilis et.</p>
+                      <time dateTime="2024-01-01">01 Jan, 2024</time>
+                      <p>Great article! Very insightful and well-explained. This is exactly what our team needed to understand the topic better.</p>
                     </div>
                   </div>
                 </div>
 
-                <div id="comment-2" className="comment">
+                <div className="comment">
                   <div className="d-flex">
                     <div className="comment-img"><img src="/assets/img/blog/comments-2.jpg" alt="" /></div>
                     <div>
                       <h5><a href="">Aron Alvarado</a> <a href="#" className="reply"><i className="bi bi-reply-fill" /> Reply</a></h5>
-                      <time dateTime="2020-01-01">01 Jan, 2020</time>
-                      <p>Ipsam tempora sequi voluptatem quis sapiente non. Autem itaque eveniet saepe. Officiis illo ut beatae.</p>
-                    </div>
-                  </div>
-
-                  <div id="comment-reply-1" className="comment comment-reply">
-                    <div className="d-flex">
-                      <div className="comment-img"><img src="/assets/img/blog/comments-3.jpg" alt="" /></div>
-                      <div>
-                        <h5><a href="">Lynda Small</a> <a href="#" className="reply"><i className="bi bi-reply-fill" /> Reply</a></h5>
-                        <time dateTime="2020-01-01">01 Jan, 2020</time>
-                        <p>
-                          Enim ipsa eum fugiat fuga repellat. Commodi quo quo dicta. Est ullam aspernatur ut vitae quia mollitia id non. Qui ad quas nostrum rerum sed necessitatibus aut est. Eum officiis sed repellat maxime vero nisi natus. Amet nesciunt nesciunt qui illum omnis est et dolor recusandae.
-                          Recusandae sit ad aut impedit et. Ipsa labore dolor impedit et natus in porro aut. Magnam qui cum. Illo similique occaecati nihil modi eligendi. Pariatur distinctio labore omnis incidunt et illum. Expedita et dignissimos distinctio laborum minima fugiat.
-                          Libero corporis qui. Nam illo odio beatae enim ducimus. Harum reiciendis error dolorum non autem quisquam vero rerum neque.
-                        </p>
-                      </div>
-                    </div>
-
-                    <div id="comment-reply-2" className="comment comment-reply">
-                      <div className="d-flex">
-                        <div className="comment-img"><img src="/assets/img/blog/comments-4.jpg" alt="" /></div>
-                        <div>
-                          <h5><a href="">Sianna Ramsay</a> <a href="#" className="reply"><i className="bi bi-reply-fill" /> Reply</a></h5>
-                          <time dateTime="2020-01-01">01 Jan, 2020</time>
-                          <p>Et dignissimos impedit nulla et quo distinctio ex nemo. Omnis quia dolores cupiditate et. Ut unde qui eligendi sapiente omnis ullam. Placeat porro est commodi est officiis voluptas repellat quisquam possimus. Perferendis id consectetur necessitatibus.</p>
-                        </div>
-                      </div>
+                      <time dateTime="2024-01-01">01 Jan, 2024</time>
+                      <p>Thanks for sharing this. The practical examples make it much easier to understand how to apply these concepts in real projects.</p>
                     </div>
                   </div>
                 </div>
 
-                <div id="comment-3" className="comment">
+                <div className="comment">
                   <div className="d-flex">
-                    <div className="comment-img"><img src="/assets/img/blog/comments-5.jpg" alt="" /></div>
+                    <div className="comment-img"><img src="/assets/img/blog/comments-3.jpg" alt="" /></div>
                     <div>
-                      <h5><a href="">Nolan Davidson</a> <a href="#" className="reply"><i className="bi bi-reply-fill" /> Reply</a></h5>
-                      <time dateTime="2020-01-01">01 Jan, 2020</time>
-                      <p>Distinctio nesciunt rerum reprehenderit sed. Iste omnis eius repellendus quia nihil ut accusantium tempore. Nesciunt expedita id dolor exercitationem aspernatur aut quam ut. Voluptatem est accusamus iste at.
-                        Non aut et et esse qui sit modi neque. Exercitationem et eos aspernatur. Ea est consequuntur officia beatae ea aut eos soluta. Non qui dolorum voluptatibus et optio veniam. Quam officia sit nostrum dolorem.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div id="comment-4" className="comment">
-                  <div className="d-flex">
-                    <div className="comment-img"><img src="/assets/img/blog/comments-6.jpg" alt="" /></div>
-                    <div>
-                      <h5><a href="">Kay Duggan</a> <a href="#" className="reply"><i className="bi bi-reply-fill" /> Reply</a></h5>
-                      <time dateTime="2020-01-01">01 Jan, 2020</time>
-                      <p>Dolorem atque aut. Omnis doloremque blanditiis quia eum porro quis ut velit tempore. Cumque sed quia ut maxime. Est ad aut cum. Ut exercitationem non in fugiat.</p>
+                      <h5><a href="">Lynda Small</a> <a href="#" className="reply"><i className="bi bi-reply-fill" /> Reply</a></h5>
+                      <time dateTime="2024-01-01">01 Jan, 2024</time>
+                      <p>We implemented some of these strategies and the results have been impressive. Highly recommend this approach to anyone looking to improve their workflow.</p>
                     </div>
                   </div>
                 </div>
@@ -246,7 +183,14 @@ export default function BlogSinglePage() {
                 <h3 className="sidebar-title">Categories</h3>
                 <div className="sidebar-item categories">
                   <ul>
-                    {CATEGORIES.map((c) => (
+                    {[
+                      { label: "AI & GenAI", count: 4 },
+                      { label: "ServiceNow", count: 3 },
+                      { label: "Mobile Dev", count: 5 },
+                      { label: "Web & SEO", count: 6 },
+                      { label: "Cloud & API", count: 3 },
+                      { label: "Software Engineering", count: 8 },
+                    ].map((c) => (
                       <li key={c.label}><a href="#">{c.label} <span>({c.count})</span></a></li>
                     ))}
                   </ul>
@@ -254,11 +198,11 @@ export default function BlogSinglePage() {
 
                 <h3 className="sidebar-title">Recent Posts</h3>
                 <div className="sidebar-item recent-posts">
-                  {RECENT_POSTS.map((p, i) => (
+                  {otherPosts.map((p, i) => (
                     <div key={i} className="post-item clearfix">
                       <img src={p.img} alt="" />
-                      <h4><Link href="#">{p.title}</Link></h4>
-                      <time dateTime="2020-01-01">{p.date}</time>
+                      <h4><Link href={`/blog/${p.slug}`}>{p.title[lang]}</Link></h4>
+                      <time>{p.date}</time>
                     </div>
                   ))}
                 </div>
@@ -266,7 +210,7 @@ export default function BlogSinglePage() {
                 <h3 className="sidebar-title">Tags</h3>
                 <div className="sidebar-item tags">
                   <ul>
-                    {TAGS.map((tag) => (
+                    {["AI", "GenAI", "ServiceNow", "Mobile", "React Native", "Flutter", "SEO", "Next.js", "API", "Cloud", "ITSM", "Web"].map((tag) => (
                       <li key={tag}><a href="#">{tag}</a></li>
                     ))}
                   </ul>

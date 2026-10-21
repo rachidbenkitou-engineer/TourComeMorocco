@@ -1,46 +1,8 @@
 "use client";
-import Breadcrumbs from "@/components/Breadcrumbs";
 import Link from "next/link";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import { useLanguage } from "@/context/LanguageContext";
-
-const POSTS = [
-  {
-    slug: "dolorum-optio-tempore-voluptas",
-    img: "/assets/img/blog/blog-1.jpg",
-    title: "Dolorum optio tempore voluptas dignissimos cumque fuga qui quibusdam quia",
-    date: "Jan 1, 2020",
-    author: "John Doe",
-    comments: 12,
-    excerpt: "Similique neque nam consequuntur ad non maxime aliquam quas. Quibusdam animi praesentium. Aliquam et laboriosam eius aut nostrum quidem aliquid dicta. Et eveniet enim. Qui velit est ea dolorem doloremque deleniti aperiam unde soluta. Est cum et quod quos aut ut et sit sunt. Voluptate porro consequatur assumenda perferendis dolore.",
-  },
-  {
-    slug: "nisi-magni-odit-consequatur",
-    img: "/assets/img/blog/blog-2.jpg",
-    title: "Nisi magni odit consequatur autem nulla dolorem",
-    date: "Jan 1, 2020",
-    author: "John Doe",
-    comments: 12,
-    excerpt: "Incidunt voluptate sit temporibus aperiam. Quia vitae aut sint ullam quis illum voluptatum et. Quo libero rerum voluptatem pariatur nam. Ad impedit qui officiis est in non aliquid veniam laborum. Id ipsum qui aut. Sit aliquam et quia molestias laboriosam. Tempora nam odit omnis eum corrupti qui aliquid excepturi molestiae. Facilis et sint quos sed voluptas. Maxime sed tempore enim omnis non alias odio quos distinctio.",
-  },
-  {
-    slug: "possimus-soluta-ut-id-suscipit",
-    img: "/assets/img/blog/blog-3.jpg",
-    title: "Possimus soluta ut id suscipit ea ut. In quo quia et soluta libero sit sint.",
-    date: "Jan 1, 2020",
-    author: "John Doe",
-    comments: 12,
-    excerpt: "Aut iste neque ut illum qui perspiciatis similique recusandae non. Fugit autem dolorem labore omnis et. Eum temporibus fugiat voluptate enim tenetur sunt omnis. Doloremque est saepe laborum aut. Ipsa cupiditate ex harum at recusandae nesciunt. Ut dolores velit.",
-  },
-  {
-    slug: "non-rem-rerum-nam-cum-quo",
-    img: "/assets/img/blog/blog-4.jpg",
-    title: "Non rem rerum nam cum quo minus. Dolor distinctio deleniti explicabo eius exercitationem.",
-    date: "Jan 1, 2020",
-    author: "John Doe",
-    comments: 12,
-    excerpt: "Aspernatur rerum perferendis et sint. Voluptates cupiditate voluptas atque quae. Rem veritatis rerum enim et autem. Saepe atque cum eligendi eaque iste omnis a qui. Quia sed sunt. Ea asperiores expedita et et delectus voluptates rerum. Id saepe ut itaque quod qui voluptas nobis porro rerum. Quam quia nesciunt qui aut est non omnis. Inventore occaecati et quaerat magni itaque nam voluptas. Voluptatem ducimus sint id earum ut nesciunt sed corrupti nemo.",
-  },
-];
+import POSTS from "@/data/posts";
 
 const RECENT_POSTS = [
   { img: "/assets/img/blog/blog-recent-1.jpg", title: "Nihil blanditiis at in nihil autem", date: "Jan 1, 2020" },
@@ -51,18 +13,19 @@ const RECENT_POSTS = [
 ];
 
 const CATEGORIES = [
-  { label: "General", count: 25 },
-  { label: "Lifestyle", count: 12 },
-  { label: "Travel", count: 5 },
-  { label: "Design", count: 22 },
-  { label: "Creative", count: 8 },
-  { label: "Education", count: 14 },
+  { label: "AI & GenAI", count: 4 },
+  { label: "ServiceNow", count: 3 },
+  { label: "Mobile Dev", count: 5 },
+  { label: "Web & SEO", count: 6 },
+  { label: "Cloud & API", count: 3 },
+  { label: "Software Engineering", count: 8 },
 ];
 
-const TAGS = ["App", "IT", "Business", "Mac", "Design", "Office", "Creative", "Studio", "Smart", "Tips", "Marketing"];
+const TAGS = ["AI", "GenAI", "ServiceNow", "Mobile", "React Native", "Flutter", "SEO", "Next.js", "API", "Cloud", "ITSM", "Web"];
 
 export default function BlogPage() {
-  const { tr } = useLanguage();
+  const { tr, lang } = useLanguage();
+
   return (
     <>
       <Breadcrumbs
@@ -80,10 +43,10 @@ export default function BlogPage() {
               {POSTS.map((post) => (
                 <article key={post.slug} className="entry">
                   <div className="entry-img">
-                    <img src={post.img} alt={post.title} className="img-fluid" />
+                    <img src={post.img} alt={post.title[lang]} className="img-fluid" />
                   </div>
                   <h2 className="entry-title">
-                    <Link href={`/blog/${post.slug}`}>{post.title}</Link>
+                    <Link href={`/blog/${post.slug}`}>{post.title[lang]}</Link>
                   </h2>
                   <div className="entry-meta">
                     <ul>
@@ -91,7 +54,7 @@ export default function BlogPage() {
                         <i className="bi bi-person" /> <a href="#">{post.author}</a>
                       </li>
                       <li className="d-flex align-items-center">
-                        <i className="bi bi-clock" /> <a href="#"><time dateTime="2020-01-01">{post.date}</time></a>
+                        <i className="bi bi-clock" /> <a href="#"><time>{post.date}</time></a>
                       </li>
                       <li className="d-flex align-items-center">
                         <i className="bi bi-chat-dots" /> <a href="#">{post.comments} Comments</a>
@@ -99,7 +62,7 @@ export default function BlogPage() {
                     </ul>
                   </div>
                   <div className="entry-content">
-                    <p>{post.excerpt}</p>
+                    <p>{post.excerpt[lang]}</p>
                     <div className="read-more">
                       <Link href={`/blog/${post.slug}`}>Read More</Link>
                     </div>
@@ -109,8 +72,8 @@ export default function BlogPage() {
 
               <div className="blog-pagination">
                 <ul className="justify-content-center">
-                  <li><a href="#">1</a></li>
-                  <li className="active"><a href="#">2</a></li>
+                  <li className="active"><a href="#">1</a></li>
+                  <li><a href="#">2</a></li>
                   <li><a href="#">3</a></li>
                 </ul>
               </div>
@@ -139,11 +102,11 @@ export default function BlogPage() {
 
                 <h3 className="sidebar-title">Recent Posts</h3>
                 <div className="sidebar-item recent-posts">
-                  {RECENT_POSTS.map((p, i) => (
+                  {POSTS.map((p, i) => (
                     <div key={i} className="post-item clearfix">
                       <img src={p.img} alt="" />
-                      <h4><Link href="#">{p.title}</Link></h4>
-                      <time dateTime="2020-01-01">{p.date}</time>
+                      <h4><Link href={`/blog/${p.slug}`}>{p.title[lang]}</Link></h4>
+                      <time>{p.date}</time>
                     </div>
                   ))}
                 </div>
