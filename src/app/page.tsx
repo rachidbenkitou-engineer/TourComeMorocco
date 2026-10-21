@@ -21,13 +21,13 @@ const TEAM = [
   { img: "/assets/img/team/team-3.jpg", name: "Fatima Ezzahrae Benkitou", role: "Frontend Developer", text: "Specializing in building modern, responsive frontend applications with clean UI/UX and seamless user experiences across web platforms.", linkedin: null, website: null },
 ];
 
-const PORTFOLIO: { img: string; title: string; tech: string; link: string | null }[] = [
-  { img: "/assets/img/portfolio/tour-me-morocco.jpg", title: "Tour Me Morocco", tech: "Travel & Tourism", link: "https://tourmemorocco.com/" },
-  { img: "/assets/img/portfolio/via-morocco-tours.jpg", title: "Via Morocco Tours", tech: "Travel & Tourism", link: "https://www.viamoroccotours.com/" },
-  { img: "/assets/img/portfolio/drive-me-morocco.jpg", title: "Drive Me Morocco", tech: "Travel & Tourism", link: "https://drivememorocco.com/" },
-  { img: "/assets/img/portfolio/morocco-vip-shuttle.jpg", title: "Morocco VIP Shuttle", tech: "Travel & Tourism", link: "https://moroccovipshuttle.com/en" },
-  { img: "/assets/img/portfolio/private-transfers-morocco.jpg", title: "Private Transfers Morocco", tech: "Travel & Tourism", link: "https://privatetransfersmorocco.com/en" },
-  { img: "/assets/img/portfolio/noova-technology.jpg", title: "Noova Technology", tech: "Tech & IT Services", link: "https://noovatechnology.com/" },
+const PORTFOLIO: { img: string; title: string; tech: "travel" | "techIT"; link: string | null }[] = [
+  { img: "/assets/img/portfolio/tour-me-morocco.jpg", title: "Tour Me Morocco", tech: "travel", link: "https://tourmemorocco.com/" },
+  { img: "/assets/img/portfolio/via-morocco-tours.jpg", title: "Via Morocco Tours", tech: "travel", link: "https://www.viamoroccotours.com/" },
+  { img: "/assets/img/portfolio/drive-me-morocco.jpg", title: "Drive Me Morocco", tech: "travel", link: "https://drivememorocco.com/" },
+  { img: "/assets/img/portfolio/morocco-vip-shuttle.jpg", title: "Morocco VIP Shuttle", tech: "travel", link: "https://moroccovipshuttle.com/en" },
+  { img: "/assets/img/portfolio/private-transfers-morocco.jpg", title: "Private Transfers Morocco", tech: "travel", link: "https://privatetransfersmorocco.com/en" },
+  { img: "/assets/img/portfolio/noova-technology.jpg", title: "Noova Technology", tech: "techIT", link: "https://noovatechnology.com/" },
 ];
 
 export default function HomePage() {
@@ -193,7 +193,7 @@ export default function HomePage() {
                     <div style={{ padding: "14px 18px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                       <div>
                         <div style={{ fontSize: "15px", fontWeight: 700, color: "#3c4133" }}>{item.title}</div>
-                        {item.tech && <div style={{ fontSize: "11px", color: "#94c045", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.7px", marginTop: "2px" }}>{item.tech}</div>}
+                        {item.tech && <div style={{ fontSize: "11px", color: "#94c045", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.7px", marginTop: "2px" }}>{tr.portfolio.categories[item.tech]}</div>}
                       </div>
                       <div style={{
                         width: "34px", height: "34px", borderRadius: "50%", flexShrink: 0,
@@ -258,7 +258,7 @@ export default function HomePage() {
                         </div>
                         <div>
                           <h4 style={{ color: "#fff", fontSize: "16px", fontWeight: 700, margin: 0 }}>{m.name}</h4>
-                          <span style={{ fontSize: "12px", color: "#94c045", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.8px" }}>{m.role}</span>
+                          <span style={{ fontSize: "12px", color: "#94c045", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.8px" }}>{tr.team.members[i].role}</span>
                         </div>
                       </div>
                       {/* Body */}

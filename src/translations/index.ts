@@ -52,6 +52,7 @@ const t = {
       description: "Noova Technology Team specializes in developing and deploying web and mobile applications, including artificial intelligence. Our goal is to transform your ideas into real-world projects with the highest quality.",
       viewProject: "View Project →",
       comingSoon: "Coming Soon",
+      categories: { travel: "Travel & Tourism", techIT: "Tech & IT Services" },
     },
     cta2: {
       title: "Ready to Meet the Team?",
@@ -59,9 +60,9 @@ const t = {
     },
     team: {
       members: [
-        { text: "Specializing in building web and mobile applications with AI integration, SEO-optimized websites, and ServiceNow apps." },
-        { text: "Specializing in developing web and mobile applications with AI integration and high-performance SEO-optimized websites." },
-        { text: "Specializing in building modern, responsive frontend applications with clean UI/UX and seamless user experiences across web platforms." },
+        { role: "Software & GenAI Engineer", text: "Specializing in building web and mobile applications with AI integration, SEO-optimized websites, and ServiceNow apps." },
+        { role: "Software & AI Engineer", text: "Specializing in developing web and mobile applications with AI integration and high-performance SEO-optimized websites." },
+        { role: "Frontend Developer", text: "Specializing in building modern, responsive frontend applications with clean UI/UX and seamless user experiences across web platforms." },
       ],
     },
     footer: {
@@ -135,6 +136,7 @@ const t = {
       description: "L'équipe Noova Technology se spécialise dans le développement et le déploiement d'applications web et mobiles incluant l'intelligence artificielle. Notre objectif est de transformer vos idées en projets réels avec la plus haute qualité.",
       viewProject: "Voir le projet →",
       comingSoon: "Bientôt disponible",
+      categories: { travel: "Voyage & Tourisme", techIT: "Tech & Services IT" },
     },
     cta2: {
       title: "Prêt à rencontrer l'équipe ?",
@@ -142,9 +144,9 @@ const t = {
     },
     team: {
       members: [
-        { text: "Spécialisé dans le développement d'applications web et mobiles avec intégration IA, sites SEO et applications ServiceNow." },
-        { text: "Spécialisé dans le développement d'applications web et mobiles avec intégration IA et sites web haute performance." },
-        { text: "Spécialisée dans le développement d'applications frontend modernes et responsives avec une UI/UX soignée." },
+        { role: "Ingénieur Logiciel & IA Générative", text: "Spécialisé dans le développement d'applications web et mobiles avec intégration IA, sites SEO et applications ServiceNow." },
+        { role: "Ingénieur Logiciel & IA", text: "Spécialisé dans le développement d'applications web et mobiles avec intégration IA et sites web haute performance." },
+        { role: "Développeuse Frontend", text: "Spécialisée dans le développement d'applications frontend modernes et responsives avec une UI/UX soignée." },
       ],
     },
     footer: {
@@ -218,6 +220,7 @@ const t = {
       description: "يتخصص فريق نووفا تكنولوجي في تطوير ونشر تطبيقات الويب والجوال بما في ذلك الذكاء الاصطناعي. هدفنا تحويل أفكارك إلى مشاريع حقيقية بأعلى جودة.",
       viewProject: "عرض المشروع ←",
       comingSoon: "قريباً",
+      categories: { travel: "السفر والسياحة", techIT: "التكنولوجيا وخدمات تقنية المعلومات" },
     },
     cta2: {
       title: "هل أنت مستعد للتعرف على الفريق؟",
@@ -225,9 +228,9 @@ const t = {
     },
     team: {
       members: [
-        { text: "متخصص في بناء تطبيقات الويب والجوال مع دمج الذكاء الاصطناعي ومواقع SEO وتطبيقات ServiceNow." },
-        { text: "متخصص في تطوير تطبيقات الويب والجوال مع دمج الذكاء الاصطناعي ومواقع عالية الأداء." },
-        { text: "متخصصة في بناء تطبيقات واجهة أمامية حديثة ومتجاوبة بتجربة مستخدم متميزة." },
+        { role: "مهندس برمجيات وذكاء اصطناعي توليدي", text: "متخصص في بناء تطبيقات الويب والجوال مع دمج الذكاء الاصطناعي ومواقع SEO وتطبيقات ServiceNow." },
+        { role: "مهندس برمجيات وذكاء اصطناعي", text: "متخصص في تطوير تطبيقات الويب والجوال مع دمج الذكاء الاصطناعي ومواقع عالية الأداء." },
+        { role: "مطورة واجهة أمامية", text: "متخصصة في بناء تطبيقات واجهة أمامية حديثة ومتجاوبة بتجربة مستخدم متميزة." },
       ],
     },
     footer: {
