@@ -1,30 +1,30 @@
 "use client";
+import { Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { useLanguage } from "@/context/LanguageContext";
 import POSTS from "@/data/posts";
 
-const RECENT_POSTS = [
-  { img: "/assets/img/blog/blog-recent-1.jpg", title: "Nihil blanditiis at in nihil autem", date: "Jan 1, 2020" },
-  { img: "/assets/img/blog/blog-recent-2.jpg", title: "Quidem autem et impedit", date: "Jan 1, 2020" },
-  { img: "/assets/img/blog/blog-recent-3.jpg", title: "Id quia et et ut maxime similique occaecati ut", date: "Jan 1, 2020" },
-  { img: "/assets/img/blog/blog-recent-4.jpg", title: "Laborum corporis quo dara net para", date: "Jan 1, 2020" },
-  { img: "/assets/img/blog/blog-recent-5.jpg", title: "Et dolores corrupti quae illo quod dolor", date: "Jan 1, 2020" },
-];
-
 const CATEGORIES = [
-  { label: "AI & GenAI", count: 4 },
-  { label: "ServiceNow", count: 3 },
-  { label: "Mobile Dev", count: 5 },
-  { label: "Web & SEO", count: 6 },
-  { label: "Cloud & API", count: 3 },
-  { label: "Software Engineering", count: 8 },
+  { label: "AI & GenAI",           key: "ai-genai",              count: 4 },
+  { label: "ServiceNow",           key: "servicenow",            count: 3 },
+  { label: "Mobile Dev",           key: "mobile-dev",            count: 5 },
+  { label: "Web & SEO",            key: "web-seo",               count: 6 },
+  { label: "Cloud & API",          key: "cloud-api",             count: 3 },
+  { label: "Software Engineering", key: "software-engineering",  count: 8 },
 ];
 
 const TAGS = ["AI", "GenAI", "ServiceNow", "Mobile", "React Native", "Flutter", "SEO", "Next.js", "API", "Cloud", "ITSM", "Web"];
 
-export default function BlogPage() {
+function BlogContent() {
   const { tr, lang } = useLanguage();
+  const searchParams = useSearchParams();
+  const activeCategory = searchParams.get("category");
+
+  const filteredPosts = activeCategory
+    ? POSTS.filter((p) => p.categoryKey === activeCategory)
+    : POSTS;
 
   return (
     <>
@@ -40,43 +40,49 @@ export default function BlogPage() {
 
             {/* Blog entries */}
             <div className="col-lg-8 entries">
-              {POSTS.map((post) => (
-                <article key={post.slug} className="entry">
-                  <div className="entry-img">
-                    <img src={post.img} alt={post.title[lang]} className="img-fluid" />
-                  </div>
-                  <h2 className="entry-title">
-                    <Link href={`/blog/${post.slug}`}>{post.title[lang]}</Link>
-                  </h2>
-                  <div className="read-more" style={{ marginBottom: "12px" }}>
-                    <Link href={`/blog/${post.slug}`}>Read More</Link>
-                  </div>
-                  <div className="entry-meta">
-                    <ul>
-                      <li className="d-flex align-items-center">
-                        <i className="bi bi-person" /> <a href="#">{post.author}</a>
-                      </li>
-                      <li className="d-flex align-items-center">
-                        <i className="bi bi-clock" /> <a href="#"><time>{post.date}</time></a>
-                      </li>
-                      <li className="d-flex align-items-center">
-                        <i className="bi bi-chat-dots" /> <a href="#">{post.comments} Comments</a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="entry-content">
-                    <p>{post.excerpt[lang]}</p>
-                  </div>
-                </article>
-              ))}
+              {filteredPosts.length === 0 ? (
+                <p style={{ color: "#646c55", padding: "20px 0" }}>No posts in this category yet.</p>
+              ) : (
+                filteredPosts.map((post) => (
+                  <article key={post.slug} className="entry">
+                    <div className="entry-img">
+                      <img src={post.img} alt={post.title[lang]} className="img-fluid" />
+                    </div>
+                    <h2 className="entry-title">
+                      <Link href={`/blog/${post.slug}`}>{post.title[lang]}</Link>
+                    </h2>
+                    <div className="read-more" style={{ marginBottom: "12px" }}>
+                      <Link href={`/blog/${post.slug}`}>Read More</Link>
+                    </div>
+                    <div className="entry-meta">
+                      <ul>
+                        <li className="d-flex align-items-center">
+                          <i className="bi bi-person" /> <a href="#">{post.author}</a>
+                        </li>
+                        <li className="d-flex align-items-center">
+                          <i className="bi bi-clock" /> <a href="#"><time>{post.date}</time></a>
+                        </li>
+                        <li className="d-flex align-items-center">
+                          <i className="bi bi-chat-dots" /> <a href="#">{post.comments} Comments</a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="entry-content">
+                      <p>{post.excerpt[lang]}</p>
+                    </div>
+                  </article>
+                ))
+              )}
 
-              <div className="blog-pagination">
-                <ul className="justify-content-center">
-                  <li className="active"><a href="#">1</a></li>
-                  <li><a href="#">2</a></li>
-                  <li><a href="#">3</a></li>
-                </ul>
-              </div>
+              {!activeCategory && (
+                <div className="blog-pagination">
+                  <ul className="justify-content-center">
+                    <li className="active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                  </ul>
+                </div>
+              )}
             </div>
 
             {/* Sidebar */}
@@ -94,8 +100,23 @@ export default function BlogPage() {
                 <h3 className="sidebar-title">Categories</h3>
                 <div className="sidebar-item categories">
                   <ul>
+                    <li>
+                      <Link
+                        href="/blog"
+                        style={{ fontWeight: !activeCategory ? 700 : undefined, color: !activeCategory ? "#94c045" : undefined }}
+                      >
+                        All <span>({POSTS.length})</span>
+                      </Link>
+                    </li>
                     {CATEGORIES.map((c) => (
-                      <li key={c.label}><a href="#">{c.label} <span>({c.count})</span></a></li>
+                      <li key={c.key}>
+                        <Link
+                          href={`/blog?category=${c.key}`}
+                          style={{ fontWeight: activeCategory === c.key ? 700 : undefined, color: activeCategory === c.key ? "#94c045" : undefined }}
+                        >
+                          {c.label} <span>({c.count})</span>
+                        </Link>
+                      </li>
                     ))}
                   </ul>
                 </div>
@@ -127,5 +148,13 @@ export default function BlogPage() {
         </div>
       </section>
     </>
+  );
+}
+
+export default function BlogPage() {
+  return (
+    <Suspense fallback={null}>
+      <BlogContent />
+    </Suspense>
   );
 }
