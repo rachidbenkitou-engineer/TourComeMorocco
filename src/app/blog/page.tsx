@@ -48,6 +48,9 @@ export default function BlogPage() {
                   <h2 className="entry-title">
                     <Link href={`/blog/${post.slug}`}>{post.title[lang]}</Link>
                   </h2>
+                  <div className="read-more" style={{ marginBottom: "12px" }}>
+                    <Link href={`/blog/${post.slug}`}>Read More</Link>
+                  </div>
                   <div className="entry-meta">
                     <ul>
                       <li className="d-flex align-items-center">
@@ -63,9 +66,6 @@ export default function BlogPage() {
                   </div>
                   <div className="entry-content">
                     <p>{post.excerpt[lang]}</p>
-                    <div className="read-more">
-                      <Link href={`/blog/${post.slug}`}>Read More</Link>
-                    </div>
                   </div>
                 </article>
               ))}

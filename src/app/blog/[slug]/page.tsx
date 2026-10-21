@@ -98,8 +98,8 @@ export default function BlogSinglePage() {
                       </a>
                     )}
                     {post.authorWebsite && (
-                      <a href={post.authorWebsite} target="_blank" rel="noopener noreferrer">
-                        <i className="bi bi-globe" />
+                      <a href={post.authorWebsite} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: "5px", fontSize: "13px" }}>
+                        <i className="bi bi-globe" /> {post.authorWebsite.replace("https://", "").replace(/\/$/, "")}
                       </a>
                     )}
                   </div>
