@@ -12,12 +12,14 @@ export function WelcomePopup() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    const t = setTimeout(() => setShow(true), 1000);
+    if (sessionStorage.getItem("tcm_welcome_seen")) return;
+    const t = setTimeout(() => setShow(true), 3000);
     return () => clearTimeout(t);
   }, []);
 
   function dismiss() {
     setShow(false);
+    sessionStorage.setItem("tcm_welcome_seen", "1");
   }
 
   const isRtl = locale === "ar";

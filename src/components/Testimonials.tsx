@@ -60,17 +60,73 @@ function TaIcon() {
   );
 }
 
-/* ─── Review card ─── */
-function ReviewCard({ review, readMore, readLess }: {
+/* ─── Full-review modal ─── */
+function ReviewModal({ review, onClose, readLess }: {
   review: typeof REVIEWS[0];
-  readMore: string;
+  onClose: () => void;
   readLess: string;
 }) {
-  const [expanded, setExpanded] = useState(false);
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => { window.removeEventListener("keydown", onKey); document.body.style.overflow = ""; };
+  }, [onClose]);
+
+  return (
+    <div
+      className="fixed inset-0 z-[9998] flex items-center justify-center p-4 sm:p-6"
+      style={{ background: "rgba(3,16,20,.78)", backdropFilter: "blur(5px)" }}
+      onClick={onClose}
+    >
+      <div
+        className="bg-white rounded-2xl p-6 w-full max-w-[480px] max-h-[80vh] overflow-y-auto shadow-[0_32px_80px_rgba(0,0,0,.45)]"
+        onClick={e => e.stopPropagation()}
+      >
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 rounded-full bg-[#062f35] text-white flex items-center justify-center font-bold text-[14px] flex-shrink-0 uppercase">
+            {review.name[0]}
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-[13px] font-bold text-[#062f35] leading-snug">{review.name}</p>
+            <span className="text-[#efa51e] text-[13px] tracking-[1px]">★★★★★</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-full bg-[#00aa6c]/10 flex items-center justify-center text-[#00aa6c]">
+              <TaIcon />
+            </div>
+            <button
+              onClick={onClose}
+              className="w-8 h-8 rounded-full bg-[#f0f4f4] hover:bg-[#e0e8e8] flex items-center justify-center text-[#454f50] transition-colors cursor-pointer"
+            >
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                <path d="M18 6 6 18M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <p className="text-[13px] leading-[1.8] text-[#454f50] whitespace-pre-line">{review.text}</p>
+        <button
+          onClick={onClose}
+          className="mt-5 text-[11.5px] font-semibold text-[#a87627] hover:underline cursor-pointer"
+        >
+          {readLess}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Review card ─── */
+function ReviewCard({ review, readMore, onReadMore }: {
+  review: typeof REVIEWS[0];
+  readMore: string;
+  onReadMore: () => void;
+}) {
   const isLong = review.text.length > MAX_CHARS;
-  const displayText = !isLong || expanded
-    ? review.text
-    : review.text.slice(0, MAX_CHARS).trimEnd() + "…";
+  const displayText = isLong
+    ? review.text.slice(0, MAX_CHARS).trimEnd() + "…"
+    : review.text;
 
   return (
     <article className="flex flex-col bg-white border border-[#eee7df] rounded-2xl shadow-[0_3px_12px_rgba(6,47,53,.07)] p-5 h-full">
@@ -92,10 +148,10 @@ function ReviewCard({ review, readMore, readLess }: {
           <>
             {" "}
             <button
-              onClick={() => setExpanded(e => !e)}
+              onClick={onReadMore}
               className="text-[#a87627] font-semibold hover:underline text-[11px] cursor-pointer"
             >
-              {expanded ? readLess : readMore}
+              {readMore}
             </button>
           </>
         )}
@@ -111,6 +167,7 @@ export function Testimonials() {
 
   const wrapRef    = useRef<HTMLDivElement>(null);
   const [cardW,    setCardW]    = useState(0);
+  const [selectedReview, setSelectedReview] = useState<typeof REVIEWS[0] | null>(null);
   // index into TRACK; real reviews live at PREPEND … PREPEND+N-1
   const [index,    setIndex]    = useState(PREPEND);
   const [animate,  setAnimate]  = useState(true);
@@ -179,6 +236,7 @@ export function Testimonials() {
 
   /* ── Drag / swipe handlers (Pointer Events = touch + mouse) ── */
   function onPointerDown(e: React.PointerEvent<HTMLDivElement>) {
+    if ((e.target as HTMLElement).closest("button, a")) return;
     dragStart.current = e.clientX;
     setIsDragging(true);
     setDragDelta(0);
@@ -222,6 +280,14 @@ export function Testimonials() {
   };
 
   return (
+    <>
+    {selectedReview && (
+      <ReviewModal
+        review={selectedReview}
+        onClose={() => setSelectedReview(null)}
+        readLess={L.readLess}
+      />
+    )}
     <section
       id="avis"
       className="max-w-[1280px] mx-auto px-[4.2%] py-2 pb-10 bg-[#fffaf4]"
@@ -271,7 +337,7 @@ export function Testimonials() {
       {/* ── Sliding track ── */}
       <div
         ref={wrapRef}
-        className="overflow-hidden"
+        className="overflow-x-clip"
         style={{ cursor: isDragging ? "grabbing" : "grab", touchAction: "pan-y" }}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
@@ -297,7 +363,7 @@ export function Testimonials() {
                 style={{ width: cardW, flexShrink: 0 }}
                 className="px-1.5 box-border py-0.5"
               >
-                <ReviewCard review={review} readMore={L.readMore} readLess={L.readLess} />
+                <ReviewCard review={review} readMore={L.readMore} onReadMore={() => setSelectedReview(review)} />
               </div>
             ))}
           </div>
@@ -339,5 +405,6 @@ export function Testimonials() {
         </motion.a>
       </Reveal>
     </section>
+    </>
   );
 }
