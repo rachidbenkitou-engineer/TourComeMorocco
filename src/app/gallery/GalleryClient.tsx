@@ -105,7 +105,7 @@ export default function GalleryClient() {
         <Lightbox image={filtered[lightboxIndex]} index={lightboxIndex} total={filtered.length}
           onClose={closeLightbox} onPrev={prevImage} onNext={nextImage} />
       )}
-      <main className="min-h-screen" style={{ background: "#fff8f0" }}>
+      <main className="min-h-screen bg-[#fff8f0]">
 
         <div className="bg-[#062f35]" style={{ paddingTop: "78px" }}>
           <div className="max-w-[1280px] mx-auto px-[clamp(16px,4.5vw,56px)] py-14">

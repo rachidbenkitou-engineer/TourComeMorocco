@@ -70,7 +70,25 @@
 }
 
 html { scroll-behavior: smooth; scroll-padding-top: 80px; overflow-x: hidden; }
-body { background-color: var(--color-cream); color: var(--color-ink); overflow-x: hidden; }
+
+/* ── Page texture — zellige marocain (étoile 8 branches + connexions) ── */
+body {
+  background-color: #fdf5e8;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cpolygon points='36,14 40.6,24.9 51.6,20.4 47.1,31.4 58,36 47.1,40.6 51.6,51.6 40.6,47.1 36,58 31.4,47.1 20.4,51.6 24.9,40.6 14,36 24.9,31.4 20.4,20.4 31.4,24.9' fill='none' stroke='rgba(152,104,28,.09)' stroke-width='1' stroke-linejoin='round'/%3E%3Ccircle cx='36' cy='36' r='3.5' fill='none' stroke='rgba(152,104,28,.055)' stroke-width='0.8'/%3E%3Cline x1='36' y1='0' x2='36' y2='14' stroke='rgba(152,104,28,.065)' stroke-width='0.75'/%3E%3Cline x1='72' y1='36' x2='58' y2='36' stroke='rgba(152,104,28,.065)' stroke-width='0.75'/%3E%3Cline x1='36' y1='72' x2='36' y2='58' stroke='rgba(152,104,28,.065)' stroke-width='0.75'/%3E%3Cline x1='0' y1='36' x2='14' y2='36' stroke='rgba(152,104,28,.065)' stroke-width='0.75'/%3E%3Cline x1='20.4' y1='20.4' x2='0' y2='0' stroke='rgba(152,104,28,.04)' stroke-width='0.65'/%3E%3Cline x1='51.6' y1='20.4' x2='72' y2='0' stroke='rgba(152,104,28,.04)' stroke-width='0.65'/%3E%3Cline x1='51.6' y1='51.6' x2='72' y2='72' stroke='rgba(152,104,28,.04)' stroke-width='0.65'/%3E%3Cline x1='20.4' y1='51.6' x2='0' y2='72' stroke='rgba(152,104,28,.04)' stroke-width='0.65'/%3E%3C/svg%3E");
+  background-size: 72px 72px;
+  color: var(--color-ink);
+  overflow-x: hidden;
+}
+
+/* Propagate zellige texture to all cream section backgrounds */
+.bg-\[\#fff8f0\],
+.bg-\[\#fffaf4\],
+.bg-\[\#f9f3ea\],
+.bg-\[\#fffbf2\],
+.bg-\[\#fdf5e8\] {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cpolygon points='36,14 40.6,24.9 51.6,20.4 47.1,31.4 58,36 47.1,40.6 51.6,51.6 40.6,47.1 36,58 31.4,47.1 20.4,51.6 24.9,40.6 14,36 24.9,31.4 20.4,20.4 31.4,24.9' fill='none' stroke='rgba(152,104,28,.09)' stroke-width='1' stroke-linejoin='round'/%3E%3Ccircle cx='36' cy='36' r='3.5' fill='none' stroke='rgba(152,104,28,.055)' stroke-width='0.8'/%3E%3Cline x1='36' y1='0' x2='36' y2='14' stroke='rgba(152,104,28,.065)' stroke-width='0.75'/%3E%3Cline x1='72' y1='36' x2='58' y2='36' stroke='rgba(152,104,28,.065)' stroke-width='0.75'/%3E%3Cline x1='36' y1='72' x2='36' y2='58' stroke='rgba(152,104,28,.065)' stroke-width='0.75'/%3E%3Cline x1='0' y1='36' x2='14' y2='36' stroke='rgba(152,104,28,.065)' stroke-width='0.75'/%3E%3Cline x1='20.4' y1='20.4' x2='0' y2='0' stroke='rgba(152,104,28,.04)' stroke-width='0.65'/%3E%3Cline x1='51.6' y1='20.4' x2='72' y2='0' stroke='rgba(152,104,28,.04)' stroke-width='0.65'/%3E%3Cline x1='51.6' y1='51.6' x2='72' y2='72' stroke='rgba(152,104,28,.04)' stroke-width='0.65'/%3E%3Cline x1='20.4' y1='51.6' x2='0' y2='72' stroke='rgba(152,104,28,.04)' stroke-width='0.65'/%3E%3C/svg%3E");
+  background-size: 72px 72px;
+}
 
 /* ── Outfit — rendu optimal sur les titres ── */
 .font-serif {
@@ -165,7 +183,7 @@ body { background-color: var(--color-cream); color: var(--color-ink); overflow-x
 }
 
 :root {
-  --background:      oklch(1 0 0);
+  --background:      #fdf5e8;
   --foreground:      oklch(0.145 0 0);
   --card:      oklch(1 0 0);
   --card-foreground:      oklch(0.145 0 0);
@@ -239,6 +257,8 @@ body { background-color: var(--color-cream); color: var(--color-ink); overflow-x
   }
   body {
     @apply bg-background text-foreground;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cpolygon points='36,14 40.6,24.9 51.6,20.4 47.1,31.4 58,36 47.1,40.6 51.6,51.6 40.6,47.1 36,58 31.4,47.1 20.4,51.6 24.9,40.6 14,36 24.9,31.4 20.4,20.4 31.4,24.9' fill='none' stroke='rgba(152,104,28,.09)' stroke-width='1' stroke-linejoin='round'/%3E%3Ccircle cx='36' cy='36' r='3.5' fill='none' stroke='rgba(152,104,28,.055)' stroke-width='0.8'/%3E%3Cline x1='36' y1='0' x2='36' y2='14' stroke='rgba(152,104,28,.065)' stroke-width='0.75'/%3E%3Cline x1='72' y1='36' x2='58' y2='36' stroke='rgba(152,104,28,.065)' stroke-width='0.75'/%3E%3Cline x1='36' y1='72' x2='36' y2='58' stroke='rgba(152,104,28,.065)' stroke-width='0.75'/%3E%3Cline x1='0' y1='36' x2='14' y2='36' stroke='rgba(152,104,28,.065)' stroke-width='0.75'/%3E%3Cline x1='20.4' y1='20.4' x2='0' y2='0' stroke='rgba(152,104,28,.04)' stroke-width='0.65'/%3E%3Cline x1='51.6' y1='20.4' x2='72' y2='0' stroke='rgba(152,104,28,.04)' stroke-width='0.65'/%3E%3Cline x1='51.6' y1='51.6' x2='72' y2='72' stroke='rgba(152,104,28,.04)' stroke-width='0.65'/%3E%3Cline x1='20.4' y1='51.6' x2='0' y2='72' stroke='rgba(152,104,28,.04)' stroke-width='0.65'/%3E%3C/svg%3E");
+    background-size: 72px 72px;
   }
   html {
     @apply font-sans;

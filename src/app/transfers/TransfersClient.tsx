@@ -319,7 +319,7 @@ export default function TransfersClient() {
     : transfers;
 
   return (
-    <main className="min-h-screen" style={{ background: "#fff8f0" }}>
+    <main className="min-h-screen bg-[#fff8f0]">
 
         {/* ── Hero header ── */}
         <div className="bg-[#062f35]" style={{ paddingTop: "78px" }}>
