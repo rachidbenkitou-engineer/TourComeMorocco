@@ -7,12 +7,12 @@ import { useLanguage } from "@/context/LanguageContext";
 import POSTS from "@/data/posts";
 
 const CATEGORIES = [
-  { label: "AI & GenAI",           key: "ai-genai",              count: 4 },
-  { label: "ServiceNow",           key: "servicenow",            count: 3 },
-  { label: "Mobile Dev",           key: "mobile-dev",            count: 5 },
-  { label: "Web & SEO",            key: "web-seo",               count: 6 },
-  { label: "Cloud & API",          key: "cloud-api",             count: 3 },
-  { label: "Software Engineering", key: "software-engineering",  count: 8 },
+  { label: "AI & GenAI",           key: "ai-genai"             },
+  { label: "ServiceNow",           key: "servicenow"           },
+  { label: "Mobile Dev",           key: "mobile-dev"           },
+  { label: "Web & SEO",            key: "web-seo"              },
+  { label: "Cloud & API",          key: "cloud-api"            },
+  { label: "Software Engineering", key: "software-engineering" },
 ];
 
 const TAGS = ["AI", "GenAI", "ServiceNow", "Mobile", "React Native", "Flutter", "SEO", "Next.js", "API", "Cloud", "ITSM", "Web"];
@@ -105,16 +105,19 @@ function BlogContent() {
                         All <span>({POSTS.length})</span>
                       </Link>
                     </li>
-                    {CATEGORIES.map((c) => (
-                      <li key={c.key}>
-                        <Link
-                          href={`/blog?category=${c.key}`}
-                          style={{ fontWeight: activeCategory === c.key ? 700 : undefined, color: activeCategory === c.key ? "#94c045" : undefined }}
-                        >
-                          {c.label} <span>({c.count})</span>
-                        </Link>
-                      </li>
-                    ))}
+                    {CATEGORIES.map((c) => {
+                      const count = POSTS.filter((p) => p.categoryKey === c.key).length;
+                      return (
+                        <li key={c.key}>
+                          <Link
+                            href={`/blog?category=${c.key}`}
+                            style={{ fontWeight: activeCategory === c.key ? 700 : undefined, color: activeCategory === c.key ? "#94c045" : undefined }}
+                          >
+                            {c.label} <span>({count})</span>
+                          </Link>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
 
