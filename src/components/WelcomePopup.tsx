@@ -4,8 +4,6 @@ import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import { useI18n } from "@/i18n/I18nProvider";
 
-const STORAGE_KEY = "tcm_welcome_ts";
-const TTL = 7 * 24 * 60 * 60 * 1000;
 
 const ZELLIGE = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cpolygon points='36,14 40.6,24.9 51.6,20.4 47.1,31.4 58,36 47.1,40.6 51.6,51.6 40.6,47.1 36,58 31.4,47.1 20.4,51.6 24.9,40.6 14,36 24.9,31.4 20.4,20.4 31.4,24.9' fill='none' stroke='rgba(245,182,63,1)' stroke-width='1' stroke-linejoin='round'/%3E%3C/svg%3E")`;
 
@@ -14,48 +12,43 @@ export function WelcomePopup() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    try {
-      const ts = localStorage.getItem(STORAGE_KEY);
-      if (ts && Date.now() - parseInt(ts, 10) < TTL) return;
-    } catch {}
-    const t = setTimeout(() => setShow(true), 3000);
+    const t = setTimeout(() => setShow(true), 1000);
     return () => clearTimeout(t);
   }, []);
 
   function dismiss() {
     setShow(false);
-    try { localStorage.setItem(STORAGE_KEY, String(Date.now())); } catch {}
   }
 
   const isRtl = locale === "ar";
 
   const L = {
     eyebrow:
-      locale === "en" ? "Your Journey · Our Passion"
-    : locale === "ar" ? "رحلتكم · شغفنا"
-    : locale === "it" ? "Il vostro viaggio · La nostra passione"
-    :                   "Votre voyage · Notre passion",
+      locale === "en" ? "Travel Tip"
+    : locale === "ar" ? "نصيحة سفر"
+    : locale === "it" ? "Consiglio di viaggio"
+    :                   "Conseil de voyage",
 
     title:
-      locale === "en" ? "Welcome!"
-    : locale === "ar" ? "!أهلاً وسهلاً"
-    : locale === "it" ? "Benvenuti!"
-    :                   "Bienvenue !",
+      locale === "en" ? "Don't leave without tasting..."
+    : locale === "ar" ? "...لا تغادر قبل أن تتذوق"
+    : locale === "it" ? "Non partite senza assaggiare..."
+    :                   "Ne repartez pas sans goûter...",
 
     message:
       locale === "en"
-        ? "You're in the right place — with the best companion to help you discover Morocco the way you truly deserve. Enjoy every moment of the journey."
+        ? "Tagine, Couscous, Tanjia — Moroccan cuisine is an adventure in itself. Let the flavors of Marrakech surprise you, with the best companion in Morocco."
     : locale === "ar"
-        ? "أنتم في المكان الصحيح — مع أفضل رفيق لمساعدتكم على اكتشاف المغرب كما تستحقون. استمتعوا بكل لحظة من الرحلة."
+        ? "الطاجين، الكسكس، الطنجية — المطبخ المغربي مغامرة بحد ذاتها. دعوا نكهات مراكش تفاجئكم، برفقة أفضل مرافق في المغرب."
     : locale === "it"
-        ? "Siete nel posto giusto — con il migliore accompagnatore per aiutarvi a scoprire il Marocco come meritate. Godetevi ogni momento del viaggio."
-    :     "Vous êtes au bon endroit — chez le meilleur accompagnant pour vous aider à découvrir le Maroc comme vous le méritez. Profitez de chaque instant.",
+        ? "Tagine, Couscous, Tanjia — la cucina marocchina è un'avventura a sé. Lasciatevi sorprendere dai sapori di Marrakech, con il miglior accompagnatore in Marocco."
+    :     "Tagine, Couscous, Tanjia — la cuisine marocaine est une aventure à elle seule. Laissez-vous surprendre par les saveurs de Marrakech, avec le meilleur accompagnant au Maroc.",
 
     cta:
-      locale === "en" ? "Start exploring"
-    : locale === "ar" ? "ابدأ الاستكشاف"
-    : locale === "it" ? "Inizia a esplorare"
-    :                   "Explorer le site",
+      locale === "en" ? "Got it, let's go!"
+    : locale === "ar" ? "!فهمت، هيا نذهب"
+    : locale === "it" ? "Capito, andiamo!"
+    :                   "Compris, on y va !",
   };
 
   return (
