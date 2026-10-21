@@ -1948,6 +1948,12 @@ section {
   color: #717a60;
 }
 
+@media (max-width: 768px) {
+  .blog .blog-pagination {
+    padding-bottom: 30px;
+  }
+}
+
 .blog .blog-pagination ul {
   display: flex;
   padding: 0;
