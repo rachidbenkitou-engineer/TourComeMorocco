@@ -1,41 +1,38 @@
 import type { Metadata } from "next";
-import { DM_Sans, Playfair_Display, Caveat, Geist, Outfit } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
-
-const geist    = Geist({ subsets: ["latin"], variable: "--font-sans" });
-const outfit   = Outfit({ subsets: ["latin"], variable: "--font-outfit", weight: ["300","400","500","600","700","800"], display: "swap" });
-const dmSans   = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans", display: "swap" });
-const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair", style: ["normal","italic"], display: "swap" });
-const caveat   = Caveat({ subsets: ["latin"], variable: "--font-caveat", display: "swap" });
-
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://tourmemorocco.com";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(BASE_URL),
-  title: {
-    default: "Transfer Maroc — Chauffeur Privé & Transferts depuis Marrakech",
-    template: "%s | Transfer Maroc",
-  },
-  description:
-    "Transferts privés, circuits et excursions depuis Marrakech avec chauffeur privé. Prix fixes, sans compteur. Aéroport, villes, désert & côte. Réservation WhatsApp en 1h.",
-  openGraph: {
-    type: "website",
-    siteName: "Transfer Maroc",
-    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Transfer Maroc — Chauffeur Privé Marrakech" }],
-  },
-  twitter: { card: "summary_large_image", images: ["/og-image.jpg"] },
-  robots: {
-    index: true, follow: true,
-    googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 },
-  },
+  title: "Serenity — Corporate Business Template",
+  description: "Professional corporate website built with Next.js and Bootstrap",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={cn(dmSans.variable, playfair.variable, caveat.variable, outfit.variable, "font-sans", geist.variable)}>
-      <body className="font-sans antialiased">
-        {children}
+    <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Raleway:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+        />
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css"
+        />
+      </head>
+      <body>
+        <Header />
+        <main id="main">{children}</main>
+        <Footer />
+<WhatsAppButton />
       </body>
     </html>
   );

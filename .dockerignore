@@ -2,10 +2,6 @@ node_modules
 .next
 .git
 .github
-docs
-nginx
-scripts
-tmp
 *.md
 .env*
 Dockerfile
