@@ -13,8 +13,8 @@ export interface Post {
   date: string;
   author: string;
   authorRole: Record<Lang, string>;
-  authorImg: string;
   authorLinkedin: string;
+  authorWebsite: string;
   comments: number;
   category: Record<Lang, string>;
   tags: string[];
@@ -34,8 +34,8 @@ const POSTS: Post[] = [
       FR: "Ingénieur Logiciel & IA Générative",
       AR: "مهندس برمجيات وذكاء اصطناعي توليدي",
     },
-    authorImg: "/assets/img/team/team-1.jpg",
-    authorLinkedin: "https://www.linkedin.com/in/rachidbenkitou/",
+    authorLinkedin: "",
+    authorWebsite: "https://www.rachidbenkitou.online/",
     comments: 8,
     category: { EN: "Artificial Intelligence", FR: "Intelligence Artificielle", AR: "الذكاء الاصطناعي" },
     tags: ["AI", "GenAI", "Software", "LLM", "Productivity"],
@@ -133,8 +133,8 @@ const POSTS: Post[] = [
       FR: "Ingénieur Logiciel & IA",
       AR: "مهندس برمجيات وذكاء اصطناعي",
     },
-    authorImg: "/assets/img/team/team-2.jpg",
     authorLinkedin: "https://www.linkedin.com/in/elbahmadi/",
+    authorWebsite: "",
     comments: 5,
     category: { EN: "ServiceNow", FR: "ServiceNow", AR: "ServiceNow" },
     tags: ["ServiceNow", "ITSM", "Automation", "IT", "Workflows"],
@@ -228,8 +228,8 @@ const POSTS: Post[] = [
       FR: "Développeuse Frontend",
       AR: "مطورة واجهة أمامية",
     },
-    authorImg: "/assets/img/team/team-3.jpg",
     authorLinkedin: "",
+    authorWebsite: "",
     comments: 11,
     category: { EN: "Website & SEO", FR: "Site Web & SEO", AR: "مواقع الويب وتحسين محركات البحث" },
     tags: ["SEO", "Website", "Google", "Performance", "Content"],
@@ -330,8 +330,8 @@ const POSTS: Post[] = [
       FR: "Ingénieur Logiciel & IA Générative",
       AR: "مهندس برمجيات وذكاء اصطناعي توليدي",
     },
-    authorImg: "/assets/img/team/team-1.jpg",
-    authorLinkedin: "https://www.linkedin.com/in/rachidbenkitou/",
+    authorLinkedin: "",
+    authorWebsite: "https://www.rachidbenkitou.online/",
     comments: 14,
     category: { EN: "Mobile Development", FR: "Développement Mobile", AR: "تطوير التطبيقات الجوالة" },
     tags: ["Mobile", "React Native", "Flutter", "iOS", "Android"],

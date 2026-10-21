@@ -89,13 +89,17 @@ export default function BlogSinglePage() {
 
               {/* Author bio */}
               <div className="blog-author d-flex align-items-center">
-                <img src={post.authorImg} className="rounded-circle float-left" alt={post.author} />
                 <div>
                   <h4>{post.author}</h4>
                   <div className="social-links">
                     {post.authorLinkedin && (
                       <a href={post.authorLinkedin} target="_blank" rel="noopener noreferrer">
                         <i className="bi bi-linkedin" />
+                      </a>
+                    )}
+                    {post.authorWebsite && (
+                      <a href={post.authorWebsite} target="_blank" rel="noopener noreferrer">
+                        <i className="bi bi-globe" />
                       </a>
                     )}
                   </div>
