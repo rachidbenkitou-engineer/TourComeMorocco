@@ -47,6 +47,10 @@ const t = {
         { title: "Cloud & API Integration", text: "We build scalable APIs and cloud integrations to connect your systems, automate data flows and enable flexible modern architectures." },
       ],
     },
+    blog: {
+      title: "Blog",
+      subtitle: "Insights, tutorials and updates from the Noova Technology team — covering Web, Mobile, AI and the latest in software engineering.",
+    },
     portfolio: {
       title: "Portfolio",
       description: "Noova Technology Team specializes in developing and deploying web and mobile applications, including artificial intelligence. Our goal is to transform your ideas into real-world projects with the highest quality.",
@@ -131,6 +135,10 @@ const t = {
         { title: "Cloud & Intégration API", text: "Nous construisons des APIs et intégrations cloud évolutives pour connecter vos systèmes et automatiser les flux de données." },
       ],
     },
+    blog: {
+      title: "Blog",
+      subtitle: "Conseils, tutoriels et actualités de l'équipe Noova Technology — couvrant le Web, le Mobile, l'IA et les dernières avancées en ingénierie logicielle.",
+    },
     portfolio: {
       title: "Portfolio",
       description: "L'équipe Noova Technology se spécialise dans le développement et le déploiement d'applications web et mobiles incluant l'intelligence artificielle. Notre objectif est de transformer vos idées en projets réels avec la plus haute qualité.",
@@ -214,6 +222,10 @@ const t = {
         { title: "الذكاء الاصطناعي", text: "ندمج ميزات الذكاء الاصطناعي في منتجاتك لأتمتة المهام واستخراج الرؤى." },
         { title: "الحوسبة السحابية وتكامل API", text: "نبني واجهات برمجية وتكاملات سحابية لربط أنظمتك وأتمتة تدفقات البيانات." },
       ],
+    },
+    blog: {
+      title: "المدونة",
+      subtitle: "مقالات ودروس وأخبار من فريق نووفا تكنولوجي — تغطي الويب والجوال والذكاء الاصطناعي وأحدث التطورات في هندسة البرمجيات.",
     },
     portfolio: {
       title: "أعمالنا",

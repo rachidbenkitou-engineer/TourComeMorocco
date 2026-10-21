@@ -1,7 +1,7 @@
+"use client";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Link from "next/link";
-
-export const metadata = { title: "Blog — Noova Technology" };
+import { useLanguage } from "@/context/LanguageContext";
 
 const POSTS = [
   {
@@ -62,12 +62,13 @@ const CATEGORIES = [
 const TAGS = ["App", "IT", "Business", "Mac", "Design", "Office", "Creative", "Studio", "Smart", "Tips", "Marketing"];
 
 export default function BlogPage() {
+  const { tr } = useLanguage();
   return (
     <>
       <Breadcrumbs
-        title="Blog"
-        subtitle="Est dolorum ut non facere possimus quibusdam eligendi voluptatem. Quia id aut similique quia voluptas sit quaerat debitis. Rerum omnis ipsam aperiam consequatur laboriosam nemo harum praesentium."
-        crumbs={[{ label: "Home", href: "/" }, { label: "Blog" }]}
+        title={tr.blog.title}
+        subtitle={tr.blog.subtitle}
+        crumbs={[{ label: tr.footer.home, href: "/" }, { label: tr.blog.title }]}
       />
 
       <section id="blog" className="blog">

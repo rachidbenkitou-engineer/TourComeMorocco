@@ -1,7 +1,7 @@
+"use client";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Link from "next/link";
-
-export const metadata = { title: "Blog — Noova Technology" };
+import { useLanguage } from "@/context/LanguageContext";
 
 const RECENT_POSTS = [
   { img: "/assets/img/blog/blog-recent-1.jpg", title: "Nihil blanditiis at in nihil autem", date: "Jan 1, 2020" },
@@ -23,14 +23,15 @@ const CATEGORIES = [
 ];
 
 export default function BlogSinglePage() {
+  const { tr } = useLanguage();
   return (
     <>
       <Breadcrumbs
-        title="Blog"
-        subtitle="Est dolorum ut non facere possimus quibusdam eligendi voluptatem. Quia id aut similique quia voluptas sit quaerat debitis. Rerum omnis ipsam aperiam consequatur laboriosam nemo harum praesentium."
+        title={tr.blog.title}
+        subtitle={tr.blog.subtitle}
         crumbs={[
-          { label: "Home", href: "/" },
-          { label: "Blog", href: "/blog" },
+          { label: tr.footer.home, href: "/" },
+          { label: tr.blog.title, href: "/blog" },
           { label: "Dolorum optio tempore voluptas dignissimos cumque fuga qui quibusdam quia" },
         ]}
       />
