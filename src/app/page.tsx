@@ -22,6 +22,8 @@ const PORTFOLIO: { img: string; title: string; tech: string; link: string | null
   { img: "/assets/img/portfolio/tour-me-morocco.jpg", title: "Tour Me Morocco", tech: "Travel & Tourism", link: "https://tourmemorocco.com/" },
   { img: "/assets/img/portfolio/via-morocco-tours.jpg", title: "Via Morocco Tours", tech: "Travel & Tourism", link: "https://www.viamoroccotours.com/" },
   { img: "/assets/img/portfolio/drive-me-morocco.jpg", title: "Drive Me Morocco", tech: "Travel & Tourism", link: "https://drivememorocco.com/" },
+  { img: "/assets/img/portfolio/morocco-vip-shuttle.jpg", title: "Morocco VIP Shuttle", tech: "Travel & Tourism", link: "https://moroccovipshuttle.com/en" },
+  { img: "/assets/img/portfolio/private-transfers-morocco.jpg", title: "Private Transfers Morocco", tech: "Travel & Tourism", link: "https://privatetransfersmorocco.com/en" },
 ];
 
 export default function HomePage() {
