@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 import { WhatsAppFloat } from "@/components/WhatsAppFloat";
 import { ScrollReset } from "@/components/ScrollReset";
 import { PageTransition } from "@/components/PageTransition";
+import { WelcomePopup } from "@/components/WelcomePopup";
 import type { Locale } from "@/i18n/translations";
 
 const VALID_LOCALES: Locale[] = ["fr", "en", "ar", "it"];
@@ -34,6 +35,7 @@ export default async function LocaleLayout({
         </PageTransition>
         <Footer />
         <WhatsAppFloat />
+        <WelcomePopup />
       </BookingProvider>
     </I18nProvider>
   );
