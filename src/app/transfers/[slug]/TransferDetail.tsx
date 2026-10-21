@@ -1,6 +1,5 @@
 "use client";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { motion } from "motion/react";
@@ -74,20 +73,8 @@ export default function TransferDetail({ slug }: { slug: string }) {
   return (
     <>
       {/* ── Hero ──────────────────────────────────────────── */}
-      <section className="relative min-h-[60vh] flex items-end overflow-hidden bg-[#062f35]">
-        <div className="absolute inset-0 kenburns">
-          <Image
-            src={`/images/${transfer.image}`}
-            alt={`${mktName} ${arrow} ${dest}`}
-            fill
-            priority
-            className="object-cover"
-            sizes="100vw"
-          />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-[#021e22] via-[#062f35]/50 to-transparent" />
-
-        <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 pb-12 pt-28">
+      <section className="bg-[#062f35]" style={{ paddingTop: "78px" }}>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-14">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-[11px] text-white/50 mb-5 font-medium tracking-wide uppercase">
             <Link href={`/${locale}`} className="hover:text-white/80 transition-colors">

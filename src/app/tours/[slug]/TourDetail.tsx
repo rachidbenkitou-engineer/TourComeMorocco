@@ -65,17 +65,14 @@ export default function TourDetail({ slug }: { slug: string }) {
     <main className="min-h-screen bg-[#fff8f0]">
 
         {/* ── Hero ── */}
-        <div className="relative h-[55vh] min-h-[380px] overflow-hidden" style={{ paddingTop: "78px" }}>
-          <Image src={tour.image} alt={title} fill className="object-cover" priority sizes="100vw" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#031e22]/90 via-[#031e22]/40 to-[#031e22]/30" />
-
-          <div className="absolute inset-0 flex flex-col justify-end pb-10 px-[clamp(16px,4.5vw,56px)] max-w-[1280px] mx-auto">
-            <div className="flex items-center gap-2 text-white/50 text-[11px] mb-4">
-              <Link href={`/${locale}/tours`} className="hover:text-white/80 transition-colors">
+        <div className="bg-[#062f35]" style={{ paddingTop: "78px" }}>
+          <div className="max-w-[1280px] mx-auto px-[clamp(16px,4.5vw,56px)] py-14">
+            <div className="flex items-center gap-2 text-white/45 text-[11px] mb-5">
+              <Link href={`/${locale}/tours`} className="hover:text-white/75 transition-colors">
                 {t.nav.tours}
               </Link>
               <span>/</span>
-              <span className="text-white/70">{title}</span>
+              <span className="text-white/65 line-clamp-1">{title}</span>
             </div>
             <span className="inline-flex items-center gap-2 bg-[#f5b63f] text-[#1c2e2e] text-[10.5px] font-bold px-3 py-1 rounded-full mb-4 w-fit">
               {tour.days[loc]} · {dt.privateTour}

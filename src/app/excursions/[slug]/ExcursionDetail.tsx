@@ -128,14 +128,8 @@ export default function ExcursionDetail({ slug }: { slug: string }) {
     <main className="min-h-screen bg-[#fff8f0]">
 
         {/* ── Hero ── */}
-        <section className="relative overflow-hidden" style={{ height: "72vh", minHeight: "500px" }}>
-          <div className="absolute inset-0 kenburns">
-            <Image src={excursion.image} alt={excursion.title[locale]} fill priority sizes="100vw" className="object-cover" />
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-t from-[#031e22]/93 via-[#031e22]/50 to-[#031e22]/18" />
-
-          <div className="relative h-full flex flex-col justify-end pb-12 px-[clamp(16px,4.5vw,56px)] max-w-[1280px] mx-auto"
-            style={{ paddingTop: "78px" }}>
+        <section className="bg-[#062f35]" style={{ paddingTop: "78px" }}>
+          <div className="max-w-[1280px] mx-auto px-[clamp(16px,4.5vw,56px)] py-14">
             {/* Breadcrumb */}
             <div className="flex items-center gap-1.5 text-white/45 text-[11px] mb-5">
               <Link href={`/${locale}`} className="hover:text-white/75 transition-colors">{dt.home}</Link>
@@ -153,17 +147,17 @@ export default function ExcursionDetail({ slug }: { slug: string }) {
               style={{ fontSize: "clamp(26px,4.5vw,56px)" }}>
               {excursion.title[locale]}
             </h1>
-            <p className="text-white/75 max-w-[560px] mb-7 leading-relaxed"
+            <p className="text-white/70 max-w-[560px] mb-7 leading-relaxed"
               style={{ fontSize: "clamp(13px,1.1vw,15.5px)" }}>
               {excursion.short[locale]}
             </p>
 
             {/* Pills */}
             <div className="flex flex-wrap gap-2 text-[12px]">
-              <span className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm border border-white/18 text-white px-3 py-1.5 rounded-full font-medium">
+              <span className="flex items-center gap-1.5 bg-white/10 border border-white/18 text-white px-3 py-1.5 rounded-full font-medium">
                 <IconClock /> {excursion.duration[locale]}
               </span>
-              <span className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm border border-white/18 text-white px-3 py-1.5 rounded-full font-medium">
+              <span className="flex items-center gap-1.5 bg-white/10 border border-white/18 text-white px-3 py-1.5 rounded-full font-medium">
                 <IconPin /> {dt.fromMarrakech}
               </span>
               <span className="flex items-center gap-1.5 bg-[#f5b63f] text-[#1c2e2e] font-bold px-3 py-1.5 rounded-full">

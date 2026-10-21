@@ -247,7 +247,10 @@ function TransferCard({ transfer }: { transfer: Transfer }) {
   const discoverLabel = locale === "ar" ? "اكتشف" : locale === "en" ? "Discover" : locale === "it" ? "Scopri" : "Découvrir";
 
   return (
-    <div className="bg-white rounded-2xl border border-[#e4eaeb] p-5 flex flex-col hover:border-[#f5b63f] hover:shadow-[0_8px_28px_rgba(6,47,53,.10)] transition-all duration-200 group">
+    <Link
+      href={`/${locale}/transfers/${transfer.slug}`}
+      className="bg-white rounded-2xl border border-[#e4eaeb] p-5 flex flex-col hover:border-[#f5b63f] hover:shadow-[0_8px_28px_rgba(6,47,53,.10)] transition-all duration-200 group cursor-pointer"
+    >
       <div className="flex items-center gap-2.5 mb-1.5">
         <span className="w-8 h-8 rounded-full bg-[#062f35] flex items-center justify-center flex-shrink-0 text-[#f5b63f]">
           <IconPin />
@@ -288,14 +291,11 @@ function TransferCard({ transfer }: { transfer: Transfer }) {
             {transfer.price}
           </p>
         </div>
-        <Link
-          href={`/${locale}/transfers/${transfer.slug}`}
-          className="flex items-center gap-1.5 text-[11px] font-bold px-4 py-2.5 rounded-full bg-[#062f35] text-white hover:bg-[#0a4a51] transition-colors whitespace-nowrap"
-        >
+        <span className="flex items-center gap-1.5 text-[11px] font-bold px-4 py-2.5 rounded-full bg-[#062f35] text-white group-hover:bg-[#0a4a51] transition-colors whitespace-nowrap">
           {discoverLabel} <IconArrow />
-        </Link>
+        </span>
       </div>
-    </div>
+    </Link>
   );
 }
 
