@@ -2041,19 +2041,28 @@ section {
   font-size: 14px;
 }
 
+.blog .sidebar .recent-posts .post-item {
+  overflow: hidden;
+}
+
 .blog .sidebar .recent-posts .post-item + .post-item {
   margin-top: 15px;
 }
 
 .blog .sidebar .recent-posts img {
   width: 80px;
+  height: 60px;
+  object-fit: cover;
   float: left;
+  margin-right: 15px;
 }
 
 .blog .sidebar .recent-posts h4 {
   font-size: 15px;
   margin-left: 95px;
   font-weight: bold;
+  line-height: 1.4;
+  margin-bottom: 2px;
 }
 
 .blog .sidebar .recent-posts h4 a {
