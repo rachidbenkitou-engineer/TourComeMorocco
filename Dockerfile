@@ -6,7 +6,7 @@ RUN npm ci
 
 FROM node:24-alpine AS build
 WORKDIR /app
-ARG NEXT_PUBLIC_SITE_URL=https://marrakech-abdelah.com
+ARG NEXT_PUBLIC_SITE_URL=https://tourmemorocco.com
 ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL NEXT_TELEMETRY_DISABLED=1
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .

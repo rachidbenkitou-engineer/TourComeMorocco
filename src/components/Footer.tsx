@@ -6,7 +6,7 @@ import { useI18n } from "@/i18n/I18nProvider";
 const WA_NUMBER = "212709274114";
 const YEAR = new Date().getFullYear();
 const WA_URL = `https://wa.me/${WA_NUMBER}`;
-const IG_URL = "https://www.instagram.com/";
+const IG_URL = "https://www.instagram.com/tour_me_marocco?utm_source=ig_web_button_share_sheet&cplk=ZDNlZDc0MzIxNw==";
 
 const EXCURSION_SLUGS = [
   "vallee-ourika-atlas",

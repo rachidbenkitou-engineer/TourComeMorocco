@@ -29,7 +29,7 @@ export const excursions: Excursion[] = [
   /* ── 1. Vallée de l'Ourika ──────────────────────────── */
   {
     slug: "vallee-ourika-atlas",
-    image: "/images/ourikaFalls.jpg",
+    image: "/images/ourika.jpg",
     durationKey: "journee",
     duration: { fr: "Journée complète", en: "Full day", ar: "يوم كامل", it: "Giornata intera" },
     fromPrice: "€80",
@@ -99,7 +99,7 @@ export const excursions: Excursion[] = [
   /* ── 2. Cascades d'Ouzoud ───────────────────────────── */
   {
     slug: "cascades-ouzoud",
-    image: "/images/ouzoud.jpg",
+    image: "/images/cascadesOuzoud.jpg",
     durationKey: "journee",
     duration: { fr: "Journée complète", en: "Full day", ar: "يوم كامل", it: "Giornata intera" },
     fromPrice: "€160",
@@ -169,7 +169,7 @@ export const excursions: Excursion[] = [
   /* ── 3. Désert d'Agafay ─────────────────────────────── */
   {
     slug: "desert-agafay-coucher-soleil",
-    image: "/images/agafay.jpg",
+    image: "/images/agafayCoucherSoleil.jpg",
     durationKey: "demijournee",
     duration: { fr: "Demi-journée", en: "Half day", ar: "نصف يوم", it: "Mezza giornata" },
     fromPrice: "€70",
@@ -239,7 +239,7 @@ export const excursions: Excursion[] = [
   /* ── 4. Imlil et Toubkal ────────────────────────────── */
   {
     slug: "imlil-toubkal-atlas",
-    image: "/images/imlil.jpg",
+    image: "/images/imlilToubkal.jpg",
     durationKey: "journee",
     duration: { fr: "Journée complète", en: "Full day", ar: "يوم كامل", it: "Giornata intera" },
     fromPrice: "€140",
@@ -309,7 +309,7 @@ export const excursions: Excursion[] = [
   /* ── 5. Aït Ben Haddou et Ouarzazate ───────────────── */
   {
     slug: "ait-ben-haddou-ouarzazate",
-    image: "/images/aitBenHaddou.jpg",
+    image: "/images/aitBenHaddouOuarzazate.jpg",
     durationKey: "journee",
     duration: { fr: "Journée complète", en: "Full day", ar: "يوم كامل", it: "Giornata intera" },
     fromPrice: "€140",
@@ -378,7 +378,7 @@ export const excursions: Excursion[] = [
   /* ── 6. Montgolfière ────────────────────────────────── */
   {
     slug: "montgolfiere-lever-soleil",
-    image: "/images/hotAirBalloon.jpg",
+    image: "/images/montgolfiere.jpg",
     durationKey: "demijournee",
     duration: { fr: "Demi-journée", en: "Half day", ar: "نصف يوم", it: "Mezza giornata" },
     fromPrice: "€175",
@@ -447,7 +447,7 @@ export const excursions: Excursion[] = [
   /* ── 7. Quad et dromadaire ──────────────────────────── */
   {
     slug: "quad-dromadaire-palmeraie",
-    image: "/images/quadBiking.jpg",
+    image: "/images/quad.jpg",
     durationKey: "demijournee",
     duration: { fr: "Demi-journée", en: "Half day", ar: "نصف يوم", it: "Mezza giornata" },
     fromPrice: "€35",
@@ -516,7 +516,7 @@ export const excursions: Excursion[] = [
   /* ── 8. Excursion Essaouira ─────────────────────────── */
   {
     slug: "marrakech-essaouira-journee",
-    image: "/images/essaouiraPort.jpg",
+    image: "/images/marrakechEssaouira.jpg",
     durationKey: "journee",
     duration: { fr: "Journée complète", en: "Full day", ar: "يوم كامل", it: "Giornata intera" },
     fromPrice: "€135",
@@ -570,7 +570,7 @@ export const excursions: Excursion[] = [
   /* ── 9. Oukaimeden ──────────────────────────────────── */
   {
     slug: "oukaimeden-ski-atlas",
-    image: "/images/atlasHiking.jpg",
+    image: "/images/oukaimeden.jpg",
     durationKey: "journee",
     duration: { fr: "Journée complète", en: "Full day", ar: "يوم كامل", it: "Giornata intera" },
     fromPrice: "€100",
@@ -643,7 +643,7 @@ export const excursions: Excursion[] = [
   /* ── 10. 3 Douyars berbères ─────────────────────────── */
   {
     slug: "trois-douyars-berberes",
-    image: "/images/mideltAtlas.jpg",
+    image: "/images/troisDouyars.jpg",
     durationKey: "demijournee",
     duration: { fr: "Demi-journée", en: "Half day", ar: "نصف يوم", it: "Mezza giornata" },
     fromPrice: "€150",

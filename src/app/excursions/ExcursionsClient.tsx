@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 
@@ -45,11 +45,11 @@ export default function ExcursionsClient() {
   const [filter, setFilter] = useState<DurationFilter>(
     paramType && ["journee", "demijournee"].includes(paramType) ? paramType : "all"
   );
-
-  useEffect(() => {
-    const d = searchParams.get("type") as DurationFilter | null;
-    setFilter(d && ["journee", "demijournee"].includes(d) ? d : "all");
-  }, [searchParams]);
+  const [syncedParams, setSyncedParams] = useState(searchParams);
+  if (searchParams !== syncedParams) {
+    setSyncedParams(searchParams);
+    setFilter(paramType && ["journee", "demijournee"].includes(paramType) ? paramType : "all");
+  }
 
   const FILTERS: { id: DurationFilter; label: string }[] = [
     { id: "all",        label: pg.filter.all        },

@@ -7,15 +7,16 @@ import { transfers } from "@/data/transfers";
 import { Reveal } from "@/components/Reveal";
 
 const FEATURED_SLUGS = [
-  { slug: "aeroport-menara",  img: "/gallery/g23.jpg" },
-  { slug: "essaouira",        img: "/gallery/g13.jpg" },
-  { slug: "agadir",           img: "/gallery/g10.jpg" },
-  { slug: "ait-ben-haddou",   img: "/gallery/g08.jpg" },
-  { slug: "ouarzazate",       img: "/gallery/g06.jpg" },
-  { slug: "fes",              img: "/gallery/g18.jpg" },
-  { slug: "rabat",            img: "/gallery/g22.jpg" },
-  { slug: "merzouga",         img: "/gallery/g24.jpg" },
-  { slug: "casablanca",       img: "/gallery/g02.jpg" },
+  { slug: "aeroport-menara",  img: "/images/transferAeroportMenara.jpg" },
+  { slug: "essaouira",        img: "/images/transferEssaouira.jpg" },
+  { slug: "agadir",           img: "/images/transferAgadir.jpg" },
+  { slug: "ait-ben-haddou",   img: "/images/transferAitBenHaddou.jpg" },
+  { slug: "ouarzazate",       img: "/images/transferOuarzazate.jpg" },
+  { slug: "fes",              img: "/images/transferFes.jpg" },
+  { slug: "rabat",            img: "/images/transferRabat.jpg" },
+  { slug: "merzouga",         img: "/images/transferMerzouga.jpg" },
+  { slug: "casablanca",       img: "/images/transferCasablanca.jpg" },
+  { slug: "agafay",           img: "/images/agafay.jpg" },
 ];
 
 const SPRING = { type: "spring" as const, stiffness: 280, damping: 22 };
@@ -91,9 +92,9 @@ export function PopularTransfers() {
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
           {routes.map((route, i) => (
-            <Reveal key={route.slug} delay={i * 0.07}>
+            <Reveal key={route.slug} delay={i * 0.07} className={i === 9 ? "lg:hidden" : ""}>
               <motion.div
                 whileHover={{ y: -8, scale: 1.03 }}
                 whileTap={{ scale: 0.98 }}
@@ -105,7 +106,7 @@ export function PopularTransfers() {
                 >
                   <Image src={route.img} alt={route.name} fill
                     className="object-cover transition-transform duration-700 group-hover:scale-112"
-                    sizes="(max-width:640px) 50vw, 33vw" />
+                    sizes="(max-width:1024px) 50vw, 20vw" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#031e22]/90 via-[#031e22]/25 to-transparent" />
                   <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}

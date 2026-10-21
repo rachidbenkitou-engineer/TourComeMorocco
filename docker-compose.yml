@@ -1,41 +1,24 @@
-# marrakech-abdelah.com — Next.js app behind nginx, HTTPS by Let's Encrypt (certbot).
-# Deployed by .github/workflows/deploy.yml (first run also gets the certificate via scripts/init-ssl.sh)
+# tourmemorocco.com — app container only; reached through the shared edge-nginx
+# stack on the VPS (see ../.edge-stack). Deployed by .github/workflows/deploy.yml.
+networks:
+  edge:
+    external: true
+
 services:
   web:
     build:
       context: .
       args:
-        NEXT_PUBLIC_SITE_URL: https://marrakech-abdelah.com
-    image: marrakech-abdelah-web
+        NEXT_PUBLIC_SITE_URL: https://tourmemorocco.com
+    image: tourmemorocco-web
+    container_name: tourmemorocco-web
     restart: unless-stopped
     expose:
       - "3000"
+    networks:
+      - edge
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/robots.txt"]
       interval: 30s
       timeout: 5s
       retries: 3
-
-  nginx:
-    image: nginx:1.27-alpine
-    restart: unless-stopped
-    depends_on:
-      - web
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d:ro
-      - ./certbot/conf:/etc/letsencrypt:ro
-      - ./certbot/www:/var/www/certbot:ro
-    # Reload every 6 h so renewed certificates are picked up.
-    command: /bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'
-
-  certbot:
-    image: certbot/certbot:latest
-    restart: unless-stopped
-    volumes:
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
-    # Tries to renew twice a day (only renews when < 30 days left).
-    entrypoint: /bin/sh -c 'trap exit TERM; while :; do certbot renew --webroot -w /var/www/certbot --quiet; sleep 12h & wait $${!}; done'

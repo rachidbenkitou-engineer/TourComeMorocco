@@ -137,7 +137,7 @@ export const transfers: Transfer[] = [
     price: "€280",
     prices: { sedan: 280, van: 345, luxuryVan: 390 },
     duration: "7 h 30", distance: "430 km", distanceKm: 430,
-    image: "fes.jpg", category: "city",
+    image: "destFes.jpg", category: "city",
   },
   {
     slug: "chefchaouen",
@@ -145,7 +145,7 @@ export const transfers: Transfer[] = [
     price: "€430",
     prices: { sedan: 430, van: 530, luxuryVan: 595 },
     duration: "9 h", distance: "526 km", distanceKm: 526,
-    image: "chefchaouen.jpg", category: "city",
+    image: "destChefchaouen.jpg", category: "city",
   },
 
   /* ── Côte & Sud (depuis Marrakech) ──────────────────── */
@@ -155,7 +155,7 @@ export const transfers: Transfer[] = [
     price: "€95",
     prices: { sedan: 95, van: 120, luxuryVan: 135 },
     duration: "2 h 30", distance: "176 km", distanceKm: 176,
-    image: "essaouira.jpg", category: "coast",
+    image: "destEssaouira.jpg", category: "coast",
   },
   {
     slug: "safi",
@@ -171,7 +171,7 @@ export const transfers: Transfer[] = [
     price: "€125",
     prices: { sedan: 125, van: 205, luxuryVan: 235 },
     duration: "3 h", distance: "252 km", distanceKm: 252,
-    image: "agadirBeach.jpg", category: "coast",
+    image: "destAgadir.jpg", category: "coast",
   },
   {
     slug: "oualidia",
@@ -229,7 +229,7 @@ export const transfers: Transfer[] = [
     price: "€125",
     prices: { sedan: 125, van: 150, luxuryVan: 175 },
     duration: "1 h 30", distance: "132 km", distanceKm: 132,
-    image: "aitBenHaddouKasbah.jpg", category: "desert",
+    image: "destAitBenHaddou.jpg", category: "desert",
   },
   {
     slug: "ouarzazate",
@@ -237,7 +237,7 @@ export const transfers: Transfer[] = [
     price: "€135",
     prices: { sedan: 135, van: 165, luxuryVan: 190 },
     duration: "1 h 45", distance: "205 km", distanceKm: 205,
-    image: "ouarzazate.jpg", category: "desert",
+    image: "destOuarzazate.jpg", category: "desert",
   },
   {
     slug: "ouzoud",
@@ -285,7 +285,7 @@ export const transfers: Transfer[] = [
     price: "€450",
     prices: { sedan: 450, van: 555, luxuryVan: 625 },
     duration: "7 h 15", distance: "545 km", distanceKm: 545,
-    image: "desertCamels.jpg", category: "desert",
+    image: "destMerzouga.jpg", category: "desert",
   },
 
   /* ── Routes inter-villes (départ ≠ Marrakech) ────────── */

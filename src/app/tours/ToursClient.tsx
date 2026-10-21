@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 
@@ -45,11 +45,11 @@ export default function ToursClient() {
   const [filter, setFilter] = useState<DureeFilter>(
     paramDuree && ["court", "moyen", "long"].includes(paramDuree) ? paramDuree : "all"
   );
-
-  useEffect(() => {
-    const d = searchParams.get("duree") as DureeFilter | null;
-    setFilter(d && ["court", "moyen", "long"].includes(d) ? d : "all");
-  }, [searchParams]);
+  const [syncedParams, setSyncedParams] = useState(searchParams);
+  if (searchParams !== syncedParams) {
+    setSyncedParams(searchParams);
+    setFilter(paramDuree && ["court", "moyen", "long"].includes(paramDuree) ? paramDuree : "all");
+  }
 
   const FILTERS: { id: DureeFilter; label: string }[] = [
     { id: "all",   label: pg.filter.all   },

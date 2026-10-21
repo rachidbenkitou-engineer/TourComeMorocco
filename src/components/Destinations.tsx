@@ -20,7 +20,7 @@ export function Destinations() {
   const tr  = t.destinations;
   const loc = (locale === "it" ? "fr" : locale) as L3;
 
-  const HOME_SLUGS = ["fes", "chefchaouen", "imlil", "ouarzazate", "dades", "agafay"];
+  const HOME_SLUGS = ["fes", "essaouira", "imlil", "chefchaouen", "agadir", "merzouga"];
   const allDestinations = transfers.filter(d => !d.from && d.category !== "airport");
   const destinations = HOME_SLUGS
     .map(slug => allDestinations.find(d => d.slug === slug))

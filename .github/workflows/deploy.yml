@@ -1,10 +1,13 @@
-# On every push to main: lint + type-check, then copy the code to the VPS and rebuild the containers.
+# On every push to main: lint + type-check, then the VPS pulls the new commit itself
+# (git clone at /home/deploy/TourComeMorocco, using its own deploy key) and rebuilds.
+# The site is reached through the shared edge-nginx stack on the server (see ../.edge-stack);
+# this workflow only manages the app container itself.
 # Secrets (Settings → Secrets and variables → Actions):
 #   SSH_HOST         server IP
-#   SSH_USER         SSH user (root)
+#   SSH_USER         SSH user
 #   SSH_PRIVATE_KEY  private key whose public key is in ~/.ssh/authorized_keys on the server
 #   SSH_KNOWN_HOSTS  output of: ssh-keyscan <server IP>
-# Variable DEPLOY_ENABLED=true turns on the deploy job (set once DNS points to the server).
+# Variable DEPLOY_ENABLED=true turns on the deploy job.
 name: Deploy
 
 on:
@@ -17,7 +20,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  APP_DIR: /opt/marrakech-abdelah
+  APP_DIR: /home/deploy/TourComeMorocco
 
 jobs:
   check:
@@ -28,8 +31,7 @@ jobs:
         with:
           node-version: 24
           cache: npm
-      - run: npm ci
-      - run: npx next typegen
+      - run: npm install --no-audit --no-fund
       - run: npx tsc --noEmit
       - run: npm run lint
 
@@ -38,8 +40,6 @@ jobs:
     if: vars.DEPLOY_ENABLED == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-
       - name: SSH key
         run: |
           install -m 700 -d ~/.ssh
@@ -47,19 +47,16 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
 
-      - name: Copy code to the server
-        run: |
-          rsync -az --delete \
-            --exclude .git --exclude node_modules --exclude .next --exclude certbot \
-            -e "ssh -i ~/.ssh/deploy_key" \
-            ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ env.APP_DIR }}/
-
-      - name: Build and restart
+      - name: Pull + build + restart on the VPS
         run: |
           ssh -i ~/.ssh/deploy_key ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
             set -e
+            eval \$(ssh-agent -s) >/dev/null
+            ssh-add ~/.ssh/github_vps
             cd ${{ env.APP_DIR }}
-            sh scripts/init-ssl.sh   # first deploy only: gets the HTTPS certificate
+            git fetch origin main
+            git reset --hard origin/main
+            docker network create edge 2>/dev/null || true
             docker compose build web
             docker compose up -d --remove-orphans
             docker image prune -f
@@ -68,4 +65,4 @@ jobs:
       - name: Smoke test
         run: |
           sleep 10
-          curl -fsS -o /dev/null -w "%{http_code}\n" https://marrakech-abdelah.com/
+          curl -fsS -o /dev/null -w "%{http_code}\n" https://tourmemorocco.com/

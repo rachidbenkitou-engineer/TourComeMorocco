@@ -190,23 +190,21 @@ export function Navbar() {
       <div className="max-w-[1280px] mx-auto px-[clamp(16px,4.5vw,56px)] h-[78px] flex items-center justify-between gap-5">
 
         {/* ── Logo ── */}
-        <Link href={`/${locale}`} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
-          <svg width="26" height="29" viewBox="0 0 38 42" fill="none" className="sm:w-[34px] sm:h-[38px] flex-shrink-0">
-            <path d="M2 41L2 19C2 9.06 9.61 1 19 1C28.39 1 36 9.06 36 19L36 41"
-              stroke="#f5b63f" strokeWidth="2.5" strokeLinecap="round"/>
-            <path d="M8 41L8 21C8 13.8 13 8 19 8C25 8 30 13.8 30 21L30 41"
-              stroke="#f5b63f" strokeWidth="1" strokeLinecap="round" opacity="0.38"/>
-            <path d="M19 11L21.3 17.7L28.5 20L21.3 22.3L19 29L16.7 22.3L9.5 20L16.7 17.7Z"
-              fill="#f5b63f"/>
-          </svg>
-          <span className="leading-none">
-            <strong className="block font-serif text-[16px] sm:text-[20px] text-[#fff0cb] tracking-[-0.3px]">
+        <Link href={`/${locale}`} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex items-center gap-2.5 flex-shrink-0">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/logo.png"
+            alt="Tour Me Morocco"
+            className="h-10 sm:h-12 w-auto object-contain flex-shrink-0"
+          />
+          <div className="flex flex-col leading-none gap-[3px]">
+            <span className="font-serif font-bold text-[#f5b63f] leading-none text-[14px] sm:text-[length:clamp(15px,1.4vw,20px)]" style={{ letterSpacing: "0.01em" }}>
               Tour Me Morocco
-            </strong>
-            <small className="hidden sm:block text-[8.5px] tracking-[0.2em] text-white/45 mt-1 font-sans">
-              {{ fr: "Explorez · Voyagez · Découvrez", en: "Explore · Travel · Discover", ar: "استكشف · سافر · اكتشف", it: "Esplora · Viaggia · Scopri" }[locale] ?? "Explorez · Voyagez · Découvrez"}
-            </small>
-          </span>
+            </span>
+            <span className="text-white/60 font-medium uppercase text-[7.5px] tracking-[0.12em] sm:text-[length:clamp(8px,0.65vw,10px)] sm:tracking-[0.18em]">
+              Explore&nbsp;·&nbsp;Travel&nbsp;·&nbsp;Discover
+            </span>
+          </div>
         </Link>
 
         {/* ── Nav desktop ── */}
@@ -273,6 +271,8 @@ export function Navbar() {
 
       {/* ── Mobile drawer ── */}
       {open && (
+        <>
+        <div className="lg:hidden fixed inset-0" onClick={() => setOpen(false)} />
         <div className="lg:hidden absolute top-[78px] left-3 right-3 bg-[#062f35]/97 backdrop-blur-md rounded-2xl border border-white/10 shadow-2xl p-2">
           {navLinks.map(l => {
             const active = isActive(l.href);
@@ -311,6 +311,7 @@ export function Navbar() {
             </a>
           </div>
         </div>
+        </>
       )}
     </header>
   );

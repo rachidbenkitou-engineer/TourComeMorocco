@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 import { useI18n } from "@/i18n/I18nProvider";
 import { cn } from "@/lib/utils";
@@ -28,39 +29,56 @@ function Lightbox({
 
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center"
-      style={{ background: "rgba(4,28,33,.96)" }}
+      style={{ background: "rgba(3,16,20,.97)", backdropFilter: "blur(8px)" }}
       onClick={onClose}
     >
+      {/* Close */}
       <button onClick={onClose}
-        className="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors z-10"
+        className="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 hover:bg-white/22 flex items-center justify-center text-white/80 hover:text-white transition-all duration-200 hover:scale-105 cursor-pointer z-20"
       >
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
           <path d="M18 6 6 18M6 6l12 12"/>
         </svg>
       </button>
+
+      {/* Prev */}
       <button onClick={e => { e.stopPropagation(); onPrev(); }}
-        className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors z-10"
+        className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/8 hover:bg-[#f5b63f]/15 border border-white/10 hover:border-[#f5b63f]/40 flex items-center justify-center text-white/60 hover:text-[#f5b63f] transition-all duration-200 cursor-pointer z-10"
       >
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
           <path d="M15 18l-6-6 6-6"/>
         </svg>
       </button>
+
+      {/* Next */}
       <button onClick={e => { e.stopPropagation(); onNext(); }}
-        className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors z-10"
+        className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/8 hover:bg-[#f5b63f]/15 border border-white/10 hover:border-[#f5b63f]/40 flex items-center justify-center text-white/60 hover:text-[#f5b63f] transition-all duration-200 cursor-pointer z-10"
       >
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
           <path d="M9 18l6-6-6-6"/>
         </svg>
       </button>
-      <div className="relative max-w-[90vw] max-h-[82vh] flex items-center justify-center" onClick={e => e.stopPropagation()}>
-        <Image src={image.src} alt={image.alt} width={1200} height={900}
-          className="object-contain max-w-[90vw] max-h-[78vh] rounded-xl shadow-2xl"
-          priority
-        />
+
+      {/* Image */}
+      <div className="relative max-w-[88vw] max-h-[82vh] flex items-center justify-center" onClick={e => e.stopPropagation()}>
+        <div className="rounded-2xl overflow-hidden shadow-[0_32px_80px_rgba(0,0,0,.65)]">
+          <Image src={image.src} alt={image.alt} width={1200} height={900}
+            className="object-contain max-w-[88vw] max-h-[76vh] block"
+            priority
+          />
+        </div>
       </div>
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-center px-4">
-        <p className="text-white/90 text-[13px] font-medium">{image.alt}</p>
-        <p className="text-white/40 text-[11px] mt-1">{index + 1} / {total}</p>
+
+      {/* Caption + progress bar */}
+      <div className="absolute bottom-0 inset-x-0 flex flex-col items-center pb-5 gap-2.5">
+        <p className="text-white/80 text-[13px] font-medium text-center px-16 leading-snug">{image.alt}</p>
+        <div className="h-0.5 bg-white/15 w-40 sm:w-56 rounded-full overflow-hidden">
+          <div
+            className="h-full bg-[#f5b63f] rounded-full transition-all duration-300"
+            style={{ width: `${((index + 1) / total) * 100}%` }}
+          />
+        </div>
+        <p className="text-white/30 text-[10px] tracking-widest">{index + 1} / {total}</p>
       </div>
     </div>
   );
@@ -149,21 +167,36 @@ export default function GalleryClient() {
               );
             })}
           </div>
-          <div className="columns-2 md:columns-3 gap-3">
+          {/* keyframes for stagger entrance */}
+          <style>{`@keyframes gallFade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}`}</style>
+
+          <div className="columns-2 md:columns-3 lg:columns-4 gap-3">
             {filtered.map((img, i) => (
-              <div key={img.src} className="break-inside-avoid mb-3 relative overflow-hidden rounded-xl cursor-pointer group"
-                onClick={() => openLightbox(i)}>
+              <div key={img.src}
+                className="break-inside-avoid mb-3 relative overflow-hidden rounded-xl cursor-pointer group shadow-[0_2px_12px_rgba(6,47,53,.07)] hover:shadow-[0_8px_24px_rgba(6,47,53,.18)] transition-shadow duration-300"
+                style={{
+                  animation: "gallFade .45s cubic-bezier(.16,1,.3,1) both",
+                  animationDelay: `${Math.min(i * 0.04, 0.5)}s`,
+                }}
+                onClick={() => openLightbox(i)}
+              >
                 <Image src={img.src} alt={img.alt} width={600} height={450}
-                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
-                  sizes="(max-width:768px) 50vw, 33vw"
+                  className="w-full h-auto object-cover transition-transform duration-600 group-hover:scale-[1.07]"
+                  sizes="(max-width:768px) 50vw, (max-width:1024px) 33vw, 25vw"
                 />
-                <div className="absolute inset-0 bg-[#062f35]/0 group-hover:bg-[#062f35]/45 transition-all duration-300 flex items-end p-3">
-                  <p className="text-white text-[11px] font-semibold leading-tight opacity-0 group-hover:opacity-100 transition-opacity duration-300 [text-shadow:0_1px_4px_rgba(0,0,0,.5)]">
+                {/* gradient overlay on hover */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#031e22]/55 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                {/* gold ring inset on hover */}
+                <div className="absolute inset-0 rounded-xl ring-0 group-hover:ring-2 group-hover:ring-[#f5b63f] group-hover:ring-inset transition-all duration-300" />
+                {/* caption */}
+                <div className="absolute bottom-0 inset-x-0 p-3 translate-y-1.5 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                  <p className="text-white text-[11px] font-semibold leading-snug [text-shadow:0_1px_6px_rgba(0,0,0,.7)]">
                     {img.alt}
                   </p>
                 </div>
-                <div className="absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-white/0 group-hover:bg-white/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round">
+                {/* expand icon */}
+                <div className="absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-white/0 group-hover:bg-white/18 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round">
                     <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
                   </svg>
                 </div>
@@ -181,7 +214,7 @@ export default function GalleryClient() {
               </p>
               <p className="text-white/65 text-[13.5px] max-w-[400px]">{pg.ctaSubtitle}</p>
             </div>
-            <a href="/#contact"
+            <Link href="/#contact"
               className="flex items-center gap-3 rounded-full transition-all duration-300 hover:-translate-y-[2px] hover:shadow-[0_12px_28px_rgba(245,182,63,.4)] whitespace-nowrap flex-shrink-0"
               style={{
                 background: "linear-gradient(135deg,#f5c842 0%,#e8921e 100%)",
@@ -191,7 +224,7 @@ export default function GalleryClient() {
             >
               {pg.ctaBtn}
               <span className="w-7 h-7 rounded-full bg-[#1c2e2e]/15 flex items-center justify-center text-[15px]">→</span>
-            </a>
+            </Link>
           </div>
         </div>
 

@@ -272,7 +272,11 @@ export function SearchBar() {
     return idx >= 0 ? CIRCUIT_SLUGS[idx] : null;
   })();
 
-  useEffect(() => { if (mode === "transfert") setArrivee(""); }, [depart]);
+  const [prevDepart, setPrevDepart] = useState(depart);
+  if (depart !== prevDepart) {
+    setPrevDepart(depart);
+    if (mode === "transfert") setArrivee("");
+  }
 
   function reset(newMode: Mode = mode) { setDepart(newMode === "transfert" ? mktName : ""); setArrivee(""); }
 

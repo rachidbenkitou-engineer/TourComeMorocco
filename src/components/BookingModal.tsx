@@ -437,22 +437,15 @@ function BookingModal({ service, price: _price, excursionSlug: initExcSlug, onCl
   const [mode, setMode]           = useState<Mode>(initExcSlug ? "excursion" : "transfer");
   const [departure, setDeparture] = useState(locale === "ar" ? "مراكش" : "Marrakech");
   const [dest, setDest]           = useState("");
-  const [duration, setDuration]   = useState("");
+  /* pre-fill from excursion detail page */
+  const initExcursion = initExcSlug ? excursions.find(e => e.slug === initExcSlug) : undefined;
+  const [duration, setDuration]   = useState(initExcursion ? initExcursion.duration[locale] : "");
   const [tourName, setTourName]   = useState("");
-  const [excursionName, setExcursionName] = useState("");
+  const [excursionName, setExcursionName] = useState(initExcursion ? initExcursion.title[locale] : "");
   const [date, setDate]           = useState("");
   const [name, setName]           = useState("");
   const [phone, setPhone]         = useState("");
   const [err,  setErr]            = useState<string | null>(null);
-
-  /* pre-fill from excursion detail page */
-  useEffect(() => {
-    if (initExcSlug) {
-      const exc = excursions.find(e => e.slug === initExcSlug);
-      if (exc) { setExcursionName(exc.title[locale]); setDuration(exc.duration[locale]); }
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   /* reset service fields on mode change */
   function switchMode(m: Mode) {
@@ -658,29 +651,38 @@ function BookingModal({ service, price: _price, excursionSlug: initExcSlug, onCl
           {mode === "tour" && (
             <div className="space-y-2.5">
               <div>
-                <label className={lbl}>{labels.tourLabel}</label>
-                <SBField
-                  IconComp={IcoTour}
-                  placeholder={labels.tourPh}
-                  value={tourName}
-                  onValue={v => {
-                    setTourName(v);
-                    const found = tours.find(t => t.title[locale as "fr" | "en" | "ar" | "it"] === v);
-                    if (found) setDuration(found.days[locale as "fr" | "en" | "ar" | "it"]);
-                    setErr(null);
-                  }}
-                  options={toursList}
-                  searchable
-                />
-              </div>
-              <div>
                 <label className={lbl}>{labels.duration}</label>
                 <SBField
                   IconComp={IcoClock}
                   placeholder={labels.durationPh}
                   value={duration}
-                  onValue={v => { setDuration(v); setErr(null); }}
+                  onValue={v => { setDuration(v); setTourName(""); setErr(null); }}
                   options={tourDurations}
+                />
+              </div>
+              <div>
+                <label className={lbl}>{labels.tourLabel}</label>
+                <SBField
+                  IconComp={IcoTour}
+                  placeholder={labels.tourPh}
+                  value={tourName}
+                  onValue={v => { setTourName(v); setErr(null); }}
+                  options={(() => {
+                    if (!duration) return toursList;
+                    const idx = tourDurations.indexOf(duration);
+                    return tours
+                      .filter(t => {
+                        const dayStr = t.days[locale as "fr" | "en" | "ar" | "it"];
+                        const m = dayStr.match(/^(\d+)/);
+                        const n = m ? parseInt(m[1]) : 0.5;
+                        if (idx === 0) return n <= 3;
+                        if (idx === 1) return n >= 4 && n <= 7;
+                        return n >= 8;
+                      })
+                      .map(t => t.title[locale as "fr" | "en" | "ar" | "it"]);
+                  })()}
+                  searchable
+                  locked={!duration}
                 />
               </div>
             </div>
@@ -690,29 +692,31 @@ function BookingModal({ service, price: _price, excursionSlug: initExcSlug, onCl
           {mode === "excursion" && (
             <div className="space-y-2.5">
               <div>
-                <label className={lbl}>{labels.excursionLabel}</label>
-                <SBField
-                  IconComp={IcoExcursion}
-                  placeholder={labels.excursionPh}
-                  value={excursionName}
-                  onValue={v => {
-                    setExcursionName(v);
-                    const exc = excursions.find(e => e.title[locale] === v);
-                    if (exc) setDuration(exc.duration[locale]);
-                    setErr(null);
-                  }}
-                  options={excursionsList}
-                  searchable
-                />
-              </div>
-              <div>
                 <label className={lbl}>{labels.duration}</label>
                 <SBField
                   IconComp={IcoClock}
                   placeholder={labels.durationPh}
                   value={duration}
-                  onValue={v => { setDuration(v); setErr(null); }}
+                  onValue={v => { setDuration(v); setExcursionName(""); setErr(null); }}
                   options={excurDurations}
+                  locked={!!initExcSlug}
+                />
+              </div>
+              <div>
+                <label className={lbl}>{labels.excursionLabel}</label>
+                <SBField
+                  IconComp={IcoExcursion}
+                  placeholder={labels.excursionPh}
+                  value={excursionName}
+                  onValue={v => { setExcursionName(v); setErr(null); }}
+                  options={duration
+                    ? excursions
+                        .filter(e => e.duration[locale] === duration)
+                        .map(e => e.title[locale])
+                    : excursionsList
+                  }
+                  searchable
+                  locked={!!initExcSlug || !duration}
                 />
               </div>
             </div>

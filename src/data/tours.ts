@@ -30,7 +30,7 @@ export const tours: Tour[] = [
   /* ── 1 — Marrakech → Essaouira Day Trip ── */
   {
     slug:     "marrakech-essaouira-day-trip",
-    image:    "/images/essaouira.jpg",
+    image:    "/images/essaouiraJournee.jpg",
     gallery:  ["/images/essaouiraPort.jpg", "/images/road.jpg"],
     featured: true,
     days:     { fr: "1 Jour", en: "1 Day", ar: "يوم واحد", it: "1 Giorno" },
@@ -90,7 +90,7 @@ export const tours: Tour[] = [
   /* ── 2 — Chefchaouen Day Trip ── */
   {
     slug:     "chefchaouen-day-trip",
-    image:    "/images/chefchaouen.jpg",
+    image:    "/images/chefchaouenJournee.jpg",
     gallery:  ["/images/chefchaouen.jpg", "/images/mountainRoad.jpg"],
     featured: true,
     days:     { fr: "1 Jour", en: "1 Day", ar: "يوم واحد", it: "1 Giorno" },
@@ -150,7 +150,7 @@ export const tours: Tour[] = [
   /* ── 3 — Aït Ben Haddou & Ouarzazate Day Trip ── */
   {
     slug:     "ait-ben-haddou-ouarzazate-day-trip",
-    image:    "/images/aitBenHaddouKasbah.jpg",
+    image:    "/images/aitBenHaddouJournee.jpg",
     gallery:  ["/images/ouarzazate.jpg", "/images/road.jpg"],
     featured: true,
     days:     { fr: "1 Jour", en: "1 Day", ar: "يوم واحد", it: "1 Giorno" },
@@ -206,7 +206,7 @@ export const tours: Tour[] = [
   /* ── 4 — 3-Day Marrakech → Merzouga Desert Tour ── */
   {
     slug:     "3-day-marrakech-merzouga-sahara-tour",
-    image:    "/images/desertCamels.jpg",
+    image:    "/images/desert3jMerzouga.jpg",
     gallery:  ["/images/aitBenHaddouKasbah.jpg", "/images/dunes.jpg", "/images/desertCamels.jpg"],
     featured: true,
     days:     { fr: "3 Jours", en: "3 Days", ar: "3 أيام", it: "3 Giorni" },
@@ -286,9 +286,9 @@ export const tours: Tour[] = [
   /* ── 5 — 4-Day Marrakech Sahara Private Tour ── */
   {
     slug:     "4-day-marrakech-sahara-private-tour",
-    image:    "/images/dunes.jpg",
+    image:    "/images/agafayCoucherSoleil.jpg",
     gallery:  ["/images/aitBenHaddouKasbah.jpg", "/images/desertCamels.jpg", "/images/ouarzazate.jpg"],
-    featured: false,
+    featured: true,
     days:     { fr: "4 Jours", en: "4 Days", ar: "4 أيام", it: "4 Giorni" },
     daysNum:  4,
     title: {
@@ -376,9 +376,9 @@ export const tours: Tour[] = [
   /* ── 6 — 3-Day Marrakech → Fes Desert Tour ── */
   {
     slug:     "3-day-marrakech-fes-desert-tour",
-    image:    "/images/aitBenHaddouKasbah.jpg",
+    image:    "/images/desert3jFes.jpg",
     gallery:  ["/images/mideltAtlas.jpg", "/images/fes.jpg", "/images/dunes.jpg"],
-    featured: false,
+    featured: true,
     days:     { fr: "3 Jours", en: "3 Days", ar: "3 أيام", it: "3 Giorni" },
     daysNum:  3,
     title: {
@@ -456,7 +456,7 @@ export const tours: Tour[] = [
   /* ── 7 — 6-Day Marrakech → Sahara, Fès & Chefchaouen ── */
   {
     slug:     "6-day-marrakech-sahara-fes-chefchaouen-tour",
-    image:    "/images/chefchaouen.jpg",
+    image:    "/images/circuit6j.jpg",
     gallery:  ["/images/dunes.jpg", "/images/fes.jpg", "/images/aitBenHaddouKasbah.jpg"],
     featured: false,
     days:     { fr: "6 Jours", en: "6 Days", ar: "6 أيام", it: "6 Giorni" },
@@ -566,7 +566,7 @@ export const tours: Tour[] = [
   /* ── 8 — 7-Day Marrakech → Sahara Tour ── */
   {
     slug:     "7-day-marrakech-sahara-tour",
-    image:    "/images/dunes.jpg",
+    image:    "/images/circuit7j.jpg",
     gallery:  ["/images/aitBenHaddouKasbah.jpg", "/images/waterfall.jpg", "/images/ouarzazate.jpg"],
     featured: false,
     days:     { fr: "7 Jours", en: "7 Days", ar: "7 أيام", it: "7 Giorni" },
@@ -647,7 +647,7 @@ export const tours: Tour[] = [
   /* ── 9 — Fes & Chefchaouen Tour (2 days) ── */
   {
     slug:     "fes-chefchaouen-tour",
-    image:    "/images/fes.jpg",
+    image:    "/images/fesChefchaouen.jpg",
     gallery:  ["/images/chefchaouen.jpg", "/images/spices.jpg"],
     featured: true,
     days:     { fr: "2 Jours", en: "2 Days", ar: "يومان", it: "2 Giorni" },
@@ -717,7 +717,7 @@ export const tours: Tour[] = [
   /* ── 10 — 8-Day Morocco Highlights: Sahara & Fes ── */
   {
     slug:     "8-day-morocco-sahara-fes",
-    image:    "/images/dunes.jpg",
+    image:    "/images/saharaFes8j.jpg",
     gallery:  ["/images/aitBenHaddouKasbah.jpg", "/images/ifraneSnow.jpg", "/images/fes.jpg"],
     featured: false,
     days:     { fr: "8 Jours", en: "8 Days", ar: "8 أيام", it: "8 Giorni" },
@@ -803,7 +803,7 @@ export const tours: Tour[] = [
   /* ── 11 — 9-Day Morocco: Sahara, Fes & Chefchaouen ── */
   {
     slug:     "9-day-morocco-sahara-fes-chefchaouen",
-    image:    "/images/desertCamels.jpg",
+    image:    "/images/circuit9j.jpg",
     gallery:  ["/images/aitBenHaddouKasbah.jpg", "/images/chefchaouen.jpg", "/images/fes.jpg"],
     featured: true,
     days:     { fr: "9 Jours", en: "9 Days", ar: "9 أيام", it: "9 Giorni" },
@@ -898,7 +898,7 @@ export const tours: Tour[] = [
   /* ── 12 — 10-Day Imperial Cities & Sahara ── */
   {
     slug:     "10-day-morocco-imperial-cities-sahara-tour",
-    image:    "/images/rabatCity.jpg",
+    image:    "/images/villesImperiales10j.jpg",
     gallery:  ["/images/meknesGate.jpg", "/images/dunes.jpg", "/images/aitBenHaddouKasbah.jpg"],
     featured: false,
     days:     { fr: "10 Jours", en: "10 Days", ar: "10 أيام", it: "10 Giorni" },
@@ -998,7 +998,7 @@ export const tours: Tour[] = [
   /* ── 13 — 5-Day Tangier → Marrakech via Chefchaouen & Sahara ── */
   {
     slug:     "5-day-tangier-marrakech-chefchaouen-sahara-tour",
-    image:    "/images/tangerCity.jpg",
+    image:    "/images/tangerMarrakech5j.jpg",
     gallery:  ["/images/chefchaouen.jpg", "/images/dunes.jpg", "/images/aitBenHaddouKasbah.jpg"],
     featured: false,
     days:     { fr: "5 Jours", en: "5 Days", ar: "5 أيام", it: "5 Giorni" },
@@ -1069,7 +1069,7 @@ export const tours: Tour[] = [
   /* ── 14 — 3-Day Fes → Merzouga → Marrakech ── */
   {
     slug:     "3-day-fes-merzouga-marrakech-sahara-tour",
-    image:    "/images/fes.jpg",
+    image:    "/images/fesMerzougaMarrakech3j.jpg",
     gallery:  ["/images/dunes.jpg", "/images/aitBenHaddouKasbah.jpg"],
     featured: false,
     days:     { fr: "3 Jours", en: "3 Days", ar: "3 أيام", it: "3 Giorni" },
@@ -1130,7 +1130,7 @@ export const tours: Tour[] = [
   /* ── 15 — Casablanca to Marrakech Private Transfer / Day Tour ── */
   {
     slug:     "casablanca-to-marrakech-private-tour",
-    image:    "/images/marrakech.jpg",
+    image:    "/images/casaMarrakechJournee.jpg",
     gallery:  ["/images/medina.jpg", "/images/road.jpg"],
     featured: false,
     days:     { fr: "1 Jour", en: "1 Day", ar: "يوم واحد", it: "1 Giorno" },
@@ -1186,7 +1186,7 @@ export const tours: Tour[] = [
   /* ── 16 — Casablanca City Tour (half-day) ── */
   {
     slug:     "casablanca-city-tour",
-    image:    "/images/casablanca.jpg",
+    image:    "/images/casablancaCity.jpg",
     gallery:  ["/images/essaouiraPort.jpg"],
     featured: false,
     days:     { fr: "Demi-journée", en: "Half Day", ar: "نصف يوم", it: "Mezza giornata" },
@@ -1242,7 +1242,7 @@ export const tours: Tour[] = [
   /* ── 17 — 8-Day Casablanca → Marrakech via Sahara ── */
   {
     slug:     "8-day-casablanca-marrakech-sahara-tour",
-    image:    "/images/casablanca.jpg",
+    image:    "/images/casaMarrakech8j.jpg",
     gallery:  ["/images/rabatCity.jpg", "/images/chefchaouen.jpg", "/images/mideltAtlas.jpg"],
     featured: false,
     days:     { fr: "8 Jours", en: "8 Days", ar: "8 أيام", it: "8 Giorni" },
@@ -1328,7 +1328,7 @@ export const tours: Tour[] = [
   /* ── 18 — 9-Day Casablanca: Desert, Mountains & Discovery ── */
   {
     slug:     "9-day-casablanca-desert-mountains-discovery",
-    image:    "/images/mideltAtlas.jpg",
+    image:    "/images/casablanca9j.jpg",
     gallery:  ["/images/meknesGate.jpg", "/images/dunes.jpg", "/images/aitBenHaddouKasbah.jpg"],
     featured: false,
     days:     { fr: "9 Jours", en: "9 Days", ar: "9 أيام", it: "9 Giorni" },
@@ -1419,7 +1419,7 @@ export const tours: Tour[] = [
   /* ── 19 — 3-Day Casablanca → Merzouga Sahara Tour ── */
   {
     slug:     "3-day-casablanca-merzouga-sahara-tour",
-    image:    "/images/casablanca.jpg",
+    image:    "/images/casaMerzouga3j.jpg",
     gallery:  ["/images/mideltAtlas.jpg", "/images/dunes.jpg", "/images/desertCamels.jpg"],
     featured: false,
     days:     { fr: "3 Jours", en: "3 Days", ar: "3 أيام", it: "3 Giorni" },
@@ -1480,7 +1480,7 @@ export const tours: Tour[] = [
   /* ── 20 — 5-Day Marrakech → Casablanca via Sahara ── */
   {
     slug:     "5-day-marrakech-casablanca-sahara-tour",
-    image:    "/images/marrakech.jpg",
+    image:    "/images/marrakechCasa5j.jpg",
     gallery:  ["/images/aitBenHaddouKasbah.jpg", "/images/fes.jpg", "/images/desertCamels.jpg"],
     featured: false,
     days:     { fr: "5 Jours", en: "5 Days", ar: "5 أيام", it: "5 Giorni" },
@@ -1551,7 +1551,7 @@ export const tours: Tour[] = [
   /* ── 21 — 7-Day Marrakech → Casablanca Private Tour ── */
   {
     slug:     "7-day-marrakech-casablanca-private-tour",
-    image:    "/images/rabatCity.jpg",
+    image:    "/images/marrakechCasa7j.jpg",
     gallery:  ["/images/chefchaouen.jpg", "/images/fes.jpg", "/images/dunes.jpg"],
     featured: false,
     days:     { fr: "7 Jours", en: "7 Days", ar: "7 أيام", it: "7 Giorni" },
@@ -1632,7 +1632,7 @@ export const tours: Tour[] = [
   /* ── Grand Tour 8 Jours — Essaouira · Agadir · Sahara · Kasbahs ── */
   {
     slug:     "8-day-grand-tour-marrakech-essaouira-agadir-sahara",
-    image:    "/images/aitBenHaddouKasbah.jpg",
+    image:    "/images/grandTour8j.jpg",
     gallery:  ["/images/essaouira.jpg", "/images/agadirBeach.jpg", "/images/ouarzazate.jpg", "/images/dunes.jpg"],
     featured: true,
     days:    { fr: "8 Jours", en: "8 Days", ar: "8 أيام", it: "8 Giorni" },
