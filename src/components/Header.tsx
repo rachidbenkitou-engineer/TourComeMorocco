@@ -71,7 +71,7 @@ export default function Header() {
         {/* Logo */}
         <div style={{ width: "200px", flexShrink: 0 }}>
           <Link href="/">
-            <Image src="/assets/img/logo.png" alt="Noova Technology" width={200} height={60} className="img-fluid" style={{ objectFit: "contain" }} />
+            <Image src="/assets/img/logo.png" alt="Tuplify Technology" width={707} height={353} style={{ height: "100px", width: "auto", objectFit: "contain" }} />
           </Link>
         </div>
 

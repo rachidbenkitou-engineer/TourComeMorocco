@@ -17,7 +17,7 @@ export default function Footer() {
 
             {/* Company Info */}
             <div className="col-lg-4 col-md-6 footer-info">
-              <h3 style={{ color: "#94c045", fontWeight: 700, fontSize: "26px", marginBottom: "16px" }}>Noova Technology</h3>
+              <h3 style={{ color: "#94c045", fontWeight: 700, fontSize: "26px", marginBottom: "16px" }}>Tuplify Technology</h3>
               <p>
                 Morocco<br /><br />
                 <strong>Phone:</strong> +212 655 407 529<br />
@@ -66,7 +66,7 @@ export default function Footer() {
 
       <div className="container">
         <div className="copyright">
-          &copy; {new Date().getFullYear()} <strong><span>Noova Technology</span></strong>. {tr.footer.rights}.
+          &copy; {new Date().getFullYear()} <strong><span>Tuplify Technology</span></strong>. {tr.footer.rights}.
         </div>
       </div>
     </footer>
